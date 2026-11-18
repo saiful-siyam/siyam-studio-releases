@@ -110,25 +110,107 @@
             btn.addEventListener("click", () => switchSimTab(btn.dataset.simTab));
         });
 
-        // 1. User Library micro-interactions
-        const libPlayBtn = el("sim-lib-play-btn");
-        const libWaveform = el("sim-lib-waveform");
-        const libApplyBtn = el("btn-lib-apply-demo");
-        let isLibPlaying = false;
-        if (libPlayBtn && libWaveform) {
-            libPlayBtn.addEventListener("click", () => {
-                isLibPlaying = !isLibPlaying;
-                libPlayBtn.textContent = isLibPlaying ? "⏸" : "▶";
-                const bars = libWaveform.querySelectorAll("span");
-                bars.forEach((b) => {
-                    b.style.animationPlayState = isLibPlaying ? "running" : "paused";
-                });
-                toast(isLibPlaying ? "Previewing: Cinematic_Whoosh_Deep_02.wav" : "Audio Preview Paused");
+        // 1. User Library micro-interactions (Upgraded Full Browser)
+        const libPlayWhoosh = el("sim-lib-play-whoosh");
+        const libPlayBoom = el("sim-lib-play-boom");
+        const waveWhoosh = el("waveform-whoosh");
+        const waveBoom = el("waveform-boom");
+        let activeAudioPlaying = null;
+
+        function toggleAudioPlay(btn, wave, audioId, title) {
+            if (!btn || !wave) return;
+            const isCurrentPlaying = (activeAudioPlaying === audioId);
+
+            // Stop any playing
+            if (libPlayWhoosh) libPlayWhoosh.textContent = "▶";
+            if (libPlayBoom) libPlayBoom.textContent = "▶";
+            if (waveWhoosh) waveWhoosh.classList.remove("playing");
+            if (waveBoom) waveBoom.classList.remove("playing");
+
+            if (isCurrentPlaying) {
+                activeAudioPlaying = null;
+                toast("Audio preview paused");
+            } else {
+                activeAudioPlaying = audioId;
+                btn.textContent = "⏸";
+                wave.classList.add("playing");
+                toast("Previewing: " + title);
+            }
+        }
+
+        if (libPlayWhoosh && waveWhoosh) {
+            libPlayWhoosh.addEventListener("click", () => {
+                toggleAudioPlay(libPlayWhoosh, waveWhoosh, "whoosh", "Cinematic_Whoosh_Deep_02.wav");
             });
         }
-        if (libApplyBtn) {
-            libApplyBtn.addEventListener("click", () => {
-                toast("Inserted Cinematic_Whoosh_Deep_02.wav onto Track A1 (0:03)");
+        if (libPlayBoom && waveBoom) {
+            libPlayBoom.addEventListener("click", () => {
+                toggleAudioPlay(libPlayBoom, waveBoom, "boom", "Sub_Bass_Impact_Boom.wav");
+            });
+        }
+
+        // Category Filter Pills
+        const libFilterPills = document.querySelectorAll(".sim-filter-pill[data-lib-filter]");
+        const assetCards = document.querySelectorAll(".sim-asset-card");
+        libFilterPills.forEach((pill) => {
+            pill.addEventListener("click", () => {
+                libFilterPills.forEach((p) => p.classList.remove("active"));
+                pill.classList.add("active");
+                const filter = pill.dataset.libFilter;
+
+                assetCards.forEach((card) => {
+                    const cat = card.dataset.assetCat;
+                    const show = (filter === "all" || cat === filter);
+                    card.style.display = show ? "flex" : "none";
+                });
+                toast("Filtered: " + pill.textContent.trim());
+            });
+        });
+
+        // Grid / List View Toggle
+        const libGridBtn = el("sim-lib-grid-btn");
+        const libListBtn = el("sim-lib-list-btn");
+        const libGridContainer = el("sim-lib-assets-grid");
+        if (libGridBtn && libListBtn && libGridContainer) {
+            libGridBtn.addEventListener("click", () => {
+                libGridBtn.classList.add("active");
+                libListBtn.classList.remove("active");
+                libGridContainer.classList.remove("view-list");
+                toast("View: Grid Mode");
+            });
+            libListBtn.addEventListener("click", () => {
+                libListBtn.classList.add("active");
+                libGridBtn.classList.remove("active");
+                libGridContainer.classList.add("view-list");
+                toast("View: List Mode");
+            });
+        }
+
+        // 1-Click Insert Buttons
+        const libInsertBtns = document.querySelectorAll(".btn-lib-insert");
+        libInsertBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const name = btn.dataset.insertName || "Asset";
+                const track = btn.dataset.track || "Timeline";
+                btn.style.transform = "scale(0.92)";
+                setTimeout(() => {
+                    btn.style.transform = "";
+                }, 160);
+                toast(`✓ Inserted ${name} directly onto Track ${track}!`);
+            });
+        });
+
+        // Search Input Filter
+        const libSearchInput = el("sim-lib-search-input");
+        if (libSearchInput) {
+            libSearchInput.addEventListener("input", (e) => {
+                const q = e.target.value.toLowerCase().trim();
+                assetCards.forEach((card) => {
+                    const name = card.querySelector(".asset-name") ? card.querySelector(".asset-name").textContent.toLowerCase() : "";
+                    const sub = card.querySelector(".asset-sub") ? card.querySelector(".asset-sub").textContent.toLowerCase() : "";
+                    const match = !q || name.includes(q) || sub.includes(q);
+                    card.style.display = match ? "flex" : "none";
+                });
             });
         }
 

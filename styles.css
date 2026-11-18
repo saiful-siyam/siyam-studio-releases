@@ -1246,99 +1246,383 @@ button {
     color: var(--text-secondary);
 }
 
-/* Stage 5: User Library */
+/* Stage 1: User Library & Waveform Browser (Upgraded UI) */
 .sim-library-demo {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
 }
 
-.sim-lib-search-bar {
+.sim-lib-toolbar {
     display: flex;
     align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.sim-lib-folder-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     background: #09090b;
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 6px 12px;
-}
-
-.sim-lib-search-bar input {
-    background: transparent;
-    border: none;
-    color: var(--text);
-    font-size: 13px;
-    width: 100%;
-    outline: none;
-}
-
-.sim-lib-badge {
+    border-radius: 6px;
+    padding: 5px 9px;
     font-size: 11px;
-    color: var(--green);
+    color: var(--text-secondary);
+}
+
+.sim-lib-folder-pill .folder-icon {
+    font-size: 13px;
+}
+
+.sim-lib-folder-pill .folder-name {
+    font-family: var(--font-mono);
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.sim-lib-audio-card {
-    background: #121216;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 14px;
+.sim-lib-folder-pill .folder-badge {
+    background: rgba(0, 230, 118, 0.15);
+    color: var(--green-light);
+    border: 1px solid rgba(0, 230, 118, 0.35);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+}
+
+.sim-lib-search-box {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 7px;
+    background: #09090b;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    min-width: 180px;
+}
+
+.sim-lib-search-box .search-icon {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.sim-lib-search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 11.5px;
+    outline: none;
+}
+
+.sim-lib-count {
+    font-size: 10px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.sim-lib-view-toggle {
+    display: flex;
+    gap: 2px;
+    background: #09090b;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px;
+}
+
+.sim-view-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    border-radius: 4px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.sim-view-btn.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+/* Category Filters */
+.sim-lib-filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.sim-filter-pill {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #111115;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.sim-filter-pill:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sim-filter-pill.active {
+    background: rgba(0, 230, 118, 0.14);
+    border-color: rgba(0, 230, 118, 0.4);
+    color: var(--green-light);
+}
+
+/* Assets Grid */
+.sim-lib-assets-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.sim-lib-assets-grid.view-list {
+    grid-template-columns: 1fr;
+}
+
+.sim-asset-card {
+    background: #0d0d11;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.sim-asset-card:hover {
+    border-color: rgba(0, 230, 118, 0.4);
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.asset-card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .sim-play-icon {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: var(--green);
     color: #042612;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.sim-play-icon:hover {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
+
+.sim-play-icon.play-purple {
+    background: #a855f7;
+    color: #ffffff;
+}
+
+.sim-waveform-wrap {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 4px;
+    padding: 4px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .sim-waveform-bars {
     display: flex;
     align-items: center;
-    gap: 3px;
-    height: 32px;
-    width: 90px;
+    gap: 2.5px;
+    height: 22px;
+    width: 100%;
 }
 
 .sim-waveform-bars span {
-    width: 3px;
+    flex: 1;
     background: var(--green);
-    border-radius: 2px;
-    animation: waveBounce 1.2s infinite ease-in-out alternate;
+    border-radius: 1.5px;
+    transition: height 0.15s ease;
 }
 
-.sim-waveform-bars span:nth-child(2) { animation-delay: 0.15s; }
-.sim-waveform-bars span:nth-child(3) { animation-delay: 0.3s; }
-.sim-waveform-bars span:nth-child(4) { animation-delay: 0.45s; }
-.sim-waveform-bars span:nth-child(5) { animation-delay: 0.6s; }
+.sim-waveform-bars.purple-wave span {
+    background: #a855f7;
+}
+
+.sim-waveform-bars.playing span {
+    animation: waveBounce 0.85s infinite ease-in-out alternate;
+}
+
+.sim-waveform-bars.playing span:nth-child(2) { animation-delay: 0.1s; }
+.sim-waveform-bars.playing span:nth-child(3) { animation-delay: 0.2s; }
+.sim-waveform-bars.playing span:nth-child(4) { animation-delay: 0.3s; }
+.sim-waveform-bars.playing span:nth-child(5) { animation-delay: 0.4s; }
+.sim-waveform-bars.playing span:nth-child(6) { animation-delay: 0.25s; }
+.sim-waveform-bars.playing span:nth-child(7) { animation-delay: 0.15s; }
 
 @keyframes waveBounce {
-    0% { transform: scaleY(0.4); }
+    0% { transform: scaleY(0.35); }
     100% { transform: scaleY(1); }
 }
 
-.sim-audio-details {
+.asset-dur {
+    font-size: 10px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.asset-thumb-preview {
+    height: 38px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.thumb-mogrt {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(0, 230, 118, 0.15));
+    border: 1px solid rgba(124, 58, 237, 0.35);
+}
+
+.mogrt-badge-text {
     display: flex;
     flex-direction: column;
-    margin-right: auto;
 }
 
-.sim-audio-title {
-    font-size: 13px;
+.mogrt-tag {
+    font-size: 8.5px;
+    font-weight: 800;
+    color: var(--purple-light);
+    letter-spacing: 0.06em;
+}
+
+.mogrt-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+}
+
+.thumb-video {
+    background: linear-gradient(135deg, #18181b, #27272a);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.asset-center-play {
+    font-size: 15px;
+}
+
+.asset-badge-corner {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+.asset-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.asset-name {
+    font-size: 11.5px;
     font-weight: 700;
     color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.sim-audio-meta {
-    font-size: 11px;
+.asset-sub {
+    font-size: 9.5px;
     color: var(--text-muted);
+}
+
+.btn-xs {
+    padding: 3.5px 8px;
+    font-size: 10.5px;
+    font-weight: 700;
+    border-radius: 4px;
+    align-self: flex-start;
+}
+
+/* Footer toolbar */
+.sim-lib-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 11px;
+    flex-wrap: wrap;
+}
+
+.sim-lib-target-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.target-label {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.target-val {
+    color: var(--green-light);
+    font-weight: 700;
+}
+
+.sim-lib-tip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 10.5px;
+}
+
+.tip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--purple-light);
+}
+
+@media (max-width: 640px) {
+    .sim-lib-assets-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ==================== SIMULATOR STAGES (ALL 12 TOOLS) ==================== */

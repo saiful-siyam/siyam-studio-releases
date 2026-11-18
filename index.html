@@ -344,29 +344,130 @@
                                 </div>
 
                                 <div class="sim-library-demo">
-                                    <div class="sim-lib-search-bar">
-                                        <input type="text" value="Cinematic Whoosh Transition" readonly>
-                                        <span class="sim-lib-badge">140 Assets</span>
+                                    <!-- Top Toolbar: Mounted Folder, Search & View Toggle -->
+                                    <div class="sim-lib-toolbar">
+                                        <div class="sim-lib-folder-pill" title="Active Mounted Drive Folder">
+                                            <span class="folder-icon">📁</span>
+                                            <span class="folder-name">~/Desktop/Siyam_Creator_Vault</span>
+                                            <span class="folder-badge">Mounted</span>
+                                        </div>
+                                        <div class="sim-lib-search-box">
+                                            <span class="search-icon">🔍</span>
+                                            <input type="text" id="sim-lib-search-input" placeholder="Search 140 presets, MOGRTs, sound FX..." value="Cinematic">
+                                            <span class="sim-lib-count mono">140 Assets</span>
+                                        </div>
+                                        <div class="sim-lib-view-toggle">
+                                            <button type="button" class="sim-view-btn active" id="sim-lib-grid-btn" title="Grid View">⊞</button>
+                                            <button type="button" class="sim-view-btn" id="sim-lib-list-btn" title="List View">≡</button>
+                                        </div>
                                     </div>
-                                    <div class="sim-lib-audio-card">
-                                        <div class="sim-play-icon" id="sim-lib-play-btn" title="Click to Preview Audio">▶</div>
-                                        <div class="sim-waveform-bars" id="sim-lib-waveform">
-                                            <span style="height: 35%;"></span>
-                                            <span style="height: 65%;"></span>
-                                            <span style="height: 90%;"></span>
-                                            <span style="height: 45%;"></span>
-                                            <span style="height: 75%;"></span>
-                                            <span style="height: 100%;"></span>
-                                            <span style="height: 60%;"></span>
-                                            <span style="height: 30%;"></span>
-                                            <span style="height: 80%;"></span>
-                                            <span style="height: 50%;"></span>
+
+                                    <!-- Filter Category Pills -->
+                                    <div class="sim-lib-filters">
+                                        <button type="button" class="sim-filter-pill active" data-lib-filter="all">All (140)</button>
+                                        <button type="button" class="sim-filter-pill" data-lib-filter="audio">Audio SFX (48)</button>
+                                        <button type="button" class="sim-filter-pill" data-lib-filter="mogrt">MOGRTs (32)</button>
+                                        <button type="button" class="sim-filter-pill" data-lib-filter="video">Video &amp; LUTs (28)</button>
+                                        <button type="button" class="sim-filter-pill" data-lib-filter="presets">Presets (32)</button>
+                                    </div>
+
+                                    <!-- 4-Card Multi-Asset Grid -->
+                                    <div class="sim-lib-assets-grid" id="sim-lib-assets-grid">
+                                        <!-- Asset 1: Whoosh Audio with Waveform -->
+                                        <div class="sim-asset-card asset-audio" data-asset-cat="audio">
+                                            <div class="asset-card-top">
+                                                <button type="button" class="sim-play-icon" id="sim-lib-play-whoosh" data-audio-id="whoosh" title="Click to Preview">▶</button>
+                                                <div class="sim-waveform-wrap">
+                                                    <div class="sim-waveform-bars" id="waveform-whoosh">
+                                                        <span style="height: 35%;"></span>
+                                                        <span style="height: 70%;"></span>
+                                                        <span style="height: 95%;"></span>
+                                                        <span style="height: 50%;"></span>
+                                                        <span style="height: 85%;"></span>
+                                                        <span style="height: 100%;"></span>
+                                                        <span style="height: 65%;"></span>
+                                                        <span style="height: 40%;"></span>
+                                                        <span style="height: 80%;"></span>
+                                                        <span style="height: 45%;"></span>
+                                                        <span style="height: 25%;"></span>
+                                                    </div>
+                                                </div>
+                                                <span class="asset-dur mono">0:03</span>
+                                            </div>
+                                            <div class="asset-card-info">
+                                                <div class="asset-name">Cinematic_Whoosh_Deep_02.wav</div>
+                                                <div class="asset-sub mono">48kHz &bull; 24-bit Stereo &bull; Audio SFX</div>
+                                            </div>
+                                            <button type="button" class="btn btn-green btn-xs btn-lib-insert" data-insert-name="Cinematic_Whoosh_Deep_02.wav" data-track="A1">+ Insert A1</button>
                                         </div>
-                                        <div class="sim-audio-details">
-                                            <span class="sim-audio-title">Cinematic_Whoosh_Deep_02.wav</span>
-                                            <span class="sim-audio-meta mono">0:03 &bull; 48kHz Stereo</span>
+
+                                        <!-- Asset 2: Sub Boom Impact Audio with Waveform -->
+                                        <div class="sim-asset-card asset-audio" data-asset-cat="audio">
+                                            <div class="asset-card-top">
+                                                <button type="button" class="sim-play-icon play-purple" id="sim-lib-play-boom" data-audio-id="boom" title="Click to Preview">▶</button>
+                                                <div class="sim-waveform-wrap">
+                                                    <div class="sim-waveform-bars purple-wave" id="waveform-boom">
+                                                        <span style="height: 100%;"></span>
+                                                        <span style="height: 90%;"></span>
+                                                        <span style="height: 75%;"></span>
+                                                        <span style="height: 60%;"></span>
+                                                        <span style="height: 45%;"></span>
+                                                        <span style="height: 35%;"></span>
+                                                        <span style="height: 25%;"></span>
+                                                        <span style="height: 20%;"></span>
+                                                        <span style="height: 15%;"></span>
+                                                        <span style="height: 10%;"></span>
+                                                    </div>
+                                                </div>
+                                                <span class="asset-dur mono">0:05</span>
+                                            </div>
+                                            <div class="asset-card-info">
+                                                <div class="asset-name">Sub_Bass_Impact_Boom.wav</div>
+                                                <div class="asset-sub mono">Sub 35Hz &bull; Cinematic Impact &bull; Audio SFX</div>
+                                            </div>
+                                            <button type="button" class="btn btn-green btn-xs btn-lib-insert" data-insert-name="Sub_Bass_Impact_Boom.wav" data-track="A2">+ Insert A2</button>
                                         </div>
-                                        <button type="button" class="btn btn-green btn-sm" id="btn-lib-apply-demo">+ Insert to Track A1</button>
+
+                                        <!-- Asset 3: MOGRT Template Card -->
+                                        <div class="sim-asset-card asset-mogrt" data-asset-cat="mogrt">
+                                            <div class="asset-thumb-preview thumb-mogrt">
+                                                <div class="mogrt-badge-text">
+                                                    <span class="mogrt-tag">MOGRT</span>
+                                                    <span class="mogrt-title">IMAN TITLE CALLOUT</span>
+                                                </div>
+                                                <span class="asset-badge-corner mono">4K 60fps</span>
+                                            </div>
+                                            <div class="asset-card-info">
+                                                <div class="asset-name">Documentary_Callout_V2.mogrt</div>
+                                                <div class="asset-sub mono">Essential Graphics &bull; Customizable Text</div>
+                                            </div>
+                                            <button type="button" class="btn btn-primary btn-xs btn-lib-insert" data-insert-name="Documentary_Callout_V2.mogrt" data-track="V2">+ Apply V2</button>
+                                        </div>
+
+                                        <!-- Asset 4: Video Overlay Card -->
+                                        <div class="sim-asset-card asset-video" data-asset-cat="video">
+                                            <div class="asset-thumb-preview thumb-video">
+                                                <span class="asset-center-play">🎞️</span>
+                                                <span class="asset-badge-corner mono">ProRes 422</span>
+                                            </div>
+                                            <div class="asset-card-info">
+                                                <div class="asset-name">Vintage_8mm_Film_Grain.mov</div>
+                                                <div class="asset-sub mono">3840x2160 &bull; Loop Overlay &bull; Blend Screen</div>
+                                            </div>
+                                            <button type="button" class="btn btn-primary btn-xs btn-lib-insert" data-insert-name="Vintage_8mm_Film_Grain.mov" data-track="V1">+ Overlay V1</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bottom Toolbar: Target Mode & Live Hint -->
+                                    <div class="sim-lib-footer">
+                                        <div class="sim-lib-target-row">
+                                            <span class="target-label">Target:</span>
+                                            <span class="target-val mono">Current Playhead (CTI) &bull; Track V1/A1</span>
+                                        </div>
+                                        <div class="sim-lib-tip">
+                                            <span class="tip-dot"></span>
+                                            <span>Drag &amp; Drop directly from Finder or 1-Click Insert</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
