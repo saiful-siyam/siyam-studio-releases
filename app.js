@@ -5,7 +5,7 @@
     const SUPABASE_URL = "https://llxpnjrujcpotvevpmzt.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxseHBuanJ1amNwb3R2ZXZwbXp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0NjMwNTMsImV4cCI6MjExMDAzOTA1M30.RHJAt-XBbY3uMQsTFM3stT4Ko3dHVOC1Yeiet9qBsxQ";
 
-    // Default downloadable installer packages (can be overridden by Supabase app_config if URLs are added)
+    // Default downloadable installer packages (GitHub Releases)
     const DEFAULT_MAC_DOWNLOAD = "https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_macOS_Installer.zip";
     const DEFAULT_WIN_DOWNLOAD = "https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_Windows_64bit_Installer.zip";
 
@@ -15,69 +15,6 @@
     const SUPPORT_WHATSAPP = "+8801580653736";
 
     const el = (id) => document.getElementById(id);
-
-    const MOCKUP_TOOLS = {
-        organizer: {
-            title: "1-Click Project Organizer",
-            tier: "PRO",
-            tierClass: "tier-pro",
-            desc: "Auto-sorts bins for Footage, Voiceover, SFX, Music, Graphics & Exports and mirrors them neatly to disk.",
-            metricLabel: "Indexed 48 sequence assets across 6 smart bins",
-            progress: 92,
-            chips: ["01_Footage", "02_Voiceover", "03_Music_SFX", "04_MOGRTs", "05_Exports"],
-            cta: "Organize Sequence"
-        },
-        stems: {
-            title: "AI Music & Stem Separator",
-            tier: "PRO",
-            tierClass: "tier-pro",
-            desc: "Isolates clean dialogue vocals and strips background copyright music locally with FFmpeg + Demucs DSP.",
-            metricLabel: "Vocal clarity isolation confidence: 98.4%",
-            progress: 86,
-            chips: ["Vocals Only", "Instrumental", "Voice Ducking", "0ms Offset Sync"],
-            cta: "Separate Audio Stems"
-        },
-        map: {
-            title: "3D Documentary Map Animator",
-            tier: "PRO",
-            tierClass: "tier-pro",
-            desc: "Generate smooth 3D camera flyovers, route trails, and country highlights straight onto your timeline.",
-            metricLabel: "4K 60fps WebGL render queue ready",
-            progress: 78,
-            chips: ["Dark Satellite", "Route Arc", "Pin Callouts", "Auto-Import to Track"],
-            cta: "Render 3D Flyover"
-        },
-        highlighter: {
-            title: "3D Web & Text Highlighter",
-            tier: "PRO",
-            tierClass: "tier-pro",
-            desc: "Capture any article or document and animate 3D tilted highlighter sweeps with realistic motion blur.",
-            metricLabel: "3 highlight keyframes staged at 3840x2160",
-            progress: 95,
-            chips: ["Neon Yellow", "3D Perspective Tilt", "Depth Shadow", "Paper Grain"],
-            cta: "Export 3D Highlight"
-        },
-        silence: {
-            title: "High-Precision Silence Remover",
-            tier: "FREE",
-            tierClass: "tier-free",
-            desc: "Detect dead air in voiceovers using adaptive FFmpeg dB thresholds and ripple-cut pauses in seconds.",
-            metricLabel: "Removed 42 dead-air gaps (saved 1m 48s)",
-            progress: 100,
-            chips: ["-34 dB Threshold", "120ms Padding", "Ripple Edit", "Keep Breath Margin"],
-            cta: "Trim Dead Air"
-        },
-        png: {
-            title: "AI Cutout & PNG Maker",
-            tier: "PRO",
-            tierClass: "tier-pro",
-            desc: "Instant subject cutouts, rim outlines, and clean studio drop shadows dropped directly on your timeline.",
-            metricLabel: "Alpha channel mask edge accuracy: 99%",
-            progress: 88,
-            chips: ["Auto Subject Cutout", "White Sticker Border", "Drop Shadow", "Direct Import"],
-            cta: "Create Cutout PNG"
-        }
-    };
 
     let pollTimer = null;
     let countdownTimer = null;
@@ -133,45 +70,105 @@
         return data;
     }
 
-    function initMockupTabs() {
-        const tabs = document.querySelectorAll(".mockup-tab");
-        const stageTitle = el("mockup-stage-title");
-        const stageTier = el("mockup-stage-tier");
-        const stageDesc = el("mockup-stage-desc");
-        const metricLabel = el("mockup-metric-label");
-        const progressFill = el("mockup-progress-fill");
-        const chipsWrap = el("mockup-chips");
-        const runBtn = el("mockup-run-btn");
+    // ==================== INTERACTIVE HERO SIMULATOR ====================
+    function initHeroSimulator() {
+        const tabBtns = document.querySelectorAll(".sim-tab-btn");
+        const panels = {
+            ease: el("sim-panel-ease"),
+            captions: el("sim-panel-captions"),
+            map: el("sim-panel-map"),
+            highlighter: el("sim-panel-highlighter"),
+            library: el("sim-panel-library")
+        };
 
-        function selectTool(key) {
-            const tool = MOCKUP_TOOLS[key];
-            if (!tool) return;
-            tabs.forEach((b) => b.classList.toggle("active", b.dataset.tool === key));
-            if (stageTitle) stageTitle.textContent = tool.title;
-            if (stageTier) {
-                stageTier.textContent = tool.tier;
-                stageTier.className = "mockup-tier-pill " + tool.tierClass;
-            }
-            if (stageDesc) stageDesc.textContent = tool.desc;
-            if (metricLabel) metricLabel.textContent = tool.metricLabel;
-            if (progressFill) progressFill.style.width = tool.progress + "%";
-            if (chipsWrap) {
-                chipsWrap.innerHTML = tool.chips.map((c) => `<span class="mockup-chip">${c}</span>`).join("");
-            }
-            if (runBtn) runBtn.textContent = tool.cta;
-        }
-
-        tabs.forEach((btn) => {
-            btn.addEventListener("click", () => selectTool(btn.dataset.tool));
-        });
-
-        if (runBtn) {
-            runBtn.addEventListener("click", () => {
-                toast("Download Siyam Studio above to run this tool directly inside Premiere Pro.");
+        function switchSimTab(tabKey) {
+            tabBtns.forEach((btn) => btn.classList.toggle("active", btn.dataset.simTab === tabKey));
+            Object.keys(panels).forEach((k) => {
+                const p = panels[k];
+                if (p) {
+                    p.classList.toggle("active", k === tabKey);
+                }
             });
         }
+
+        tabBtns.forEach((btn) => {
+            btn.addEventListener("click", () => switchSimTab(btn.dataset.simTab));
+        });
+
+        // Smooth Ease Curve preset pills in simulator
+        const curvePills = document.querySelectorAll(".sim-curve-pill");
+        const curveLabel = el("sim-ease-curve-label");
+        const curvePresets = {
+            "⚡ Whip Ease": "Whip-Snap (0.32, 0.02, 0.18, 1.0)",
+            "🚀 Expo Out": "Expo Out (0.16, 1.0, 0.3, 1.0)",
+            "🎯 Smooth Pop": "Smooth Pop (0.34, 1.56, 0.64, 1.0)",
+            "🌊 Deep Elastic": "Deep Elastic (0.22, 1.25, 0.36, 1.0)"
+        };
+        curvePills.forEach((pill) => {
+            pill.addEventListener("click", () => {
+                curvePills.forEach((p) => p.classList.remove("active"));
+                pill.classList.add("active");
+                const name = pill.textContent.trim();
+                if (curveLabel && curvePresets[name]) {
+                    curveLabel.textContent = curvePresets[name];
+                }
+            });
+        });
+
+        // Interactive Word highlight in Captions simulator
+        const capWords = document.querySelectorAll(".sim-caption-live-text .cap-word");
+        capWords.forEach((word) => {
+            word.addEventListener("click", () => {
+                capWords.forEach((w) => w.classList.remove("star-highlight"));
+                word.classList.add("star-highlight");
+                toast("Highlighted word: " + word.textContent.trim());
+            });
+        });
     }
 
+    // ==================== BENTO CATEGORY FILTER ====================
+    function initBentoFilters() {
+        const filterBtns = document.querySelectorAll(".bento-filter-btn");
+        const bentoCards = document.querySelectorAll(".bento-card");
+
+        filterBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                filterBtns.forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                const targetFilter = btn.dataset.bentoFilter; // 'all', 'ai', 'motion', 'workflow'
+                bentoCards.forEach((card) => {
+                    const cardCat = card.dataset.cat;
+                    if (targetFilter === "all" || cardCat === targetFilter) {
+                        card.classList.remove("is-hidden");
+                    } else {
+                        card.classList.add("is-hidden");
+                    }
+                });
+            });
+        });
+    }
+
+    // ==================== FAQ ACCORDION ====================
+    function initFaqAccordion() {
+        const triggers = document.querySelectorAll(".faq-trigger");
+        triggers.forEach((trigger) => {
+            trigger.addEventListener("click", () => {
+                const item = trigger.closest(".faq-item");
+                if (!item) return;
+                const wasActive = item.classList.contains("active");
+
+                // Optional: close other open items for cleaner accordion
+                document.querySelectorAll(".faq-item").forEach((other) => {
+                    if (other !== item) other.classList.remove("active");
+                });
+
+                item.classList.toggle("active", !wasActive);
+            });
+        });
+    }
+
+    // ==================== INSTALL GUIDE TABS ====================
     function initInstallTabs() {
         const tabBtns = document.querySelectorAll(".os-tab-btn");
         const macPanel = el("install-panel-mac");
@@ -187,12 +184,13 @@
             btn.addEventListener("click", () => switchOs(btn.dataset.os));
         });
 
-        // Auto-detect visitor OS for convenience
+        // Auto-detect visitor OS
         if (/Win/i.test(navigator.platform || navigator.userAgent || "")) {
             switchOs("win");
         }
     }
 
+    // ==================== SYNC DOWNLOAD LINKS FROM APP CONFIG ====================
     async function syncDownloadLinksFromConfig() {
         const macBtn = el("btn-download-mac");
         const winBtn = el("btn-download-win");
@@ -225,10 +223,11 @@
                 winBtn.href = cfg.download_url;
             }
         } catch (e) {
-            // Keep safe local release_packages paths on error
+            // Keep safe default GitHub Release links on error
         }
     }
 
+    // ==================== LIVE LICENSE KEY LOOKUP ====================
     function stopLookupPolling() {
         if (pollTimer) {
             clearInterval(pollTimer);
@@ -337,6 +336,7 @@
         }
     }
 
+    // ==================== CHECKOUT MODAL & ORDERS SUBMISSION ====================
     function initCheckoutAndLookup() {
         const modal = el("checkout-modal");
         const closeBtn = el("btn-close-modal");
@@ -424,7 +424,7 @@
                         payment_method: method,
                         sender_number: phone,
                         trx_id: trxId,
-                        amount: "৳999 BDT",
+                        amount: "৳1,990 BDT",
                         status: "pending"
                     });
                     bdForm.reset();
@@ -434,7 +434,7 @@
                     bdErr.classList.add("show");
                 } finally {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Submit Payment & Request Key";
+                    submitBtn.textContent = "Submit Payment & Request Key (৳1,990 BDT)";
                 }
             });
         }
@@ -466,7 +466,7 @@
                         payment_method: method,
                         sender_number: "International",
                         trx_id: ref,
-                        amount: "$10 USD",
+                        amount: "$39 USD",
                         status: "pending"
                     });
                     intlForm.reset();
@@ -476,7 +476,7 @@
                     intlErr.classList.add("show");
                 } finally {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Submit International Order ($10 USD)";
+                    submitBtn.textContent = "Submit International Order ($39 USD)";
                 }
             });
         }
@@ -499,7 +499,10 @@
         }
     }
 
-    initMockupTabs();
+    // Initialize all modules
+    initHeroSimulator();
+    initBentoFilters();
+    initFaqAccordion();
     initInstallTabs();
     syncDownloadLinksFromConfig();
     initCheckoutAndLookup();

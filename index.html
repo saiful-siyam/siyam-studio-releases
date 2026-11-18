@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siyam Studio Pro — AI Post-Production Suite for Adobe Premiere Pro</title>
-    <meta name="description" content="10x your Adobe Premiere Pro workflow with 1-Click Project Organization, AI Stem Separation, 3D Documentary Map Animator, and 3D Web Highlighter for macOS and Windows 64-bit.">
+    <title>Siyam Studio Pro v1.2.3 — 2026 All-In-One AI & Motion Suite for Adobe Premiere Pro</title>
+    <meta name="description" content="10x your Premiere Pro workflow with 12 AI & Motion tools inside 1 native panel: Smooth Ease, AI Captions, Voice Leveler, 3D Map Animator, 3D Highlighter, User Library, and Silence Remover for macOS & Windows 64-bit.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,22 +17,25 @@
         <div class="container nav-inner">
             <a href="#top" class="brand-link">
                 <span class="brand-mark" aria-hidden="true">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M18 4H6C4.895 4 4 4.895 4 6V10C4 11.105 4.895 12 6 12H18C19.105 12 20 12.895 20 14V18C20 19.105 19.105 20 18 20H6" stroke="#00e676" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                        <circle cx="12" cy="12" r="2.4" fill="#c4b5fd"/>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 4H6C4.895 4 4 4.895 4 6V10C4 11.105 4.895 12 6 12H18C19.105 12 20 12.895 20 14V18C20 19.105 19.105 20 18 20H6" stroke="#00e676" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="12" r="2.5" fill="#a78bfa"/>
                     </svg>
                 </span>
                 <span class="brand-text">
                     <span class="brand-name">Siyam Studio</span>
-                    <span class="brand-badge">PRO EXTENSION</span>
+                    <span class="brand-badge">v1.2.3 PRO</span>
                 </span>
             </a>
 
             <div class="nav-links">
-                <a href="#features">Features</a>
+                <a href="#features">12 Tools</a>
+                <a href="#simulator">Live Simulator</a>
+                <a href="#why-siyam">Comparison</a>
                 <a href="#install">Install Guide</a>
                 <a href="#pricing">Pricing</a>
-                <a href="#lookup">Get My License Key</a>
+                <a href="#faq">FAQ</a>
+                <a href="#lookup" class="nav-highlight-link">Get License Key</a>
             </div>
 
             <div class="nav-actions">
@@ -41,19 +47,22 @@
 
     <!-- ================= HERO ================= -->
     <header id="top" class="hero">
-        <div class="container hero-grid">
-            <div>
+        <div class="hero-spotlight-violet" aria-hidden="true"></div>
+        <div class="hero-spotlight-green" aria-hidden="true"></div>
+
+        <div class="container hero-container">
+            <div class="hero-content">
                 <div class="hero-pill">
                     <span class="pill-dot"></span>
-                    <span>v1.2 Available &bull; Includes 7-Day Full Pro Trial (No Credit Card Required)</span>
+                    <span class="pill-text"><strong>v1.2.3 Released</strong> &bull; Smooth Ease &bull; Voice Leveler &bull; 2026 AI Captions &bull; 7-Day Free Trial</span>
                 </div>
 
                 <h1 class="hero-title">
-                    <span class="gradient-text">10x Your Premiere Pro Editing Workflow with AI</span>
+                    The 2026 All-In-One AI &amp; Motion Suite for <span class="gradient-text">Premiere Pro</span>
                 </h1>
 
                 <p class="hero-subtitle">
-                    Built for modern documentary and YouTube editors. Automate 1-Click Project Organization, isolate clean vocals with AI Stem Separation, render 3D Documentary Map flyovers, and animate 3D Web Highlighters right inside Premiere Pro.
+                    Replace 5+ expensive monthly subscriptions. From 1-click Bezier easing and viral AI captions to 3D documentary maps, broadcast vocal leveling, and stem separation — all running locally inside 1 blazing-fast native panel.
                 </p>
 
                 <div class="hero-downloads">
@@ -64,7 +73,7 @@
                         <span>Download for macOS (.zip)</span>
                     </a>
 
-                    <a id="btn-download-win" href="https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_Windows_64bit_Installer.zip" download class="btn btn-lg">
+                    <a id="btn-download-win" href="https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_Windows_64bit_Installer.zip" download class="btn btn-secondary btn-lg">
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M3 5.45L10.94 4.35V11.4H3V5.45ZM11.88 4.22L21 2.95V11.4H11.88V4.22ZM3 12.45H10.94V19.65L3 18.55V12.45ZM11.88 12.45H21V21.05L11.88 19.78V12.45Z"/>
                         </svg>
@@ -74,90 +83,296 @@
 
                 <div class="hero-meta-notes">
                     <span class="hero-meta-item">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        Bundled Static FFmpeg &amp; yt-dlp
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        Includes 7-Day Full Pro Trial
                     </span>
                     <span class="hero-meta-item">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        1-Click Automated CEP Installer
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        Static FFmpeg &amp; yt-dlp Bundled
                     </span>
                     <span class="hero-meta-item">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                         Premiere Pro 2020 – 2026+
                     </span>
                 </div>
             </div>
 
-            <!-- Interactive Extension Mockup -->
-            <div class="mockup-shell" aria-label="Interactive Siyam Studio Premiere Pro Panel Preview">
-                <div class="mockup-topbar">
-                    <div class="mockup-dots"><span></span><span></span><span></span></div>
-                    <div class="mockup-panel-title">Adobe Premiere Pro — Siyam Studio v1.2</div>
-                    <div class="mockup-status">
-                        <span class="pill-dot"></span>
-                        <span>Connected</span>
-                    </div>
-                </div>
-
-                <div class="mockup-body">
-                    <div class="mockup-sidebar">
-                        <button type="button" class="mockup-tab active" data-tool="organizer">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                            Organizer
-                        </button>
-                        <button type="button" class="mockup-tab" data-tool="stems">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                            Stems AI
-                        </button>
-                        <button type="button" class="mockup-tab" data-tool="map">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>
-                            3D Map
-                        </button>
-                        <button type="button" class="mockup-tab" data-tool="highlighter">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                            Highlighter
-                        </button>
-                        <button type="button" class="mockup-tab" data-tool="silence">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
-                            Silence Cut
-                        </button>
-                        <button type="button" class="mockup-tab" data-tool="png">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                            PNG Maker
-                        </button>
+            <!-- ================= INTERACTIVE HERO PLUGIN SIMULATOR ================= -->
+            <div id="simulator" class="hero-simulator-wrap">
+                <div class="simulator-frame">
+                    <div class="simulator-topbar">
+                        <div class="simulator-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="simulator-title">Adobe Premiere Pro &mdash; Siyam Studio v1.2.3 Pro</div>
+                        <div class="simulator-status">
+                            <span class="pulse-dot"></span>
+                            <span>Connected (QE Ready)</span>
+                        </div>
                     </div>
 
-                    <div class="mockup-stage">
-                        <div>
-                            <div class="mockup-stage-head">
-                                <span id="mockup-stage-title" class="mockup-stage-title">1-Click Project Organizer</span>
-                                <span id="mockup-stage-tier" class="mockup-tier-pill tier-pro">PRO</span>
-                            </div>
-                            <p id="mockup-stage-desc" class="mockup-stage-desc" style="margin-top: 8px;">
-                                Auto-sorts bins for Footage, Voiceover, SFX, Music, Graphics &amp; Exports and mirrors them neatly to disk.
-                            </p>
+                    <div class="simulator-body">
+                        <!-- Sidebar with 5 Live Tabs -->
+                        <div class="simulator-sidebar">
+                            <div class="simulator-sidebar-label">INTERACTIVE PREVIEWS</div>
+                            <button type="button" class="sim-tab-btn active" data-sim-tab="ease">
+                                <span class="sim-tab-icon">📈</span>
+                                <span class="sim-tab-name">Smooth Ease</span>
+                                <span class="sim-tab-pill new">NEW</span>
+                            </button>
+                            <button type="button" class="sim-tab-btn" data-sim-tab="captions">
+                                <span class="sim-tab-icon">✨</span>
+                                <span class="sim-tab-name">AI Captions</span>
+                                <span class="sim-tab-pill new">NEW</span>
+                            </button>
+                            <button type="button" class="sim-tab-btn" data-sim-tab="map">
+                                <span class="sim-tab-icon">🌍</span>
+                                <span class="sim-tab-name">Map Animator</span>
+                                <span class="sim-tab-pill">60FPS</span>
+                            </button>
+                            <button type="button" class="sim-tab-btn" data-sim-tab="highlighter">
+                                <span class="sim-tab-icon">🖊️</span>
+                                <span class="sim-tab-name">3D Highlighter</span>
+                                <span class="sim-tab-pill">3D</span>
+                            </button>
+                            <button type="button" class="sim-tab-btn" data-sim-tab="library">
+                                <span class="sim-tab-icon">📂</span>
+                                <span class="sim-tab-name">User Library</span>
+                                <span class="sim-tab-pill free">FREE</span>
+                            </button>
                         </div>
 
-                        <div class="mockup-canvas">
-                            <div class="mockup-metric-row">
-                                <span id="mockup-metric-label">Indexed 48 sequence assets across 6 smart bins</span>
-                                <span class="mono" style="color: var(--green);">READY</span>
-                            </div>
-                            <div class="mockup-progress-track">
-                                <div id="mockup-progress-fill" class="mockup-progress-fill" style="width: 92%;"></div>
-                            </div>
-                            <div id="mockup-chips" class="mockup-chips">
-                                <span class="mockup-chip">01_Footage</span>
-                                <span class="mockup-chip">02_Voiceover</span>
-                                <span class="mockup-chip">03_Music_SFX</span>
-                                <span class="mockup-chip">04_MOGRTs</span>
-                                <span class="mockup-chip">05_Exports</span>
-                            </div>
-                        </div>
+                        <!-- Stage Area with 5 Interactive Panels -->
+                        <div class="simulator-stage">
+                            <!-- 1. Smooth Ease Stage -->
+                            <div id="sim-panel-ease" class="sim-panel active">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">Smooth Ease &amp; 18 Quick Moves</div>
+                                        <div class="sim-panel-subtitle">Mathematical Cubic Bezier Graph + 33 Curve Presets + Position-Preserving Moves</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-pro">PRO EXTENSION</span>
+                                </div>
 
-                        <div class="mockup-action-bar">
-                            <span class="mockup-hint">Click any module on the left to preview</span>
-                            <button id="mockup-run-btn" type="button" class="mockup-run-btn">Organize Sequence</button>
+                                <div class="sim-ease-grid">
+                                    <!-- Interactive Bezier Graph Canvas -->
+                                    <div class="sim-ease-graph-box">
+                                        <div class="sim-graph-hud">
+                                            <span>BEZIER VELOCITY GRAPH</span>
+                                            <span class="mono" id="sim-ease-curve-label">Whip-Snap (0.32, 0.02, 0.18, 1.0)</span>
+                                        </div>
+                                        <svg class="sim-bezier-svg" viewBox="0 0 280 140" fill="none">
+                                            <line x1="20" y1="120" x2="260" y2="120" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                                            <line x1="20" y1="20" x2="260" y2="20" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                                            <line x1="20" y1="20" x2="20" y2="120" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                                            <line x1="260" y1="20" x2="260" y2="120" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                                            <!-- Bezier curve path -->
+                                            <path d="M 20 120 C 100 120, 70 20, 260 20" stroke="#00e676" stroke-width="3" stroke-linecap="round" fill="none"/>
+                                            <!-- Control handle lines -->
+                                            <line x1="20" y1="120" x2="100" y2="120" stroke="rgba(0, 230, 118, 0.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                                            <line x1="260" y1="20" x2="70" y2="20" stroke="rgba(167, 139, 250, 0.55)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                                            <circle cx="100" cy="120" r="5" fill="#00e676"/>
+                                            <circle cx="70" cy="20" r="5" fill="#a78bfa"/>
+                                            <circle cx="20" cy="120" r="4" fill="#ffffff"/>
+                                            <circle cx="260" cy="20" r="4" fill="#ffffff"/>
+                                        </svg>
+                                        <div class="sim-graph-presets">
+                                            <button type="button" class="sim-curve-pill active">⚡ Whip Ease</button>
+                                            <button type="button" class="sim-curve-pill">🚀 Expo Out</button>
+                                            <button type="button" class="sim-curve-pill">🎯 Smooth Pop</button>
+                                            <button type="button" class="sim-curve-pill">🌊 Deep Elastic</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 18 Quick Moves Tray Mini Preview -->
+                                    <div class="sim-moves-box">
+                                        <div class="sim-moves-header">
+                                            <span>QUICK MOVES (1-Click Hover Preview)</span>
+                                            <span class="sim-moves-pos mono">✓ Position-Preserving</span>
+                                        </div>
+                                        <div class="sim-moves-tray">
+                                            <div class="sim-move-card move-pop">
+                                                <div class="sim-move-thumb"><span>💥</span></div>
+                                                <span class="sim-move-name">Elastic Pop-Up</span>
+                                            </div>
+                                            <div class="sim-move-card move-slide">
+                                                <div class="sim-move-thumb"><span>⬆️</span></div>
+                                                <span class="sim-move-name">Slide Up + Fade</span>
+                                            </div>
+                                            <div class="sim-move-card move-zoom">
+                                                <div class="sim-move-thumb"><span>🔍</span></div>
+                                                <span class="sim-move-name">Zoom In Punch</span>
+                                            </div>
+                                            <div class="sim-move-card move-shake">
+                                                <div class="sim-move-thumb"><span>📳</span></div>
+                                                <span class="sim-move-name">Impact Shake</span>
+                                            </div>
+                                        </div>
+                                        <div class="sim-moves-footer">
+                                            <span>18 Built-in Presets &bull; Applies to selected Premiere clip in 1 click!</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. AI Captions Stage -->
+                            <div id="sim-panel-captions" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">AI Auto Captions (Brevidy-Style)</div>
+                                        <div class="sim-panel-subtitle">10 Trending 2026 Typography Styles + 1-Click ★ Word Highlight + 0.5s Timeline Overwrite</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-pro">PRO EXTENSION</span>
+                                </div>
+
+                                <div class="sim-captions-demo">
+                                    <div class="sim-captions-preview-card">
+                                        <div class="sim-caption-video-mock">
+                                            <div class="sim-caption-speaker-avatar"></div>
+                                            <div class="sim-caption-live-text">
+                                                <span class="cap-word">Create</span>
+                                                <span class="cap-word star-highlight">★ VIRAL</span>
+                                                <span class="cap-word">Videos</span>
+                                                <span class="cap-word">in</span>
+                                                <span class="cap-word">Seconds</span>
+                                            </div>
+                                            <div class="sim-caption-style-tag">Style: Iman Gadzhi Serif Glow</div>
+                                        </div>
+                                    </div>
+                                    <div class="sim-captions-controls">
+                                        <div class="sim-cap-styles-list">
+                                            <span class="sim-style-pill active">🌟 Iman Gadzhi Glow</span>
+                                            <span class="sim-style-pill">💨 Blur-to-Sharp</span>
+                                            <span class="sim-style-pill">🍏 Apple Glass</span>
+                                            <span class="sim-style-pill">⚡ Laser Underline</span>
+                                            <span class="sim-style-pill">🟡 MrBeast Pop</span>
+                                        </div>
+                                        <div class="sim-cap-meta-row">
+                                            <div class="sim-cap-metric">
+                                                <span class="mono">0.5s</span>
+                                                <label>Timeline Overwrite</label>
+                                            </div>
+                                            <div class="sim-cap-metric">
+                                                <span class="mono">1-Click</span>
+                                                <label>★ Star Word Highlight</label>
+                                            </div>
+                                            <div class="sim-cap-metric">
+                                                <span class="mono">99.2%</span>
+                                                <label>Local Whisper Precision</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3. Map Animator Stage -->
+                            <div id="sim-panel-map" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">3D Map Animator (60FPS Camera Rigs)</div>
+                                        <div class="sim-panel-subtitle">Whip-Snap Speed Ramp, 360° Helicopter Orbit &amp; 4 Curated Visual Themes</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-pro">PRO EXTENSION</span>
+                                </div>
+
+                                <div class="sim-map-demo">
+                                    <div class="sim-map-viewport">
+                                        <div class="sim-map-canvas-mock">
+                                            <div class="sim-map-pin">
+                                                <span class="pin-radar"></span>
+                                                <span class="pin-dot"></span>
+                                                <div class="pin-callout">
+                                                    <span class="pin-title">DHAKA, BANGLADESH</span>
+                                                    <span class="pin-sub">LAT 23.81° N &bull; LON 90.41° E</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="sim-map-telemetry">
+                                            <div class="telem-item"><span class="telem-k">ZOOM</span><span class="telem-v mono">11.2</span></div>
+                                            <div class="telem-item"><span class="telem-k">PITCH</span><span class="telem-v mono">58°</span></div>
+                                            <div class="telem-item"><span class="telem-k">BEARING</span><span class="telem-v mono">12°</span></div>
+                                            <div class="telem-item"><span class="telem-k">VELOCITY BLUR</span><span class="telem-v mono">4.2px</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="sim-map-styles-row">
+                                        <span class="sim-theme-badge active">🛰️ Satellite Hybrid</span>
+                                        <span class="sim-theme-badge">⚓ Vox Deep Navy</span>
+                                        <span class="sim-theme-badge">📰 Editorial Newspaper</span>
+                                        <span class="sim-theme-badge">🍏 Apple Dark Emerald</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. 3D Highlighter Stage -->
+                            <div id="sim-panel-highlighter" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">3D Web &amp; Text Highlighter</div>
+                                        <div class="sim-panel-subtitle">Perspective Tilted Viewport, Live Yellow Highlighter Sweep &amp; Document Quotes</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-pro">PRO EXTENSION</span>
+                                </div>
+
+                                <div class="sim-highlighter-demo">
+                                    <div class="sim-perspective-stage">
+                                        <div class="sim-3d-doc-card">
+                                            <div class="sim-doc-header">THE WALL STREET JOURNAL &bull; MARCH 2026</div>
+                                            <div class="sim-doc-headline">
+                                                New AI Plugins Save Documentary Editors <span class="sim-highlight-sweep">Over 15 Hours Weekly</span> in Post-Production
+                                            </div>
+                                            <div class="sim-doc-body">
+                                                "Siyam Studio has combined 12 essential editing tools into a single native Premiere Pro workflow, transforming high-end production timelines..."
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sim-doc-controls">
+                                        <span class="sim-tag">3D Tilt 32°</span>
+                                        <span class="sim-tag">Highlighter Sweep</span>
+                                        <span class="sim-tag">Depth Shadow</span>
+                                        <span class="sim-tag">Paper Grain</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. User Library Stage -->
+                            <div id="sim-panel-library" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">User Library &amp; Waveform Browser</div>
+                                        <div class="sim-panel-subtitle">Instant Audio Waveform Scrubbing, MOGRTs, LUTs, Videos &amp; 1-Click Track Apply</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-free">FOREVER FREE</span>
+                                </div>
+
+                                <div class="sim-library-demo">
+                                    <div class="sim-lib-search-bar">
+                                        <input type="text" value="Cinematic Whoosh Transition" readonly>
+                                        <span class="sim-lib-badge">42 Items</span>
+                                    </div>
+                                    <div class="sim-lib-audio-card">
+                                        <div class="sim-play-icon">▶</div>
+                                        <div class="sim-waveform-bars">
+                                            <span style="height: 35%;"></span>
+                                            <span style="height: 65%;"></span>
+                                            <span style="height: 90%;"></span>
+                                            <span style="height: 45%;"></span>
+                                            <span style="height: 75%;"></span>
+                                            <span style="height: 100%;"></span>
+                                            <span style="height: 60%;"></span>
+                                            <span style="height: 30%;"></span>
+                                            <span style="height: 80%;"></span>
+                                            <span style="height: 50%;"></span>
+                                        </div>
+                                        <div class="sim-audio-details">
+                                            <span class="sim-audio-title">Cinematic_Whoosh_Deep_02.wav</span>
+                                            <span class="sim-audio-meta mono">0:03 &bull; 48kHz Stereo</span>
+                                        </div>
+                                        <button type="button" class="btn btn-green btn-sm">+ Insert to Track A1</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -165,81 +380,328 @@
         </div>
     </header>
 
-    <!-- ================= FEATURES ================= -->
-    <section id="features" class="section">
+    <!-- ================= BENTO GRID: ALL 12 TOOLS ================= -->
+    <section id="features" class="section bento-section">
         <div class="container">
             <div class="section-header">
-                <span class="section-kicker">6 Production Tools Inside 1 Panel</span>
-                <h2 class="section-title">Everything Editors Build Manually — Automated</h2>
-                <p class="section-sub">Engineered for native speed inside Adobe Premiere Pro across Apple Silicon Macs, Intel Macs, and 64-bit Windows workstations.</p>
+                <span class="section-kicker">All 12 Powerhouse Tools Inside 1 Native Panel</span>
+                <h2 class="section-title">Everything Video Editors Build Manually &mdash; Automated</h2>
+                <p class="section-sub">Engineered strictly in native C++/CEP for zero-lag 60fps performance on Apple Silicon (M1/M2/M3/M4), Intel Macs, and Windows 10/11 64-bit workstations.</p>
+
+                <!-- Category Filter Pills -->
+                <div class="bento-filter-pills" role="tablist">
+                    <button type="button" class="bento-filter-btn active" data-bento-filter="all">All Tools (12)</button>
+                    <button type="button" class="bento-filter-btn" data-bento-filter="ai">AI &amp; Audio (4)</button>
+                    <button type="button" class="bento-filter-btn" data-bento-filter="motion">Motion &amp; 3D (4)</button>
+                    <button type="button" class="bento-filter-btn" data-bento-filter="workflow">Workflow &amp; Free (4)</button>
+                </div>
             </div>
 
-            <div class="features-grid">
-                <article class="feature-card">
-                    <div class="feature-top">
-                        <div class="feature-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                        </div>
+            <div class="bento-grid">
+                <!-- 1. Smooth Ease (Large Bento Feature Card, 8-Col) -->
+                <article class="bento-card bento-hero-ease" data-cat="motion">
+                    <div class="bento-badge-row">
                         <span class="mockup-tier-pill tier-pro">PRO</span>
+                        <span class="bento-new-pill">NEW IN v1.2.3</span>
                     </div>
-                    <h3>Project Organizer</h3>
-                    <p>Instantly creates clean Premiere bin hierarchies and mirrors project folders to local disk so multi-editor handoffs stay spotless.</p>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Smooth Ease &amp; 18 Quick Moves</h3>
+                        <p class="bento-desc">
+                            The definitive Eaze Pro replacement. Interactive Bezier Curve Graph + 33 mathematical easing presets + 18 hover-animated 1-click PNG/Video moves (Elastic Pop-Up, Slide Up/Down/Left/Right, Zoom Punch, Shake). Preserves original clip coordinates with Premiere's native keyframe engine!
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">33 Curve Presets</span>
+                            <span class="bento-tag">18 Quick Moves</span>
+                            <span class="bento-tag">Position Preserving</span>
+                            <span class="bento-tag">180° Motion Blur</span>
+                        </div>
+                    </div>
                 </article>
 
-                <article class="feature-card">
-                    <div class="feature-top">
-                        <div class="feature-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                        </div>
+                <!-- 2. AI Auto Captions (Large Bento Feature Card, 4-Col) -->
+                <article class="bento-card bento-hero-captions" data-cat="ai">
+                    <div class="bento-badge-row">
                         <span class="mockup-tier-pill tier-pro">PRO</span>
+                        <span class="bento-new-pill">NEW IN v1.2.3</span>
                     </div>
-                    <h3>AI Music &amp; Stem Separator</h3>
-                    <p>Strip background copyright music from dialogue clips and split vocals cleanly in-panel without uploading footage to cloud servers.</p>
+                    <div class="bento-content">
+                        <h3 class="bento-title">AI Auto Captions</h3>
+                        <p class="bento-desc">
+                            Brevidy-style viral captions. 10 trending 2026 typography styles (Iman Gadzhi Serif Glow, Blur-to-Sharp, Apple Glass, Laser Underline), 1-click ★ word highlight, and 0.5s timeline auto-overwrite.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">10 Aesthetic Styles</span>
+                            <span class="bento-tag">★ Word Highlight</span>
+                            <span class="bento-tag">0.5s Overwrite</span>
+                        </div>
+                    </div>
                 </article>
 
-                <article class="feature-card">
-                    <div class="feature-top">
-                        <div class="feature-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-                        </div>
+                <!-- 3. Voice Leveler (4-Col) -->
+                <article class="bento-card" data-cat="ai">
+                    <div class="bento-badge-row">
                         <span class="mockup-tier-pill tier-pro">PRO</span>
+                        <span class="bento-new-pill">NEW IN v1.2.3</span>
                     </div>
-                    <h3>Map Animator</h3>
-                    <p>Build 3D documentary camera flyovers, glowing route lines, and location pin animations and drop them straight onto your active track.</p>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Voice Leveler</h3>
+                        <p class="bento-desc">
+                            1-Click Auto Vocal Rider powered by dynamic audio normalization (dynaudnorm). Targets standard -14 LUFS for YouTube &amp; Podcasts with broadcast warmth EQ and background noise reduction.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">-14 LUFS Target</span>
+                            <span class="bento-tag">Vocal Rider</span>
+                            <span class="bento-tag">Warmth EQ</span>
+                        </div>
+                    </div>
                 </article>
 
-                <article class="feature-card">
-                    <div class="feature-top">
-                        <div class="feature-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                        </div>
+                <!-- 4. 3D Map Animator (4-Col) -->
+                <article class="bento-card" data-cat="motion">
+                    <div class="bento-badge-row">
                         <span class="mockup-tier-pill tier-pro">PRO</span>
+                        <span class="bento-speed-pill">60FPS RIG</span>
                     </div>
-                    <h3>3D Web &amp; Text Highlighter</h3>
-                    <p>Capture news articles or PDF quotes, apply tilted 3D camera motion, and animate glowing highlighter sweeps in seconds.</p>
+                    <div class="bento-content">
+                        <h3 class="bento-title">3D Map Animator</h3>
+                        <p class="bento-desc">
+                            High-velocity Whip-Snap speed ramp and 360° helicopter drone orbit rigs. Curated Vox Deep Navy, Editorial Newspaper, Apple Dark Emerald, and Satellite Hybrid styles with 1080p 60fps export.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">Whip-Snap Ramp</span>
+                            <span class="bento-tag">360° Drone Orbit</span>
+                            <span class="bento-tag">4 Themes</span>
+                        </div>
+                    </div>
                 </article>
 
-                <article class="feature-card">
-                    <div class="feature-top">
-                        <div class="feature-icon green">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
-                        </div>
-                        <span class="mockup-tier-pill tier-free">FREE</span>
+                <!-- 5. 3D Web & Text Highlighter (4-Col) -->
+                <article class="bento-card" data-cat="motion">
+                    <div class="bento-badge-row">
+                        <span class="mockup-tier-pill tier-pro">PRO</span>
+                        <span class="bento-speed-pill">3D TILT</span>
                     </div>
-                    <h3>Silence Remover</h3>
-                    <p>Analyze voiceover tracks using high-speed bundled FFmpeg silence detection and automatically ripple-delete dead air with customizable padding.</p>
+                    <div class="bento-content">
+                        <h3 class="bento-title">3D Web &amp; Text Highlighter</h3>
+                        <p class="bento-desc">
+                            Capture live URLs or paste screenshots. Draw custom highlight boxes with realistic 3D perspective tilt, animated neon highlighter sweep, and realistic drop shadow.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">Perspective 3D</span>
+                            <span class="bento-tag">Sweep Animation</span>
+                            <span class="bento-tag">Paste Cmd+V</span>
+                        </div>
+                    </div>
                 </article>
 
-                <article class="feature-card">
-                    <div class="feature-top">
-                        <div class="feature-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <!-- 6. User Library (4-Col) -->
+                <article class="bento-card" data-cat="workflow">
+                    <div class="bento-badge-row">
+                        <span class="mockup-tier-pill tier-free">FOREVER FREE</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">User Library</h3>
+                        <p class="bento-desc">
+                            Instant visual audio waveform scrubbing, MOGRTs, LUTs, videos, and image assets. Organize your favorite editing tools and drop them straight to your timeline in 1 click.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">Audio Waveforms</span>
+                            <span class="bento-tag">MOGRTs &amp; SFX</span>
+                            <span class="bento-tag">1-Click Apply</span>
                         </div>
+                    </div>
+                </article>
+
+                <!-- 7. Silence Remover (4-Col) -->
+                <article class="bento-card" data-cat="workflow">
+                    <div class="bento-badge-row">
+                        <span class="mockup-tier-pill tier-free">FOREVER FREE</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Silence Remover</h3>
+                        <p class="bento-desc">
+                            Analyze voiceovers using bundled static FFmpeg silence detection. Automatically ripple-delete dead air gaps with customizable padding and breath safety margins.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">Dead Air Detection</span>
+                            <span class="bento-tag">Custom Padding</span>
+                            <span class="bento-tag">Fast Ripple Edit</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 8. AI Music & Stem Separator (4-Col) -->
+                <article class="bento-card" data-cat="ai">
+                    <div class="bento-badge-row">
                         <span class="mockup-tier-pill tier-pro">PRO</span>
                     </div>
-                    <h3>PNG Maker</h3>
-                    <p>Remove backgrounds, add crisp white or neon outlines, apply realistic drop shadows, and insert transparent PNG stickers into Premiere.</p>
+                    <div class="bento-content">
+                        <h3 class="bento-title">AI Music &amp; Stem Separator</h3>
+                        <p class="bento-desc">
+                            Isolate clean dialogue vocals from background copyright music. Split audio into Vocals, Drums, Bass, and Instrumental stems locally with zero cloud uploads.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">Vocal Isolation</span>
+                            <span class="bento-tag">Music Removal</span>
+                            <span class="bento-tag">100% Local</span>
+                        </div>
+                    </div>
                 </article>
+
+                <!-- 9. Project Organizer (4-Col) -->
+                <article class="bento-card" data-cat="workflow">
+                    <div class="bento-badge-row">
+                        <span class="mockup-tier-pill tier-pro">PRO</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Project Organizer</h3>
+                        <p class="bento-desc">
+                            1-Click bin structuring for Documentary, Movie Recap, or YouTube Shorts projects. Mirrors bins neatly to your local disk so asset relinking never breaks.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">Smart Bins</span>
+                            <span class="bento-tag">Disk Mirroring</span>
+                            <span class="bento-tag">Zero Missing Media</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 10. PNG Maker (4-Col) -->
+                <article class="bento-card" data-cat="motion">
+                    <div class="bento-badge-row">
+                        <span class="mockup-tier-pill tier-pro">PRO</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">PNG Maker</h3>
+                        <p class="bento-desc">
+                            Instant AI subject cutout, crisp white or neon sticker outlines, and studio drop shadows. Exports transparent PNG stickers directly into your active sequence.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">AI Background Removal</span>
+                            <span class="bento-tag">Sticker Borders</span>
+                            <span class="bento-tag">Timeline Drop</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 11. Video Downloader (4-Col) -->
+                <article class="bento-card" data-cat="workflow">
+                    <div class="bento-badge-row">
+                        <span class="mockup-tier-pill tier-pro">PRO</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">Video Downloader</h3>
+                        <p class="bento-desc">
+                            Grab YouTube, Vimeo, and social video clips directly into your Premiere project bins in 1 click using bundled static yt-dlp binaries.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">Bundled yt-dlp</span>
+                            <span class="bento-tag">Up to 4K</span>
+                            <span class="bento-tag">Direct Bin Import</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 12. AI Auto Edit MCP (4-Col) -->
+                <article class="bento-card" data-cat="ai">
+                    <div class="bento-badge-row">
+                        <span class="mockup-tier-pill tier-pro">PRO</span>
+                        <span class="bento-speed-pill">MCP SERVER</span>
+                    </div>
+                    <div class="bento-content">
+                        <h3 class="bento-title">AI Auto Edit (MCP)</h3>
+                        <p class="bento-desc">
+                            Direct Model Context Protocol (MCP) server for Claude, OpenAI, and Antigravity. Inspects timeline state, executes rough cuts, aligns VO recap transcripts, and mixes ducking.
+                        </p>
+                        <div class="bento-tags-row">
+                            <span class="bento-tag">Claude / OpenAI MCP</span>
+                            <span class="bento-tag">Timeline State API</span>
+                            <span class="bento-tag">Auto Rough Cut</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= WHY SIYAM STUDIO? VALUE COMPARISON ================= -->
+    <section id="why-siyam" class="section comparison-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-kicker">High-Converting ROI Breakdown</span>
+                <h2 class="section-title">Stop Paying $739+/Year for 5+ Separate Subscriptions</h2>
+                <p class="section-sub">Here is what a complete post-production workflow costs when bought separately versus Siyam Studio Pro Lifetime.</p>
+            </div>
+
+            <div class="comparison-card">
+                <div class="comp-col comp-others">
+                    <div class="comp-head">
+                        <span class="comp-tag">BUYING SEPARATELY</span>
+                        <h3>5+ Expensive Tools</h3>
+                        <div class="comp-price-strike mono">$739+ / Year</div>
+                    </div>
+                    <ul class="comp-list">
+                        <li>
+                            <span class="comp-icon red">&cross;</span>
+                            <div><strong>Bezier Curve &amp; Motion Plugin</strong> &mdash; ~$49 one-time</div>
+                        </li>
+                        <li>
+                            <span class="comp-icon red">&cross;</span>
+                            <div><strong>Viral Animated Captions SaaS</strong> &mdash; ~$20/mo ($240/yr)</div>
+                        </li>
+                        <li>
+                            <span class="comp-icon red">&cross;</span>
+                            <div><strong>3D Map &amp; Documentary Highlighters</strong> &mdash; ~$300+ in AE templates</div>
+                        </li>
+                        <li>
+                            <span class="comp-icon red">&cross;</span>
+                            <div><strong>Vocal Leveler &amp; Stem Splitter</strong> &mdash; ~$150 separate apps</div>
+                        </li>
+                        <li>
+                            <span class="comp-icon red">&cross;</span>
+                            <div><strong>Clunky Workflow</strong> &mdash; Exporting between 5 apps causes lost time</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="comp-vs-divider">
+                    <span>VS</span>
+                </div>
+
+                <div class="comp-col comp-siyam">
+                    <div class="comp-head">
+                        <span class="comp-tag green">SIYAM STUDIO PRO</span>
+                        <h3>All 12 Tools Inside 1 Panel</h3>
+                        <div class="comp-price mono">
+                            <span class="bdt">&#2547;1,990 BDT</span>
+                            <span class="usd">/ $39 USD</span>
+                            <span class="once">LIFETIME</span>
+                        </div>
+                    </div>
+                    <ul class="comp-list">
+                        <li>
+                            <span class="comp-icon green">&check;</span>
+                            <div><strong>Includes 7-Day Full Pro Trial</strong> &mdash; Zero credit card needed</div>
+                        </li>
+                        <li>
+                            <span class="comp-icon green">&check;</span>
+                            <div><strong>Hardware ID (HWID) Auto-Restore</strong> &mdash; Never lose your license after formatting PC/Mac</div>
+                        </li>
+                        <li>
+                            <span class="comp-icon green">&check;</span>
+                            <div><strong>1-Click In-Panel OTA Updates</strong> &mdash; Upgrade directly inside Premiere Pro in 2 seconds</div>
+                        </li>
+                        <li>
+                            <span class="comp-icon green">&check;</span>
+                            <div><strong>All 12 Features Included</strong> &mdash; Smooth Ease, AI Captions, 3D Maps, Stems &amp; Leveler</div>
+                        </li>
+                        <li>
+                            <span class="comp-icon green">&check;</span>
+                            <div><strong>100% Local &amp; Private</strong> &mdash; No slow cloud uploads, zero recurring fees</div>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn btn-green btn-lg btn-block" data-open-checkout="bd">Get Siyam Studio Pro Lifetime</button>
+                </div>
             </div>
         </div>
     </section>
@@ -248,9 +710,9 @@
     <section id="install" class="section">
         <div class="container">
             <div class="section-header">
-                <span class="section-kicker">Zero Manual Configuration</span>
-                <h2 class="section-title">Install in 30 Seconds (1-Click Setup)</h2>
-                <p class="section-sub">Both macOS and Windows installers automatically enable Adobe CEP Debug Mode and bundle static FFmpeg &amp; yt-dlp binaries.</p>
+                <span class="section-kicker">Zero Manual Setup</span>
+                <h2 class="section-title">Install in 30 Seconds (1-Click Automated Setup)</h2>
+                <p class="section-sub">Both macOS and Windows installers automatically configure Adobe CEP Debug Mode, place extension files, and bundle static FFmpeg &amp; yt-dlp binaries.</p>
             </div>
 
             <div class="os-tabs">
@@ -258,13 +720,13 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/>
                     </svg>
-                    macOS (Apple Silicon &amp; Intel)
+                    macOS (Apple Silicon M-Series &amp; Intel)
                 </button>
                 <button type="button" class="os-tab-btn" data-os="win">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M3 5.45L10.94 4.35V11.4H3V5.45ZM11.88 4.22L21 2.95V11.4H11.88V4.22ZM3 12.45H10.94V19.65L3 18.55V12.45ZM11.88 12.45H21V21.05L11.88 19.78V12.45Z"/>
                     </svg>
-                    Windows 10 / 11 (64-bit)
+                    Windows 10 / 11 (64-bit Workstations)
                 </button>
             </div>
 
@@ -273,17 +735,17 @@
                     <div class="step-card">
                         <span class="step-num">1</span>
                         <h3>Download &amp; Unzip</h3>
-                        <p>Download <span class="code-pill mono">SiyamStudio_macOS_Installer.zip</span> and double-click it in Finder to extract the installer folder.</p>
+                        <p>Download <span class="code-pill mono">SiyamStudio_macOS_Installer.zip</span> and double-click it in Finder to extract the installer payload.</p>
                     </div>
                     <div class="step-card">
                         <span class="step-num">2</span>
                         <h3>Run 1-Click Installer</h3>
-                        <p>Double-click <span class="code-pill mono">Install Siyam Studio (Mac).command</span>. It automatically configures CSXS Debug Mode, installs files, and clears Gatekeeper.</p>
+                        <p>Double-click <span class="code-pill mono">Install Siyam Studio (Mac).command</span>. It automatically configures CSXS Debug Mode, installs extension files, and clears Gatekeeper.</p>
                     </div>
                     <div class="step-card">
                         <span class="step-num">3</span>
                         <h3>Launch in Premiere Pro</h3>
-                        <p>Restart Adobe Premiere Pro, open <span class="code-pill">Window &gt; Extensions &gt; Siyam Studio</span>, and paste your license key to bind your Mac.</p>
+                        <p>Restart Adobe Premiere Pro, open <span class="code-pill">Window &gt; Extensions &gt; Siyam Studio</span>, and enjoy your 7-Day Free Trial or activate Pro.</p>
                     </div>
                 </div>
             </div>
@@ -297,13 +759,13 @@
                     </div>
                     <div class="step-card">
                         <span class="step-num">2</span>
-                        <h3>Run Windows Batch Installer</h3>
-                        <p>Double-click <span class="code-pill mono">Install Siyam Studio (Windows 64-bit).bat</span>. Registry keys and CEP extension folders are set up automatically.</p>
+                        <h3>Run Windows Batch Script</h3>
+                        <p>Double-click <span class="code-pill mono">Install Siyam Studio (Windows 64-bit).bat</span>. Registry keys and CEP directories are set up automatically.</p>
                     </div>
                     <div class="step-card">
                         <span class="step-num">3</span>
                         <h3>Launch in Premiere Pro</h3>
-                        <p>Restart Adobe Premiere Pro, open <span class="code-pill">Window &gt; Extensions &gt; Siyam Studio</span>, and activate your PC with your license key.</p>
+                        <p>Restart Adobe Premiere Pro, open <span class="code-pill">Window &gt; Extensions &gt; Siyam Studio</span>, and activate with your license key.</p>
                     </div>
                 </div>
             </div>
@@ -314,12 +776,13 @@
     <section id="pricing" class="section">
         <div class="container">
             <div class="section-header">
-                <span class="section-kicker">Transparent Pricing</span>
+                <span class="section-kicker">Simple, Transparent Pricing</span>
                 <h2 class="section-title">Start Free or Unlock Lifetime Pro</h2>
-                <p class="section-sub">One-time payment. No monthly subscription traps. Local processing keeps your edits private and fast.</p>
+                <p class="section-sub">One-time payment. Zero recurring monthly subscription traps. Local processing keeps your projects ultra-fast.</p>
             </div>
 
             <div class="pricing-grid">
+                <!-- Free Card -->
                 <div class="price-card">
                     <div class="price-head">
                         <span class="price-name">Free Starter</span>
@@ -331,57 +794,121 @@
                     </div>
                     <ul class="price-list">
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
                             <strong>Includes 7-Day Full Pro Trial (No Credit Card Required)</strong>
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
-                            User Library Preset &amp; MOGRT Browser
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                            User Library Audio Waveform &amp; Asset Browser
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
                             High-Precision Silence Remover Forever
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
                             Bundled Static FFmpeg Engine
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
                             macOS &amp; Windows 64-bit Support
                         </li>
                     </ul>
-                    <a href="#install" class="btn btn-lg btn-block">Download Free</a>
+                    <a href="#install" class="btn btn-secondary btn-lg btn-block">Download Free Starter</a>
                 </div>
 
+                <!-- Pro Lifetime Deal -->
                 <div class="price-card featured">
                     <div class="price-head">
                         <span class="price-name">Pro Lifetime Deal</span>
-                        <span class="mockup-tier-pill tier-pro">MOST POPULAR</span>
+                        <span class="mockup-tier-pill tier-pro">MOST POPULAR &bull; LIFETIME</span>
                     </div>
                     <div class="price-amount">
-                        <span class="price-big">&#2547;999 BDT</span>
-                        <span class="price-alt">/ $10 USD one-time</span>
+                        <span class="price-big">&#2547;1,990 BDT</span>
+                        <span class="price-alt">/ $39 USD one-time</span>
                     </div>
                     <ul class="price-list">
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
-                            Unlocks All 6 AI &amp; 3D Generators (Maps, Highlighter, Stems, PNG, Organizer)
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                            <strong>Unlocks All 12 Pro Tools:</strong> Smooth Ease, AI Captions, Voice Leveler, 3D Maps, Stems, Highlighter &amp; More
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
-                            Hardware-Locked to 1 Mac or Windows PC (Resettable via Support)
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                            <strong>HWID Auto-Restore:</strong> Re-install or format your machine anytime &mdash; automatically reactivates!
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
-                            Lifetime Automatic Update Alerts &amp; Announcements
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                            <strong>1-Click In-Panel OTA Updates:</strong> Get future v1.3+ feature drops directly in Premiere Pro
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
-                            Instant bKash / Nagad or Card / PayPal Checkout
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+                            Instant bKash / Nagad or Card / PayPal Checkout with Live Verification Tracker
                         </li>
                     </ul>
-                    <button type="button" class="btn btn-green btn-lg btn-block" data-open-checkout="bd">Buy Pro License</button>
+                    <button type="button" class="btn btn-green btn-lg btn-block" data-open-checkout="bd">Buy Pro License &mdash; &#2547;1,990 BDT</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FAQ ACCORDION ================= -->
+    <section id="faq" class="section faq-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-kicker">Frequently Asked Questions</span>
+                <h2 class="section-title">Everything You Need to Know</h2>
+                <p class="section-sub">Have questions about compatibility, trial access, or hardware activation? We have answers.</p>
+            </div>
+
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <button type="button" class="faq-trigger">
+                        <span>Does Siyam Studio support both Apple Silicon (M1/M2/M3/M4) Macs and Windows 64-bit?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, 100%! Siyam Studio is natively built for macOS (Apple Silicon M1, M2, M3, M4 as well as Intel Macs) and Windows 10/11 64-bit workstations. It bundles static binaries for FFmpeg and yt-dlp with zero command-line configuration required.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button type="button" class="faq-trigger">
+                        <span>How does the 7-Day Free Trial work?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Simply download the free installer above, launch Premiere Pro, and open <strong>Window &gt; Extensions &gt; Siyam Studio</strong>. You immediately receive 7 days of unrestricted Pro access to all 12 tools &mdash; zero credit card or payment information required.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button type="button" class="faq-trigger">
+                        <span>What happens if I format my PC or reinstall my OS? (Hardware ID Auto-Restore)</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Your license key is cryptographically tied to your machine's unique Hardware ID (HWID). Whenever you format or reinstall your operating system, simply enter your key (or click Restore) and our Supabase server automatically recognizes your machine and reactivates instantly without needing support intervention!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button type="button" class="faq-trigger">
+                        <span>How do 1-Click In-Panel Over-The-Air (OTA) Updates work?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Whenever an update (e.g. v1.2.3 or v1.3.0) is published, a glowing update badge appears directly in your Siyam Studio top header inside Premiere Pro. Clicking "Update" downloads and applies the patch in 2 seconds without ever needing to re-run OS installers!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button type="button" class="faq-trigger">
+                        <span>Which payment methods are supported, and how fast is license delivery?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>For creators in Bangladesh, we support instant Send Money via <strong>bKash</strong> and <strong>Nagad (Personal)</strong>. For international editors, we support Credit/Debit Cards (via Stripe) and PayPal ($39 USD). Once submitted, you can track verification live right on this website and copy your key.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -427,7 +954,7 @@
     <!-- ================= FOOTER ================= -->
     <footer class="footer">
         <div class="container footer-inner">
-            <span>Siyam Studio Pro &mdash; Engineered for Adobe Premiere Pro on macOS &amp; Windows (64-bit).</span>
+            <span>Siyam Studio Pro v1.2.3 &mdash; Engineered for Adobe Premiere Pro on macOS &amp; Windows (64-bit).</span>
             <span>
                 Support:
                 <a href="mailto:saifulsheum@gmail.com" style="color: var(--green);">saifulsheum@gmail.com</a>
@@ -452,13 +979,13 @@
 
             <div class="modal-tabs">
                 <button type="button" class="modal-tab-btn active" data-paytab="bd">Bangladesh (bKash / Nagad)</button>
-                <button type="button" class="modal-tab-btn" data-paytab="intl">International ($10 USD Card / PayPal)</button>
+                <button type="button" class="modal-tab-btn" data-paytab="intl">International ($39 USD Card / PayPal)</button>
             </div>
 
             <!-- Tab 1: Bangladesh bKash / Nagad -->
             <div id="checkout-tab-bd">
                 <div class="pay-box">
-                    <div>Send Money <strong>&#2547;999 BDT</strong> via <strong>bKash</strong> or <strong>Nagad (Personal)</strong> to the number below, then submit your Transaction ID (TrxID):</div>
+                    <div>Send Money <strong>&#2547;1,990 BDT</strong> via <strong>bKash</strong> or <strong>Nagad (Personal)</strong> to the number below, then submit your Transaction ID (TrxID):</div>
                     <div class="pay-number-row">
                         <span id="merchant-pay-number" class="mono" style="font-size: 15px; font-weight: 800; color: var(--green);">+8801580653736</span>
                         <button id="btn-copy-merchant" type="button" class="btn btn-sm">Copy Number</button>
@@ -484,8 +1011,8 @@
                         <div>
                             <label class="field-label" for="bd-method">Payment Method</label>
                             <select id="bd-method" class="input">
-                                <option value="bKash">bKash</option>
-                                <option value="Nagad">Nagad</option>
+                                <option value="bKash">bKash (Personal)</option>
+                                <option value="Nagad">Nagad (Personal)</option>
                             </select>
                         </div>
                         <div>
@@ -501,15 +1028,15 @@
 
                     <div id="bd-form-error" class="form-error"></div>
 
-                    <button id="btn-bd-submit" type="submit" class="btn btn-green btn-lg btn-block">Submit Payment &amp; Request Key</button>
+                    <button id="btn-bd-submit" type="submit" class="btn btn-green btn-lg btn-block">Submit Payment &amp; Request Key (&#2547;1,990 BDT)</button>
                 </form>
             </div>
 
             <!-- Tab 2: International Card / PayPal -->
             <div id="checkout-tab-intl" style="display: none;">
                 <div class="pay-box" style="border-color: rgba(124, 58, 237, 0.4);">
-                    <div><strong>Global Lifetime License &mdash; $10 USD One-Time</strong></div>
-                    <div style="margin-top: 4px;">Submit your details below for global Card / PayPal invoice &amp; instant key delivery to your email and the live lookup tracker.</div>
+                    <div><strong>Global Lifetime License &mdash; $39 USD One-Time</strong></div>
+                    <div style="margin-top: 4px;">Submit your details below for instant Card / PayPal invoice &amp; key delivery to your email and the live lookup tracker.</div>
                 </div>
 
                 <form id="intl-checkout-form" class="form-stack">
@@ -537,7 +1064,7 @@
 
                     <div id="intl-form-error" class="form-error"></div>
 
-                    <button id="btn-intl-submit" type="submit" class="btn btn-primary btn-lg btn-block">Submit International Order ($10 USD)</button>
+                    <button id="btn-intl-submit" type="submit" class="btn btn-primary btn-lg btn-block">Submit International Order ($39 USD)</button>
                 </form>
             </div>
         </div>
