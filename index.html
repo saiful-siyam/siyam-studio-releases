@@ -5,10 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Siyam Studio Pro v1.2.3 — 2026 All-In-One AI & Motion Suite for Adobe Premiere Pro</title>
     <meta name="description" content="10x your Premiere Pro workflow with 12 AI & Motion tools inside 1 native panel: Smooth Ease, AI Captions, Voice Leveler, 3D Map Animator, 3D Highlighter, User Library, and Silence Remover for macOS & Windows 64-bit.">
+    <meta name="keywords" content="Premiere Pro plugin, AI captions, smooth ease, eaze pro, 3d map animator, voice leveler, silence remover, stem separation, adobe premiere pro, video editing">
+
+    <!-- Favicon (Inline Green Siyam Studio SVG) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M18 4H6C4.895 4 4 4.895 4 6V10C4 11.105 4.895 12 6 12H18C19.105 12 20 12.895 20 14V18C20 19.105 19.105 20 18 20H6' stroke='%2300e676' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='%23a78bfa'/%3E%3C/svg%3E">
+
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Siyam Studio Pro">
+    <meta property="og:title" content="Siyam Studio Pro v1.2.3 — 2026 All-In-One AI & Motion Suite for Adobe Premiere Pro">
+    <meta property="og:description" content="10x your Premiere Pro workflow. 12 AI & Motion tools inside 1 native panel: Smooth Ease, AI Captions, Voice Leveler, 3D Map Animator, and 3D Highlighter. Free 7-Day Trial, no credit card required.">
+    <meta property="og:url" content="https://saiful-siyam.github.io/siyam-studio-releases/">
+    <meta property="og:image" content="https://raw.githubusercontent.com/saiful-siyam/siyam-studio-releases/main/website/og-banner.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Siyam Studio Pro v1.2.3 — AI & Motion Suite for Premiere Pro">
+    <meta name="twitter:description" content="12 tools inside 1 native Premiere Pro panel. Smooth Ease, AI Captions, Voice Leveler, 3D Maps & Highlighter. Free 7-Day Trial.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/saiful-siyam/siyam-studio-releases/main/website/og-banner.png">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+
+    <!-- MapLibre GL JS for 3D Map Animator -->
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.css">
+    <script src="https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.js"></script>
 </head>
 <body>
 
@@ -29,21 +53,106 @@
             </a>
 
             <div class="nav-links">
-                <a href="#features">12 Tools</a>
-                <a href="#simulator">Live Simulator</a>
-                <a href="#why-siyam">Comparison</a>
-                <a href="#install">Install Guide</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#faq">FAQ</a>
-                <a href="#lookup" class="nav-highlight-link">Get License Key</a>
+                <a href="#features" class="nav-link">Tools</a>
+                <a href="#simulator" class="nav-link">Simulator</a>
+                <a href="#why-siyam" class="nav-link">Why Us</a>
+                <a href="#reviews" class="nav-link">Reviews</a>
+                <a href="#install" class="nav-link">Install</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#lookup" class="nav-link nav-highlight-link">License Key</a>
             </div>
 
             <div class="nav-actions">
-                <a href="#install" class="btn btn-ghost btn-sm">Download Free</a>
-                <button type="button" class="btn btn-primary btn-sm" data-open-checkout="bd">Buy Pro License</button>
+                <a href="#install" class="btn btn-ghost btn-sm nav-btn-download">Download Free</a>
+                <button type="button" class="btn btn-primary btn-sm nav-btn-buy" data-open-checkout="bd">Buy Pro License</button>
+                <button type="button" id="btn-mobile-menu-toggle" class="btn-mobile-menu" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav-drawer">
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                    <span class="hamburger-bar"></span>
+                </button>
             </div>
         </div>
     </nav>
+
+    <!-- ================= MOBILE NAVIGATION DRAWER ================= -->
+    <div id="mobile-nav-drawer" class="mobile-nav-drawer" aria-hidden="true">
+        <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
+        <div class="mobile-nav-card">
+            <div class="mobile-nav-header">
+                <a href="#top" class="brand-link" id="mobile-brand-link">
+                    <span class="brand-mark" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M18 4H6C4.895 4 4 4.895 4 6V10C4 11.105 4.895 12 6 12H18C19.105 12 20 12.895 20 14V18C20 19.105 19.105 20 18 20H6" stroke="#00e676" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="12" r="2.5" fill="#a78bfa"/>
+                        </svg>
+                    </span>
+                    <span class="brand-text">
+                        <span class="brand-name">Siyam Studio</span>
+                        <span class="brand-badge">v1.2.3 PRO</span>
+                    </span>
+                </a>
+                <button type="button" id="btn-close-mobile-menu" class="mobile-nav-close" aria-label="Close menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+
+            <div class="mobile-nav-links">
+                <a href="#features" class="mobile-nav-link">
+                    <span class="mobile-nav-icon">⚡</span>
+                    <span class="mobile-nav-title">12 Tools Arsenal</span>
+                    <span class="mobile-nav-pill">v1.2.3</span>
+                </a>
+                <a href="#simulator" class="mobile-nav-link">
+                    <span class="mobile-nav-icon">🎮</span>
+                    <span class="mobile-nav-title">Live Simulator</span>
+                    <span class="mobile-nav-pill">Interactive</span>
+                </a>
+                <a href="#why-siyam" class="mobile-nav-link">
+                    <span class="mobile-nav-icon">⚖️</span>
+                    <span class="mobile-nav-title">Why Siyam Studio</span>
+                    <span class="mobile-nav-pill">Comparison</span>
+                </a>
+                <a href="#reviews" class="mobile-nav-link">
+                    <span class="mobile-nav-icon">⭐</span>
+                    <span class="mobile-nav-title">Creator Reviews</span>
+                    <span class="mobile-nav-pill">450+ Editors</span>
+                </a>
+                <a href="#install" class="mobile-nav-link">
+                    <span class="mobile-nav-icon">📥</span>
+                    <span class="mobile-nav-title">Install Guide</span>
+                    <span class="mobile-nav-pill">Mac &amp; Win</span>
+                </a>
+                <a href="#pricing" class="mobile-nav-link">
+                    <span class="mobile-nav-icon">💳</span>
+                    <span class="mobile-nav-title">Pro Pricing</span>
+                    <span class="mobile-nav-pill">$10/mo &bull; ৳999</span>
+                </a>
+                <a href="#faq" class="mobile-nav-link">
+                    <span class="mobile-nav-icon">❓</span>
+                    <span class="mobile-nav-title">FAQ &amp; HWID Info</span>
+                </a>
+                <a href="#lookup" class="mobile-nav-link mobile-nav-highlight">
+                    <span class="mobile-nav-icon">🔑</span>
+                    <span class="mobile-nav-title">Get / Restore License Key</span>
+                    <span class="mobile-nav-pill pro">Instant</span>
+                </a>
+            </div>
+
+            <div class="mobile-nav-actions">
+                <a href="#install" class="btn btn-primary btn-block mobile-download-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Download Free Starter (Mac / Win)</span>
+                </a>
+                <button type="button" class="btn btn-green btn-block" data-open-checkout="bd">
+                    <span>Get Pro Access (&#2547;999 BDT / month)</span>
+                </button>
+                <a href="https://wa.me/8801580653736?text=Hi%20Siyam%2C%20I%20have%20a%20question%20about%20Siyam%20Studio" target="_blank" rel="noopener noreferrer" class="mobile-whatsapp-link">
+                    <span>💬 Chat on WhatsApp (+8801580653736)</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- ================= HERO ================= -->
     <header id="top" class="hero">
@@ -52,10 +161,11 @@
 
         <div class="container hero-container">
             <div class="hero-content">
-                <div class="hero-pill">
+                <!-- Clickable What's New Pill -->
+                <button type="button" class="hero-pill" id="btn-whats-new" title="Click to view v1.2.3 Changelog">
                     <span class="pill-dot"></span>
-                    <span class="pill-text"><strong>v1.2.3 Released</strong> &bull; Smooth Ease &bull; Voice Leveler &bull; 2026 AI Captions &bull; 7-Day Free Trial</span>
-                </div>
+                    <span class="pill-text"><strong>v1.2.3 Released</strong> &bull; Smooth Ease &bull; Voice Leveler &bull; 2026 AI Captions &bull; <span class="pill-action">See What's New &rarr;</span></span>
+                </button>
 
                 <h1 class="hero-title">
                     The 2026 All-In-One AI &amp; Motion Suite for <span class="gradient-text">Premiere Pro</span>
@@ -65,6 +175,7 @@
                     Replace 5+ expensive monthly subscriptions. From 1-click Bezier easing and viral AI captions to 3D documentary maps, broadcast vocal leveling, and stem separation — all running locally inside 1 blazing-fast native panel.
                 </p>
 
+                <!-- Hero Action Buttons with Watch Demo -->
                 <div class="hero-downloads">
                     <a id="btn-download-mac" href="https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_macOS_Installer.zip" download class="btn btn-primary btn-lg">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -79,6 +190,11 @@
                         </svg>
                         <span>Download for Windows 64-bit (.zip)</span>
                     </a>
+
+                    <button type="button" id="btn-watch-demo" class="btn btn-ghost btn-lg hero-demo-btn" data-open-demo="true">
+                        <span class="demo-play-icon">▶</span>
+                        <span>Watch 60s Premiere Demo</span>
+                    </button>
                 </div>
 
                 <div class="hero-meta-notes">
@@ -114,39 +230,340 @@
                     </div>
 
                     <div class="simulator-body">
-                        <!-- Sidebar with 5 Live Tabs -->
+                        <!-- Sidebar with ALL 12 Live Feature Tabs -->
                         <div class="simulator-sidebar">
-                            <div class="simulator-sidebar-label">INTERACTIVE PREVIEWS</div>
-                            <button type="button" class="sim-tab-btn active" data-sim-tab="ease">
-                                <span class="sim-tab-icon">📈</span>
-                                <span class="sim-tab-name">Smooth Ease</span>
-                                <span class="sim-tab-pill new">NEW</span>
-                            </button>
-                            <button type="button" class="sim-tab-btn" data-sim-tab="captions">
-                                <span class="sim-tab-icon">✨</span>
-                                <span class="sim-tab-name">AI Captions</span>
-                                <span class="sim-tab-pill new">NEW</span>
-                            </button>
-                            <button type="button" class="sim-tab-btn" data-sim-tab="map">
-                                <span class="sim-tab-icon">🌍</span>
-                                <span class="sim-tab-name">Map Animator</span>
-                                <span class="sim-tab-pill">60FPS</span>
-                            </button>
-                            <button type="button" class="sim-tab-btn" data-sim-tab="highlighter">
-                                <span class="sim-tab-icon">🖊️</span>
-                                <span class="sim-tab-name">3D Highlighter</span>
-                                <span class="sim-tab-pill">3D</span>
-                            </button>
+                            <div class="simulator-sidebar-label">12 NATIVE FEATURES</div>
+
                             <button type="button" class="sim-tab-btn" data-sim-tab="library">
-                                <span class="sim-tab-icon">📂</span>
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                </span>
                                 <span class="sim-tab-name">User Library</span>
                                 <span class="sim-tab-pill free">FREE</span>
                             </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="silence">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+                                </span>
+                                <span class="sim-tab-name">Silence Remover</span>
+                                <span class="sim-tab-pill free">FREE</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="png">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 4V2m0 16v-2M8 9h2m10 0h-2m-2.2-4.8L14.4 7.6m-4.8 4.8L8.2 13.8M4 20l10-10m0 0l2 2-10 10H4v-2z"/><circle cx="18" cy="6" r="1"/></svg>
+                                </span>
+                                <span class="sim-tab-name">PNG Maker</span>
+                                <span class="sim-tab-pill">PRO</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="organizer">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M12 11l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z"/></svg>
+                                </span>
+                                <span class="sim-tab-name">Project Organizer</span>
+                                <span class="sim-tab-pill free">FREE</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="music">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                </span>
+                                <span class="sim-tab-name">Music Remover</span>
+                                <span class="sim-tab-pill">PRO</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="voice">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/></svg>
+                                </span>
+                                <span class="sim-tab-name">Voice Leveler</span>
+                                <span class="sim-tab-pill">PRO</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn active" data-sim-tab="ease">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 19c3-1 6-7 9-7s6 6 9 5"/><circle cx="3" cy="19" r="2" fill="currentColor"/><circle cx="21" cy="17" r="2" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+                                </span>
+                                <span class="sim-tab-name">Smooth Ease</span>
+                                <span class="sim-tab-pill new">NEW</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="captions">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M7 15h3a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H7v6z"/><path d="M14 15h3a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-3v6z"/></svg>
+                                </span>
+                                <span class="sim-tab-name">AI Captions</span>
+                                <span class="sim-tab-pill new">NEW</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="autoedit">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+                                </span>
+                                <span class="sim-tab-name">AI Auto Edit (MCP)</span>
+                                <span class="sim-tab-pill">MCP</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="map">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                </span>
+                                <span class="sim-tab-name">Map Animator</span>
+                                <span class="sim-tab-pill">60FPS</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="highlighter">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                                </span>
+                                <span class="sim-tab-name">3D Highlighter</span>
+                                <span class="sim-tab-pill">3D</span>
+                            </button>
+
+                            <button type="button" class="sim-tab-btn" data-sim-tab="downloader">
+                                <span class="sim-tab-icon">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                </span>
+                                <span class="sim-tab-name">Video Downloader</span>
+                                <span class="sim-tab-pill">PRO</span>
+                            </button>
                         </div>
 
-                        <!-- Stage Area with 5 Interactive Panels -->
+                        <!-- Stage Area with ALL 12 Interactive Panels -->
                         <div class="simulator-stage">
-                            <!-- 1. Smooth Ease Stage -->
+                            <!-- 1. User Library Stage -->
+                            <div id="sim-panel-library" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">User Library &amp; Waveform Browser</div>
+                                        <div class="sim-panel-subtitle">Instant Audio Waveform Scrubbing, MOGRTs, LUTs, Videos &amp; 1-Click Track Apply</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-free">FOREVER FREE</span>
+                                </div>
+
+                                <div class="sim-library-demo">
+                                    <div class="sim-lib-search-bar">
+                                        <input type="text" value="Cinematic Whoosh Transition" readonly>
+                                        <span class="sim-lib-badge">140 Assets</span>
+                                    </div>
+                                    <div class="sim-lib-audio-card">
+                                        <div class="sim-play-icon" id="sim-lib-play-btn" title="Click to Preview Audio">▶</div>
+                                        <div class="sim-waveform-bars" id="sim-lib-waveform">
+                                            <span style="height: 35%;"></span>
+                                            <span style="height: 65%;"></span>
+                                            <span style="height: 90%;"></span>
+                                            <span style="height: 45%;"></span>
+                                            <span style="height: 75%;"></span>
+                                            <span style="height: 100%;"></span>
+                                            <span style="height: 60%;"></span>
+                                            <span style="height: 30%;"></span>
+                                            <span style="height: 80%;"></span>
+                                            <span style="height: 50%;"></span>
+                                        </div>
+                                        <div class="sim-audio-details">
+                                            <span class="sim-audio-title">Cinematic_Whoosh_Deep_02.wav</span>
+                                            <span class="sim-audio-meta mono">0:03 &bull; 48kHz Stereo</span>
+                                        </div>
+                                        <button type="button" class="btn btn-green btn-sm" id="btn-lib-apply-demo">+ Insert to Track A1</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. Silence Remover Stage -->
+                            <div id="sim-panel-silence" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">Silence Remover &amp; Dead-Air Cut</div>
+                                        <div class="sim-panel-subtitle">1-Click Auto Cut Silence &amp; Ripple Delete Dead Air in 0.4s &bull; Forever Free</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-free">FOREVER FREE</span>
+                                </div>
+                                <div class="sim-silence-demo">
+                                    <div class="sim-silence-timeline" id="sim-silence-track">
+                                        <div class="silence-segment voice" style="width: 28%;">
+                                            <span class="segment-label">Voice 01</span>
+                                            <div class="mini-wave"><span style="height:40%"></span><span style="height:85%"></span><span style="height:60%"></span><span style="height:90%"></span></div>
+                                        </div>
+                                        <div class="silence-segment dead-air" id="silence-gap-1" style="width: 18%;">
+                                            <span class="silence-badge">-42dB GAP</span>
+                                        </div>
+                                        <div class="silence-segment voice" style="width: 24%;">
+                                            <span class="segment-label">Voice 02</span>
+                                            <div class="mini-wave"><span style="height:70%"></span><span style="height:95%"></span><span style="height:50%"></span><span style="height:80%"></span></div>
+                                        </div>
+                                        <div class="silence-segment dead-air" id="silence-gap-2" style="width: 14%;">
+                                            <span class="silence-badge">-38dB GAP</span>
+                                        </div>
+                                        <div class="silence-segment voice" style="width: 16%;">
+                                            <span class="segment-label">Voice 03</span>
+                                            <div class="mini-wave"><span style="height:60%"></span><span style="height:75%"></span><span style="height:45%"></span></div>
+                                        </div>
+                                    </div>
+                                    <div class="sim-silence-controls">
+                                        <div class="silence-meta">
+                                            <span class="silence-metric mono" id="silence-count-label">Detected: 14 Pauses (4.8s Dead Air)</span>
+                                            <span class="silence-sub mono">Threshold: -32dB &bull; Min: 0.3s</span>
+                                        </div>
+                                        <div class="silence-actions">
+                                            <button type="button" id="btn-sim-trim-silence" class="btn btn-green btn-sm">✂ Trim All Silences &amp; Ripple Delete</button>
+                                            <button type="button" id="btn-sim-reset-silence" class="btn btn-ghost btn-sm" style="display: none;">↺ Replay</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3. PNG Maker Stage -->
+                            <div id="sim-panel-png" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">PNG Maker &amp; Alpha Cutout FX</div>
+                                        <div class="sim-panel-subtitle">Freeze-Frame Alpha Cutout with Customizable Stroke, Glow &amp; Contact Shadow</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-pro">PRO EXTENSION</span>
+                                </div>
+                                <div class="sim-png-demo">
+                                    <div class="sim-png-stage-box checkerboard-bg">
+                                        <div class="sim-png-cutout-wrap has-outline has-glow has-shadow" id="sim-png-target">
+                                            <div class="sim-png-subject-card">
+                                                <svg width="68" height="68" viewBox="0 0 24 24" fill="currentColor" class="png-subject-svg">
+                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z"/>
+                                                </svg>
+                                                <span class="png-alpha-pill">ALPHA CUTOUT</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sim-png-controls">
+                                        <div class="png-pill-group">
+                                            <button type="button" class="sim-png-toggle active" id="toggle-png-outline">✓ White Outline (3px)</button>
+                                            <button type="button" class="sim-png-toggle active" id="toggle-png-glow">✓ Neon Glow</button>
+                                            <button type="button" class="sim-png-toggle active" id="toggle-png-shadow">✓ Drop Shadow</button>
+                                        </div>
+                                        <button type="button" class="btn btn-primary btn-sm" id="btn-export-png-demo">Export Transparent .PNG</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. Project Organizer Stage -->
+                            <div id="sim-panel-organizer" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">1-Click Project Organizer</div>
+                                        <div class="sim-panel-subtitle">Instant Color-Coded Bins, Auto-Sorting Sequences, Footage, Audio &amp; SFX</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-free">FOREVER FREE</span>
+                                </div>
+                                <div class="sim-organizer-demo">
+                                    <div class="sim-org-bins-grid" id="sim-org-grid">
+                                        <div class="org-bin bin-seq">
+                                            <span class="bin-icon">📁</span>
+                                            <div class="bin-info"><span class="bin-name">01_Sequences</span><span class="bin-count mono">3 Sequences</span></div>
+                                        </div>
+                                        <div class="org-bin bin-vo">
+                                            <span class="bin-icon">📁</span>
+                                            <div class="bin-info"><span class="bin-name">02_Voiceover</span><span class="bin-count mono">8 Audio</span></div>
+                                        </div>
+                                        <div class="org-bin bin-footage">
+                                            <span class="bin-icon">📁</span>
+                                            <div class="bin-info"><span class="bin-name">03_Footage &amp; B-Roll</span><span class="bin-count mono">24 Video</span></div>
+                                        </div>
+                                        <div class="org-bin bin-music">
+                                            <span class="bin-icon">📁</span>
+                                            <div class="bin-info"><span class="bin-name">04_Audio &amp; Music</span><span class="bin-count mono">6 Tracks</span></div>
+                                        </div>
+                                        <div class="org-bin bin-sfx">
+                                            <span class="bin-icon">📁</span>
+                                            <div class="bin-info"><span class="bin-name">05_SFX</span><span class="bin-count mono">15 Sounds</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="sim-org-actions">
+                                        <span class="org-status-label mono" id="org-status-text">✓ Clean Premiere Pro Bin Hierarchy Ready</span>
+                                        <button type="button" class="btn btn-green btn-sm" id="btn-run-organizer-demo">⚡ Run 1-Click Sequence Organizer</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. Music Remover Stage -->
+                            <div id="sim-panel-music" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">AI Music Remover &amp; 4-Stem Splitter</div>
+                                        <div class="sim-panel-subtitle">Isolate Clean Dialogue from Background Music &bull; Local Demucs AI Processing</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-pro">PRO EXTENSION</span>
+                                </div>
+                                <div class="sim-music-demo">
+                                    <div class="sim-stems-container">
+                                        <div class="stem-track track-vocals is-active" id="stem-track-vocals">
+                                            <span class="stem-name">🎤 Dialogue / Vocals</span>
+                                            <div class="stem-wave wave-green"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                                            <div class="stem-btn-group">
+                                                <button type="button" class="stem-btn solo-btn active" data-stem="vocals">SOLO</button>
+                                                <button type="button" class="stem-btn mute-btn" data-stem="vocals">MUTE</button>
+                                            </div>
+                                        </div>
+                                        <div class="stem-track track-music" id="stem-track-music">
+                                            <span class="stem-name">🎵 Background Music</span>
+                                            <div class="stem-wave wave-purple"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                                            <div class="stem-btn-group">
+                                                <button type="button" class="stem-btn solo-btn" data-stem="music">SOLO</button>
+                                                <button type="button" class="stem-btn mute-btn active" data-stem="music">MUTED</button>
+                                            </div>
+                                        </div>
+                                        <div class="stem-track track-drums" id="stem-track-drums">
+                                            <span class="stem-name">🥁 Drums &amp; Beats</span>
+                                            <div class="stem-wave wave-cyan"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                                            <div class="stem-btn-group">
+                                                <button type="button" class="stem-btn solo-btn" data-stem="drums">SOLO</button>
+                                                <button type="button" class="stem-btn mute-btn active" data-stem="drums">MUTED</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sim-stems-footer">
+                                        <span class="mono" id="stem-status-text">✓ Clean Dialogue Isolated: Music 100% Removed</span>
+                                        <button type="button" class="btn btn-green btn-sm" id="btn-export-stems-demo">Separate Stems to A1-A3</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 6. Voice Leveler Stage -->
+                            <div id="sim-panel-voice" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">Voice Leveler (-14 LUFS Broadcast Target)</div>
+                                        <div class="sim-panel-subtitle">1-Click Auto Vocal Rider + Warmth EQ + Dynamic Normalization (dynaudnorm)</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-pro">PRO EXTENSION</span>
+                                </div>
+                                <div class="sim-voice-demo">
+                                    <div class="voice-tracks-comparison">
+                                        <div class="voice-track-box raw">
+                                            <div class="voice-track-label">
+                                                <span class="mono">RAW AUDIO: Uneven Whispers &amp; Clipping</span>
+                                                <span class="voice-badge red">-28 to -6 LUFS</span>
+                                            </div>
+                                            <div class="voice-wave-graphic raw-wave"></div>
+                                        </div>
+                                        <div class="voice-track-box leveled active" id="sim-voice-leveled-box">
+                                            <div class="voice-track-label">
+                                                <span class="mono">LEVELED: Broadcast Studio Master</span>
+                                                <span class="voice-badge green">-14.0 LUFS Target</span>
+                                            </div>
+                                            <div class="voice-wave-graphic leveled-wave"></div>
+                                        </div>
+                                    </div>
+                                    <div class="sim-voice-controls">
+                                        <button type="button" class="btn btn-green btn-sm" id="btn-toggle-vocal-rider">⚡ Toggle Auto Vocal Rider (-14 LUFS)</button>
+                                        <div class="voice-metric-row mono">
+                                            <span>Dynamic Range: 2.1 dB</span>
+                                            <span>Studio EQ: +2.5dB Warmth</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 7. Smooth Ease Stage -->
                             <div id="sim-panel-ease" class="sim-panel active">
                                 <div class="sim-panel-header">
                                     <div>
@@ -217,7 +634,7 @@
                                 </div>
                             </div>
 
-                            <!-- 2. AI Captions Stage -->
+                            <!-- 8. AI Captions Stage -->
                             <div id="sim-panel-captions" class="sim-panel">
                                 <div class="sim-panel-header">
                                     <div>
@@ -267,7 +684,31 @@
                                 </div>
                             </div>
 
-                            <!-- 3. Map Animator Stage -->
+                            <!-- 9. AI Auto Edit (MCP) Stage -->
+                            <div id="sim-panel-autoedit" class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <div>
+                                        <div class="sim-panel-title">AI Auto Edit (Anthropic &amp; Gemini MCP)</div>
+                                        <div class="sim-panel-subtitle">Command Your Premiere Pro Timeline with Natural Language &bull; 8 Native MCP Tools</div>
+                                    </div>
+                                    <span class="mockup-tier-pill tier-pro">MCP PROTOCOL</span>
+                                </div>
+                                <div class="sim-autoedit-demo">
+                                    <div class="sim-prompt-box">
+                                        <span class="prompt-icon">🤖</span>
+                                        <input type="text" id="sim-mcp-prompt-input" value="Cut all pauses >0.4s, add 1.15x zooms on emphasis &amp; duck music under dialogue" readonly>
+                                        <button type="button" class="btn btn-primary btn-sm" id="btn-run-mcp-demo">Run MCP Agent</button>
+                                    </div>
+                                    <div class="sim-mcp-console" id="sim-mcp-console">
+                                        <div class="mcp-log-line active"><span class="mcp-tick">✓</span> [1/3] Calling remove_silence_and_pauses: 18 cuts created on Sequence.</div>
+                                        <div class="mcp-log-line active"><span class="mcp-tick">✓</span> [2/3] Calling apply_dynamic_zooms: 4 punch-ins applied at word emphasis markers.</div>
+                                        <div class="mcp-log-line active"><span class="mcp-tick">✓</span> [3/3] Calling auto_mix_audio_and_ducking: Music track ducked by -18dB.</div>
+                                        <div class="mcp-log-summary mono">Sequence automated in 1.4s &bull; Siyam MCP Server Ready</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 10. Map Animator Stage -->
                             <div id="sim-panel-map" class="sim-panel">
                                 <div class="sim-panel-header">
                                     <div>
@@ -278,34 +719,34 @@
                                 </div>
 
                                 <div class="sim-map-demo">
-                                    <div class="sim-map-viewport">
-                                        <div class="sim-map-canvas-mock">
-                                            <div class="sim-map-pin">
-                                                <span class="pin-radar"></span>
-                                                <span class="pin-dot"></span>
-                                                <div class="pin-callout">
-                                                    <span class="pin-title">DHAKA, BANGLADESH</span>
-                                                    <span class="pin-sub">LAT 23.81° N &bull; LON 90.41° E</span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="sim-map-viewport" id="hero-map-viewport">
+                                        <!-- Real MapLibre WebGL Canvas Container -->
+                                        <div id="hero-maplibre" class="hero-maplibre-container"></div>
+                                        <!-- Overlaid 2D HUD Canvas (Radar, Target Callout & Vignette) -->
+                                        <canvas id="heroMapHud" class="hero-map-hud"></canvas>
+                                        <!-- Replay Camera Dive Button -->
+                                        <button type="button" id="hero-map-replay" class="hero-map-replay-btn" title="Replay Camera Dive">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                                            <span>Replay Dive</span>
+                                        </button>
+                                        <!-- Real-time Telemetry Overlay -->
                                         <div class="sim-map-telemetry">
-                                            <div class="telem-item"><span class="telem-k">ZOOM</span><span class="telem-v mono">11.2</span></div>
-                                            <div class="telem-item"><span class="telem-k">PITCH</span><span class="telem-v mono">58°</span></div>
-                                            <div class="telem-item"><span class="telem-k">BEARING</span><span class="telem-v mono">12°</span></div>
-                                            <div class="telem-item"><span class="telem-k">VELOCITY BLUR</span><span class="telem-v mono">4.2px</span></div>
+                                            <div class="telem-item"><span class="telem-k">ZOOM</span><span id="hero-telem-zoom" class="telem-v mono">2.2</span></div>
+                                            <div class="telem-item"><span class="telem-k">PITCH</span><span id="hero-telem-pitch" class="telem-v mono">0°</span></div>
+                                            <div class="telem-item"><span class="telem-k">BEARING</span><span id="hero-telem-bearing" class="telem-v mono">0°</span></div>
+                                            <div class="telem-item"><span class="telem-k">VELOCITY BLUR</span><span id="hero-telem-blur" class="telem-v mono">0.0px</span></div>
                                         </div>
                                     </div>
-                                    <div class="sim-map-styles-row">
-                                        <span class="sim-theme-badge active">🛰️ Satellite Hybrid</span>
-                                        <span class="sim-theme-badge">⚓ Vox Deep Navy</span>
-                                        <span class="sim-theme-badge">📰 Editorial Newspaper</span>
-                                        <span class="sim-theme-badge">🍏 Apple Dark Emerald</span>
+                                    <div class="sim-map-styles-row" role="tablist">
+                                        <button type="button" class="sim-theme-badge active" data-map-theme="satellite">🛰️ Satellite Hybrid</button>
+                                        <button type="button" class="sim-theme-badge" data-map-theme="vox_navy">⚓ Vox Deep Navy</button>
+                                        <button type="button" class="sim-theme-badge" data-map-theme="newspaper_print">📰 Editorial Newspaper</button>
+                                        <button type="button" class="sim-theme-badge" data-map-theme="apple_emerald">🍏 Apple Dark Emerald</button>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- 4. 3D Highlighter Stage -->
+                            <!-- 11. 3D Highlighter Stage -->
                             <div id="sim-panel-highlighter" class="sim-panel">
                                 <div class="sim-panel-header">
                                     <div>
@@ -320,7 +761,7 @@
                                         <div class="sim-3d-doc-card">
                                             <div class="sim-doc-header">THE WALL STREET JOURNAL &bull; MARCH 2026</div>
                                             <div class="sim-doc-headline">
-                                                New AI Plugins Save Documentary Editors <span class="sim-highlight-sweep">Over 15 Hours Weekly</span> in Post-Production
+                                                New AI Plugins Save Documentary Editors <span class="sim-highlight-sweep" id="sim-highlight-text">Over 15 Hours Weekly</span> in Post-Production
                                             </div>
                                             <div class="sim-doc-body">
                                                 "Siyam Studio has combined 12 essential editing tools into a single native Premiere Pro workflow, transforming high-end production timelines..."
@@ -328,48 +769,41 @@
                                         </div>
                                     </div>
                                     <div class="sim-doc-controls">
+                                        <div class="highlighter-color-swatches">
+                                            <button type="button" class="hl-swatch active" data-hl-color="#facc15" title="Yellow" style="background: #facc15;"></button>
+                                            <button type="button" class="hl-swatch" data-hl-color="#00e676" title="Neon Green" style="background: #00e676;"></button>
+                                            <button type="button" class="hl-swatch" data-hl-color="#f43f5e" title="Pink" style="background: #f43f5e;"></button>
+                                            <button type="button" class="hl-swatch" data-hl-color="#38bdf8" title="Cyan" style="background: #38bdf8;"></button>
+                                        </div>
                                         <span class="sim-tag">3D Tilt 32°</span>
-                                        <span class="sim-tag">Highlighter Sweep</span>
-                                        <span class="sim-tag">Depth Shadow</span>
-                                        <span class="sim-tag">Paper Grain</span>
+                                        <span class="sim-tag">Sweep Animation</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- 5. User Library Stage -->
-                            <div id="sim-panel-library" class="sim-panel">
+                            <!-- 12. Video Downloader Stage -->
+                            <div id="sim-panel-downloader" class="sim-panel">
                                 <div class="sim-panel-header">
                                     <div>
-                                        <div class="sim-panel-title">User Library &amp; Waveform Browser</div>
-                                        <div class="sim-panel-subtitle">Instant Audio Waveform Scrubbing, MOGRTs, LUTs, Videos &amp; 1-Click Track Apply</div>
+                                        <div class="sim-panel-title">Video Downloader &amp; Range Trimmer</div>
+                                        <div class="sim-panel-subtitle">Grab YouTube &amp; Web Footage with In/Out Points Straight to Premiere Project Bin</div>
                                     </div>
-                                    <span class="mockup-tier-pill tier-free">FOREVER FREE</span>
+                                    <span class="mockup-tier-pill tier-pro">PRO EXTENSION</span>
                                 </div>
-
-                                <div class="sim-library-demo">
-                                    <div class="sim-lib-search-bar">
-                                        <input type="text" value="Cinematic Whoosh Transition" readonly>
-                                        <span class="sim-lib-badge">42 Items</span>
+                                <div class="sim-downloader-demo">
+                                    <div class="sim-dl-url-row">
+                                        <span class="dl-url-icon">🌐</span>
+                                        <input type="text" id="sim-dl-url" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" readonly>
+                                        <button type="button" class="btn btn-primary btn-sm" id="btn-sim-dl-grab">📥 Grab 1080p Clip</button>
                                     </div>
-                                    <div class="sim-lib-audio-card">
-                                        <div class="sim-play-icon">▶</div>
-                                        <div class="sim-waveform-bars">
-                                            <span style="height: 35%;"></span>
-                                            <span style="height: 65%;"></span>
-                                            <span style="height: 90%;"></span>
-                                            <span style="height: 45%;"></span>
-                                            <span style="height: 75%;"></span>
-                                            <span style="height: 100%;"></span>
-                                            <span style="height: 60%;"></span>
-                                            <span style="height: 30%;"></span>
-                                            <span style="height: 80%;"></span>
-                                            <span style="height: 50%;"></span>
-                                        </div>
-                                        <div class="sim-audio-details">
-                                            <span class="sim-audio-title">Cinematic_Whoosh_Deep_02.wav</span>
-                                            <span class="sim-audio-meta mono">0:03 &bull; 48kHz Stereo</span>
-                                        </div>
-                                        <button type="button" class="btn btn-green btn-sm">+ Insert to Track A1</button>
+                                    <div class="sim-dl-trim-row">
+                                        <div class="dl-trim-point"><label>IN POINT</label><span class="mono">01:20</span></div>
+                                        <div class="dl-trim-bar"><div class="dl-trim-highlight"><span>00:25 DURATION</span></div></div>
+                                        <div class="dl-trim-point"><label>OUT POINT</label><span class="mono">01:45</span></div>
+                                    </div>
+                                    <div class="sim-dl-status-row" id="sim-dl-status">
+                                        <span class="mono" id="sim-dl-text">✓ Static yt-dlp &amp; FFmpeg Bundled &bull; Auto-placed in "03_Footage" bin</span>
+                                        <span class="dl-format-tag">ProRes 422 / 1080p60</span>
                                     </div>
                                 </div>
                             </div>
@@ -387,6 +821,14 @@
                 <span class="section-kicker">All 12 Powerhouse Tools Inside 1 Native Panel</span>
                 <h2 class="section-title">Everything Video Editors Build Manually &mdash; Automated</h2>
                 <p class="section-sub">Engineered strictly in native C++/CEP for zero-lag 60fps performance on Apple Silicon (M1/M2/M3/M4), Intel Macs, and Windows 10/11 64-bit workstations.</p>
+
+                <!-- Watch Demo Pill Button Above Bento Grid -->
+                <div class="bento-demo-row">
+                    <button type="button" class="btn-demo-pill" data-open-demo="true">
+                        <span class="demo-pill-badge">▶ LIVE DEMO</span>
+                        <span>See Siyam Studio Live Inside Premiere Pro (60s Workflow)</span>
+                    </button>
+                </div>
 
                 <!-- Category Filter Pills -->
                 <div class="bento-filter-pills" role="tablist">
@@ -630,7 +1072,7 @@
             <div class="section-header">
                 <span class="section-kicker">High-Converting ROI Breakdown</span>
                 <h2 class="section-title">Stop Paying $739+/Year for 5+ Separate Subscriptions</h2>
-                <p class="section-sub">Here is what a complete post-production workflow costs when bought separately versus Siyam Studio Pro Lifetime.</p>
+                <p class="section-sub">Here is what a complete post-production workflow costs when bought separately versus Siyam Studio Pro ($10/month or &#2547;999 BDT/month).</p>
             </div>
 
             <div class="comparison-card">
@@ -673,9 +1115,9 @@
                         <span class="comp-tag green">SIYAM STUDIO PRO</span>
                         <h3>All 12 Tools Inside 1 Panel</h3>
                         <div class="comp-price mono">
-                            <span class="bdt">&#2547;1,990 BDT</span>
-                            <span class="usd">/ $39 USD</span>
-                            <span class="once">LIFETIME</span>
+                            <span class="bdt">&#2547;999 BDT</span>
+                            <span class="usd">/ $10 USD</span>
+                            <span class="once">/ MONTH</span>
                         </div>
                     </div>
                     <ul class="comp-list">
@@ -706,7 +1148,65 @@
         </div>
     </section>
 
-    <!-- ================= 3-STEP INSTALL GUIDE ================= -->
+    <!-- ================= CREATOR REVIEWS (TRUST SECTION) ================= -->
+    <section id="reviews" class="section reviews-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-kicker">Trusted by 450+ Video Editors</span>
+                <h2 class="section-title">Loved by High-End YouTube &amp; Documentary Creators</h2>
+                <p class="section-sub">Real feedback from editors who replaced 5+ separate plugins with Siyam Studio.</p>
+            </div>
+
+            <div class="reviews-grid">
+                <!-- Review 1: Documentary Editor -->
+                <div class="review-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-quote">
+                        "The 3D Map Animator and Web Highlighter alone saved me at least 10 hours on my latest history documentary. Instead of opening After Effects and paying for 3D plugins, I did the whole Vox-style camera flyover right on my Premiere timeline at 60fps."
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar avatar-rc">RC</div>
+                        <div>
+                            <span class="author-name">Rahim Chowdhury</span>
+                            <span class="author-role">Documentary Video Editor &bull; Netflix &amp; YouTube Pitches</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2: Shorts / Reels Creator -->
+                <div class="review-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-quote">
+                        "The new AI Captions with 1-click ★ word highlights and Smooth Ease quick moves are pure magic for Shorts and Reels. The Iman Gadzhi serif glow style looks insane, and having it auto-overwrite the timeline in 0.5 seconds changed my daily workflow."
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar avatar-aa">AA</div>
+                        <div>
+                            <span class="author-name">Arif Ahmed</span>
+                            <span class="author-role">Shorts Creator &bull; 1.2M+ Monthly Reach</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3: Movie Recap Studio -->
+                <div class="review-card">
+                    <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="review-quote">
+                        "We edit 15+ recap videos a week. Silence Remover cuts out dead air instantly, Voice Leveler keeps the vocal broadcast-ready at -14 LUFS without manual riding, and the HWID auto-restore means formatting my Mac was zero hassle. $39 lifetime is an absolute no-brainer."
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar avatar-th">TH</div>
+                        <div>
+                            <span class="author-name">Tanvir Hasan</span>
+                            <span class="author-role">Lead Editor &bull; StoryRecap Studio</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 3-STEP INSTALL GUIDE & DIRECT DOWNLOAD BUTTONS ================= -->
     <section id="install" class="section">
         <div class="container">
             <div class="section-header">
@@ -730,12 +1230,23 @@
                 </button>
             </div>
 
+            <!-- macOS Install Panel with Prominent Direct Download Button -->
             <div id="install-panel-mac" class="install-panel active">
+                <div class="install-panel-download-box">
+                    <a id="btn-install-mac" href="https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_macOS_Installer.zip" download class="btn btn-primary btn-lg install-direct-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/>
+                        </svg>
+                        <span>Download macOS Installer (.zip)</span>
+                    </a>
+                    <span class="install-direct-sub">Includes 7-Day Unrestricted Free Pro Trial &bull; Native Apple Silicon M1/M2/M3/M4 &amp; Intel Support</span>
+                </div>
+
                 <div class="steps-grid">
                     <div class="step-card">
                         <span class="step-num">1</span>
                         <h3>Download &amp; Unzip</h3>
-                        <p>Download <span class="code-pill mono">SiyamStudio_macOS_Installer.zip</span> and double-click it in Finder to extract the installer payload.</p>
+                        <p>Download <span class="code-pill mono">SiyamStudio_macOS_Installer.zip</span> above and double-click it in Finder to extract the installer payload.</p>
                     </div>
                     <div class="step-card">
                         <span class="step-num">2</span>
@@ -750,12 +1261,23 @@
                 </div>
             </div>
 
+            <!-- Windows Install Panel with Prominent Direct Download Button -->
             <div id="install-panel-win" class="install-panel">
+                <div class="install-panel-download-box">
+                    <a id="btn-install-win" href="https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_Windows_64bit_Installer.zip" download class="btn btn-secondary btn-lg install-direct-btn">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 5.45L10.94 4.35V11.4H3V5.45ZM11.88 4.22L21 2.95V11.4H11.88V4.22ZM3 12.45H10.94V19.65L3 18.55V12.45ZM11.88 12.45H21V21.05L11.88 19.78V12.45Z"/>
+                        </svg>
+                        <span>Download Windows 64-bit Installer (.zip)</span>
+                    </a>
+                    <span class="install-direct-sub">Includes 7-Day Unrestricted Free Pro Trial &bull; Windows 10 &amp; Windows 11 (64-bit Workstations)</span>
+                </div>
+
                 <div class="steps-grid">
                     <div class="step-card">
                         <span class="step-num">1</span>
                         <h3>Download &amp; Extract All</h3>
-                        <p>Download <span class="code-pill mono">SiyamStudio_Windows_64bit_Installer.zip</span>, right-click it, and select <strong>Extract All...</strong>.</p>
+                        <p>Download <span class="code-pill mono">SiyamStudio_Windows_64bit_Installer.zip</span> above, right-click it, and select <strong>Extract All...</strong>.</p>
                     </div>
                     <div class="step-card">
                         <span class="step-num">2</span>
@@ -777,8 +1299,8 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-kicker">Simple, Transparent Pricing</span>
-                <h2 class="section-title">Start Free or Unlock Lifetime Pro</h2>
-                <p class="section-sub">One-time payment. Zero recurring monthly subscription traps. Local processing keeps your projects ultra-fast.</p>
+                <h2 class="section-title">Start Free or Unlock Siyam Studio Pro</h2>
+                <p class="section-sub">Affordable monthly access. Cancel anytime. Local processing keeps your projects ultra-fast.</p>
             </div>
 
             <div class="pricing-grid">
@@ -817,15 +1339,15 @@
                     <a href="#install" class="btn btn-secondary btn-lg btn-block">Download Free Starter</a>
                 </div>
 
-                <!-- Pro Lifetime Deal -->
+                <!-- Pro Monthly Plan -->
                 <div class="price-card featured">
                     <div class="price-head">
-                        <span class="price-name">Pro Lifetime Deal</span>
-                        <span class="mockup-tier-pill tier-pro">MOST POPULAR &bull; LIFETIME</span>
+                        <span class="price-name">Pro Monthly Access</span>
+                        <span class="mockup-tier-pill tier-pro">MOST POPULAR &bull; ALL 12 TOOLS</span>
                     </div>
                     <div class="price-amount">
-                        <span class="price-big">&#2547;1,990 BDT</span>
-                        <span class="price-alt">/ $39 USD one-time</span>
+                        <span class="price-big">&#2547;999 BDT <span style="font-size: 14px; font-weight: 600; color: var(--text-muted);">/ month</span></span>
+                        <span class="price-alt">or $10 USD / month</span>
                     </div>
                     <ul class="price-list">
                         <li>
@@ -845,7 +1367,13 @@
                             Instant bKash / Nagad or Card / PayPal Checkout with Live Verification Tracker
                         </li>
                     </ul>
-                    <button type="button" class="btn btn-green btn-lg btn-block" data-open-checkout="bd">Buy Pro License &mdash; &#2547;1,990 BDT</button>
+                    <button type="button" class="btn btn-green btn-lg btn-block" data-open-checkout="bd">Get Pro Access &mdash; &#2547;999 BDT / month</button>
+
+                    <!-- Trust Guarantee Note -->
+                    <div class="pricing-trust-note">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span>Need help before paying? <a href="https://wa.me/8801580653736?text=Hi%20Siyam%2C%20I%20have%20a%20question%20about%20Siyam%20Studio%20Pro" target="_blank" rel="noopener noreferrer">Message WhatsApp +8801580653736</a> &bull; bKash/Nagad Send Money করে TrxID সাবমিট করলে কিছুক্ষণের মধ্যেই লাইসেন্স কি পাবেন।</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -907,7 +1435,7 @@
                         <span class="faq-icon">+</span>
                     </button>
                     <div class="faq-answer">
-                        <p>For creators in Bangladesh, we support instant Send Money via <strong>bKash</strong> and <strong>Nagad (Personal)</strong>. For international editors, we support Credit/Debit Cards (via Stripe) and PayPal ($39 USD). Once submitted, you can track verification live right on this website and copy your key.</p>
+                        <p>For creators in Bangladesh, we support instant Send Money via <strong>bKash</strong> and <strong>Nagad (Personal)</strong> (&#2547;999 BDT/month). For international editors, we support Credit/Debit Cards (via Stripe) and PayPal ($10 USD/month). Once submitted, you can track verification live right on this website and copy your key.</p>
                     </div>
                 </div>
             </div>
@@ -953,16 +1481,184 @@
 
     <!-- ================= FOOTER ================= -->
     <footer class="footer">
-        <div class="container footer-inner">
-            <span>Siyam Studio Pro v1.2.3 &mdash; Engineered for Adobe Premiere Pro on macOS &amp; Windows (64-bit).</span>
-            <span>
-                Support:
-                <a href="mailto:saifulsheum@gmail.com" style="color: var(--green);">saifulsheum@gmail.com</a>
-                &middot;
-                <a href="https://wa.me/8801580653736" target="_blank" rel="noopener noreferrer" style="color: var(--green);">WhatsApp +8801580653736</a>
-            </span>
+        <div class="container footer-container">
+            <div class="footer-top-grid">
+                <!-- Brand Column -->
+                <div class="footer-brand-col">
+                    <a href="#top" class="brand-link">
+                        <span class="brand-mark" aria-hidden="true">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                <path d="M18 4H6C4.895 4 4 4.895 4 6V10C4 11.105 4.895 12 6 12H18C19.105 12 20 12.895 20 14V18C20 19.105 19.105 20 18 20H6" stroke="#00e676" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="12" r="2.5" fill="#a78bfa"/>
+                            </svg>
+                        </span>
+                        <span class="brand-text">
+                            <span class="brand-name">Siyam Studio</span>
+                            <span class="brand-badge">v1.2.3 PRO</span>
+                        </span>
+                    </a>
+                    <p class="footer-desc">
+                        The all-in-one Adobe Premiere Pro post-production extension engineered for high-velocity YouTube creators, documentary filmmakers, and commercial editors.
+                    </p>
+                    <div class="footer-status-pill">
+                        <span class="status-indicator-green"></span>
+                        <span>Systems Operational &bull; Premiere Pro 2022&ndash;2026 Ready</span>
+                    </div>
+                </div>
+
+                <!-- Column 1: Product Navigation -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">12 Tools Arsenal</a></li>
+                        <li><a href="#simulator">Live Hero Simulator</a></li>
+                        <li><a href="#why-siyam">Comparison vs Rivals</a></li>
+                        <li><a href="#reviews">Creator Reviews</a></li>
+                        <li><a href="#pricing">Pro Pricing</a></li>
+                        <li><a href="#faq">Frequently Asked Questions</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 2: Flagship Features -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Flagship Tools</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Smooth Ease &amp; 18 Moves</a></li>
+                        <li><a href="#features">AI Auto Captions</a></li>
+                        <li><a href="#features">3D Map Animator (60fps)</a></li>
+                        <li><a href="#features">Voice Leveler (-14 LUFS)</a></li>
+                        <li><a href="#features">3D Perspective Highlighter</a></li>
+                        <li><a href="#features">Silence Remover (Free)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Downloads & Setup -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Installation</h4>
+                    <ul class="footer-links">
+                        <li><a href="#install">macOS Installer (.zip)</a></li>
+                        <li><a href="#install">Windows 64-bit Installer (.zip)</a></li>
+                        <li><a href="#install">30-Second Quick Setup</a></li>
+                        <li><a href="#lookup">Get / Restore License Key</a></li>
+                        <li><a href="javascript:void(0)" id="footer-btn-whats-new">What's New in v1.2.3</a></li>
+                        <li><a href="javascript:void(0)" id="footer-btn-demo">Watch 60s Demo Video</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Support & Contact -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Direct Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://wa.me/8801580653736?text=Hi%20Siyam%2C%20I%20have%20a%20question%20about%20Siyam%20Studio" target="_blank" rel="noopener noreferrer" style="color: #25d366; font-weight: 600;">💬 WhatsApp: +8801580653736</a></li>
+                        <li><a href="mailto:saifulsheum@gmail.com">✉️ saifulsheum@gmail.com</a></li>
+                        <li><a href="#pricing">bKash &amp; Nagad (৳999/mo)</a></li>
+                        <li><a href="#pricing">International ($10 USD/mo)</a></li>
+                        <li><a href="#lookup">Lost Your Key? Instant Lookup</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom-row">
+                <span class="footer-copyright">&copy; 2026 Siyam Studio. Built by Saiful Siyam. All rights reserved.</span>
+                <div class="footer-legal-links">
+                    <span>Adobe Premiere Pro is a trademark of Adobe Inc.</span>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <!-- ================= FLOATING WHATSAPP SUPPORT BUBBLE ================= -->
+    <aside class="floating-whatsapp-wrap" aria-label="WhatsApp Support">
+        <a href="https://wa.me/8801580653736?text=Hi%20Siyam%2C%20I%20have%20a%20question%20about%20Siyam%20Studio%20Pro" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with Siyam on WhatsApp">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7 8.5 7 9.71C7 10.93 7.89 12.1 8.01 12.27C8.14 12.44 9.76 14.94 12.25 16C12.84 16.27 13.3 16.42 13.66 16.53C14.25 16.72 14.79 16.69 15.22 16.63C15.7 16.56 16.68 16.03 16.89 15.45C17.1 14.87 17.1 14.38 17.04 14.27C16.97 14.17 16.81 14.11 16.56 13.99C16.32 13.86 15.12 13.27 14.9 13.19C14.67 13.11 14.51 13.07 14.35 13.31C14.18 13.56 13.72 14.11 13.57 14.27C13.43 14.44 13.29 14.46 13.04 14.34C12.8 14.21 11.99 13.95 11.04 13.1C10.3 12.44 9.79 11.63 9.65 11.39C9.51 11.14 9.63 11.01 9.76 10.89C9.87 10.78 10.01 10.6 10.13 10.45C10.26 10.31 10.3 10.21 10.38 10.04C10.46 9.88 10.42 9.73 10.36 9.61C10.3 9.5 9.81 8.28 9.6 7.79C9.41 7.31 9.21 7.37 9.06 7.36C8.92 7.35 8.76 7.34 8.53 7.33Z"/>
+            </svg>
+            <span class="whatsapp-label">Chat on WhatsApp</span>
+            <span class="whatsapp-online-dot"></span>
+        </a>
+    </aside>
+
+    <!-- ================= DEMO VIDEO MODAL ================= -->
+    <div id="demo-video-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="demo-modal-title">
+        <div class="modal-card modal-video-card">
+            <div class="modal-header">
+                <div>
+                    <span class="section-kicker" style="margin-bottom: 4px;">60s Real-Time Workflow Demo</span>
+                    <h2 id="demo-modal-title" style="font-size: 20px; font-weight: 800;">Siyam Studio Live in Adobe Premiere Pro</h2>
+                </div>
+                <button id="btn-close-demo-modal" type="button" class="modal-close" aria-label="Close demo modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="video-embed-container">
+                <iframe id="demo-video-iframe" src="" title="Siyam Studio Premiere Pro Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="modal-video-footer">
+                <span class="modal-video-note">Demonstrating Smooth Ease, AI Captions, 3D Map Animator, and Voice Leveler running live in Premiere Pro.</span>
+                <a href="#install" class="btn btn-primary btn-sm" id="btn-demo-try-free">Download Free &amp; Test Live</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CHANGELOG MODAL (WHAT'S NEW IN v1.2.3) ================= -->
+    <div id="changelog-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="changelog-modal-title">
+        <div class="modal-card modal-changelog-card">
+            <div class="modal-header">
+                <div>
+                    <span class="section-kicker" style="margin-bottom: 4px;">Release Notes</span>
+                    <h2 id="changelog-modal-title" style="font-size: 20px; font-weight: 800;">What's New in Siyam Studio v1.2.3</h2>
+                </div>
+                <button id="btn-close-changelog-modal" type="button" class="modal-close" aria-label="Close changelog modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="changelog-body">
+                <div class="changelog-item">
+                    <div class="changelog-badge-row">
+                        <span class="changelog-pill new">NEW FEATURE</span>
+                        <span class="changelog-date">v1.2.3 Major Release</span>
+                    </div>
+                    <h3>📈 Smooth Ease &amp; 18 Quick Moves (Eaze Pro Workflow)</h3>
+                    <p>Interactive mathematical Cubic Bezier Curve Graph with control handles, 33 curve presets, and 18 hover-animated 1-click moves (Elastic Pop-Up, Slide, Zoom, Shake) that preserve the clip's original timeline coordinates.</p>
+                </div>
+
+                <div class="changelog-item">
+                    <div class="changelog-badge-row">
+                        <span class="changelog-pill new">NEW FEATURE</span>
+                    </div>
+                    <h3>✨ AI Auto Captions (10 Viral Styles &amp; 1-Click Highlights)</h3>
+                    <p>Brevidy-style karaoke caption editor, 10 aesthetic 2026 styles (Iman Gadzhi Serif Glow, Blur-to-Sharp, Apple Glass, Laser Underline), 1-click ★ word highlights, and 0.5s timeline auto-overwrite.</p>
+                </div>
+
+                <div class="changelog-item">
+                    <div class="changelog-badge-row">
+                        <span class="changelog-pill new">NEW FEATURE</span>
+                    </div>
+                    <h3>🎙️ Voice Leveler (-14 LUFS Broadcast Target)</h3>
+                    <p>1-Click Auto Vocal Rider powered by dynamic normalization (dynaudnorm), broadcast warmth EQ, and background noise cleanup for YouTube and podcast mastering.</p>
+                </div>
+
+                <div class="changelog-item">
+                    <div class="changelog-badge-row">
+                        <span class="changelog-pill speed">60FPS UPGRADE</span>
+                    </div>
+                    <h3>🌍 High-Velocity 60FPS Camera Rigs in 3D Map Animator</h3>
+                    <p>Exact Whip-Snap speed ramp space dives, 360° helicopter drone orbits, and Whip+Orbit combos with dynamic velocity motion blur and 4 visual themes.</p>
+                </div>
+
+                <div class="changelog-item">
+                    <div class="changelog-badge-row">
+                        <span class="changelog-pill">RELIABILITY</span>
+                    </div>
+                    <h3>🛡️ Hardware ID (HWID) Auto-Restore &amp; 1-Click OTA Updates</h3>
+                    <p>Format or reinstall your operating system anytime &mdash; your license key reactivates automatically! Future feature drops update in 2 seconds right inside Premiere Pro.</p>
+                </div>
+            </div>
+            <div class="changelog-footer">
+                <a href="#install" class="btn btn-primary btn-block" id="btn-changelog-download">Download v1.2.3 Free Starter</a>
+            </div>
+        </div>
+    </div>
 
     <!-- ================= CHECKOUT MODAL ================= -->
     <div id="checkout-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="checkout-modal-title">
@@ -978,20 +1674,21 @@
             </div>
 
             <div class="modal-tabs">
-                <button type="button" class="modal-tab-btn active" data-paytab="bd">Bangladesh (bKash / Nagad)</button>
-                <button type="button" class="modal-tab-btn" data-paytab="intl">International ($39 USD Card / PayPal)</button>
+                <button type="button" class="modal-tab-btn active" data-paytab="bd">Bangladesh (&#2547;999 BDT / month)</button>
+                <button type="button" class="modal-tab-btn" data-paytab="intl">International ($10 USD / month)</button>
             </div>
 
             <!-- Tab 1: Bangladesh bKash / Nagad -->
             <div id="checkout-tab-bd">
                 <div class="pay-box">
-                    <div>Send Money <strong>&#2547;1,990 BDT</strong> via <strong>bKash</strong> or <strong>Nagad (Personal)</strong> to the number below, then submit your Transaction ID (TrxID):</div>
+                    <div>Send Money <strong>&#2547;999 BDT / month</strong> via <strong>bKash</strong> or <strong>Nagad (Personal)</strong> to the number below, then submit your Transaction ID (TrxID):</div>
                     <div class="pay-number-row">
                         <span id="merchant-pay-number" class="mono" style="font-size: 15px; font-weight: 800; color: var(--green);">+8801580653736</span>
                         <button id="btn-copy-merchant" type="button" class="btn btn-sm">Copy Number</button>
                     </div>
-                    <div style="margin-top: 8px; font-size: 11.5px; color: var(--text-muted);">
-                        Need urgent help? WhatsApp <span class="mono" style="color: var(--text-secondary);">+8801580653736</span> or email <span class="mono" style="color: var(--text-secondary);">saifulsheum@gmail.com</span>
+                    <div class="pay-reassurance-box">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="2.4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span>Need help before paying? <a href="https://wa.me/8801580653736?text=Hi%20Siyam%2C%20I%20have%20a%20question%20about%20Siyam%20Studio%20Pro" target="_blank" rel="noopener noreferrer">Message WhatsApp +8801580653736</a> &bull; bKash/Nagad Send Money করে TrxID সাবমিট করলে কিছুক্ষণের মধ্যেই লাইসেন্স কি পাবেন।</span>
                     </div>
                 </div>
 
@@ -1028,15 +1725,18 @@
 
                     <div id="bd-form-error" class="form-error"></div>
 
-                    <button id="btn-bd-submit" type="submit" class="btn btn-green btn-lg btn-block">Submit Payment &amp; Request Key (&#2547;1,990 BDT)</button>
+                    <button id="btn-bd-submit" type="submit" class="btn btn-green btn-lg btn-block">Submit Payment &amp; Request Key (&#2547;999 BDT / month)</button>
                 </form>
             </div>
 
             <!-- Tab 2: International Card / PayPal -->
             <div id="checkout-tab-intl" style="display: none;">
                 <div class="pay-box" style="border-color: rgba(124, 58, 237, 0.4);">
-                    <div><strong>Global Lifetime License &mdash; $39 USD One-Time</strong></div>
+                    <div><strong>Global Pro Monthly Access &mdash; $10 USD / Month</strong></div>
                     <div style="margin-top: 4px;">Submit your details below for instant Card / PayPal invoice &amp; key delivery to your email and the live lookup tracker.</div>
+                    <div style="margin-top: 8px; font-size: 11.5px; color: var(--text-muted);">
+                        Instant WhatsApp support available: <a href="https://wa.me/8801580653736" target="_blank" rel="noopener noreferrer" style="color: var(--green);">+8801580653736</a>
+                    </div>
                 </div>
 
                 <form id="intl-checkout-form" class="form-stack">
@@ -1064,7 +1764,7 @@
 
                     <div id="intl-form-error" class="form-error"></div>
 
-                    <button id="btn-intl-submit" type="submit" class="btn btn-primary btn-lg btn-block">Submit International Order ($39 USD)</button>
+                    <button id="btn-intl-submit" type="submit" class="btn btn-primary btn-lg btn-block">Submit International Order ($10 USD / month)</button>
                 </form>
             </div>
         </div>

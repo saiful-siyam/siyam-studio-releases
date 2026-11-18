@@ -14,6 +14,9 @@
     const SUPPORT_EMAIL = "saifulsheum@gmail.com";
     const SUPPORT_WHATSAPP = "+8801580653736";
 
+    // Real Premiere Pro Demo Video Embed URL (Change anytime to your YouTube embed or demo URL)
+    const DEMO_VIDEO_URL = "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0";
+
     const el = (id) => document.getElementById(id);
 
     let pollTimer = null;
@@ -71,14 +74,23 @@
     }
 
     // ==================== INTERACTIVE HERO SIMULATOR ====================
+    let onHeroMapTabChange = function () {};
+
     function initHeroSimulator() {
         const tabBtns = document.querySelectorAll(".sim-tab-btn");
         const panels = {
+            library: el("sim-panel-library"),
+            silence: el("sim-panel-silence"),
+            png: el("sim-panel-png"),
+            organizer: el("sim-panel-organizer"),
+            music: el("sim-panel-music"),
+            voice: el("sim-panel-voice"),
             ease: el("sim-panel-ease"),
             captions: el("sim-panel-captions"),
+            autoedit: el("sim-panel-autoedit"),
             map: el("sim-panel-map"),
             highlighter: el("sim-panel-highlighter"),
-            library: el("sim-panel-library")
+            downloader: el("sim-panel-downloader")
         };
 
         function switchSimTab(tabKey) {
@@ -89,13 +101,193 @@
                     p.classList.toggle("active", k === tabKey);
                 }
             });
+            if (typeof onHeroMapTabChange === "function") {
+                onHeroMapTabChange(tabKey === "map");
+            }
         }
 
         tabBtns.forEach((btn) => {
             btn.addEventListener("click", () => switchSimTab(btn.dataset.simTab));
         });
 
-        // Smooth Ease Curve preset pills in simulator
+        // 1. User Library micro-interactions
+        const libPlayBtn = el("sim-lib-play-btn");
+        const libWaveform = el("sim-lib-waveform");
+        const libApplyBtn = el("btn-lib-apply-demo");
+        let isLibPlaying = false;
+        if (libPlayBtn && libWaveform) {
+            libPlayBtn.addEventListener("click", () => {
+                isLibPlaying = !isLibPlaying;
+                libPlayBtn.textContent = isLibPlaying ? "⏸" : "▶";
+                const bars = libWaveform.querySelectorAll("span");
+                bars.forEach((b) => {
+                    b.style.animationPlayState = isLibPlaying ? "running" : "paused";
+                });
+                toast(isLibPlaying ? "Previewing: Cinematic_Whoosh_Deep_02.wav" : "Audio Preview Paused");
+            });
+        }
+        if (libApplyBtn) {
+            libApplyBtn.addEventListener("click", () => {
+                toast("Inserted Cinematic_Whoosh_Deep_02.wav onto Track A1 (0:03)");
+            });
+        }
+
+        // 2. Silence Remover micro-interactions
+        const btnTrimSilence = el("btn-sim-trim-silence");
+        const btnResetSilence = el("btn-sim-reset-silence");
+        const silenceGap1 = el("silence-gap-1");
+        const silenceGap2 = el("silence-gap-2");
+        const silenceCountLabel = el("silence-count-label");
+
+        if (btnTrimSilence && btnResetSilence) {
+            btnTrimSilence.addEventListener("click", () => {
+                if (silenceGap1) silenceGap1.classList.add("collapsed");
+                if (silenceGap2) silenceGap2.classList.add("collapsed");
+                if (silenceCountLabel) silenceCountLabel.textContent = "Trimmed 14 Pauses! (Saved 4.8s Dead Air)";
+                btnTrimSilence.style.display = "none";
+                btnResetSilence.style.display = "inline-flex";
+                toast("Trimmed 4.8s dead air & ripple deleted in 0.4s!");
+            });
+
+            btnResetSilence.addEventListener("click", () => {
+                if (silenceGap1) silenceGap1.classList.remove("collapsed");
+                if (silenceGap2) silenceGap2.classList.remove("collapsed");
+                if (silenceCountLabel) silenceCountLabel.textContent = "Detected: 14 Pauses (4.8s Dead Air)";
+                btnTrimSilence.style.display = "inline-flex";
+                btnResetSilence.style.display = "none";
+                toast("Reset silence detection timeline");
+            });
+        }
+
+        // 3. PNG Maker micro-interactions
+        const pngTarget = el("sim-png-target");
+        const toggleOutline = el("toggle-png-outline");
+        const toggleGlow = el("toggle-png-glow");
+        const toggleShadow = el("toggle-png-shadow");
+        const btnExportPng = el("btn-export-png-demo");
+
+        if (pngTarget) {
+            if (toggleOutline) {
+                toggleOutline.addEventListener("click", () => {
+                    pngTarget.classList.toggle("has-outline");
+                    toggleOutline.classList.toggle("active");
+                });
+            }
+            if (toggleGlow) {
+                toggleGlow.addEventListener("click", () => {
+                    pngTarget.classList.toggle("has-glow");
+                    toggleGlow.classList.toggle("active");
+                });
+            }
+            if (toggleShadow) {
+                toggleShadow.addEventListener("click", () => {
+                    pngTarget.classList.toggle("has-shadow");
+                    toggleShadow.classList.toggle("active");
+                });
+            }
+            if (btnExportPng) {
+                btnExportPng.addEventListener("click", () => {
+                    toast("Exported Freeze-Frame PNG with transparent alpha cutout!");
+                });
+            }
+        }
+
+        // 4. Project Organizer micro-interactions
+        const btnRunOrganizer = el("btn-run-organizer-demo");
+        const orgStatusText = el("org-status-text");
+        const orgGrid = el("sim-org-grid");
+        if (btnRunOrganizer) {
+            btnRunOrganizer.addEventListener("click", () => {
+                if (orgGrid) {
+                    orgGrid.style.transform = "scale(0.98)";
+                    setTimeout(() => {
+                        orgGrid.style.transform = "scale(1)";
+                    }, 180);
+                }
+                if (orgStatusText) {
+                    orgStatusText.textContent = "✓ 41 Assets sorted into 5 color-coded bins!";
+                }
+                toast("Project organized: 5 Premiere bins created & footage sorted!");
+            });
+        }
+
+        // 5. Music Remover micro-interactions
+        const stemBtns = document.querySelectorAll(".stem-btn[data-stem]");
+        const stemTracks = {
+            vocals: el("stem-track-vocals"),
+            music: el("stem-track-music"),
+            drums: el("stem-track-drums")
+        };
+        const stemStatus = el("stem-status-text");
+        const btnExportStems = el("btn-export-stems-demo");
+
+        stemBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const stemType = btn.dataset.stem;
+                const isSolo = btn.classList.contains("solo-btn");
+                const track = stemTracks[stemType];
+
+                if (isSolo) {
+                    // Solo this stem: unmute this, mute others
+                    Object.keys(stemTracks).forEach((k) => {
+                        const tr = stemTracks[k];
+                        if (!tr) return;
+                        const sBtn = tr.querySelector(".solo-btn");
+                        const mBtn = tr.querySelector(".mute-btn");
+                        if (k === stemType) {
+                            tr.classList.remove("is-muted");
+                            if (sBtn) sBtn.classList.add("active");
+                            if (mBtn) {
+                                mBtn.classList.remove("active");
+                                mBtn.textContent = "MUTE";
+                            }
+                        } else {
+                            tr.classList.add("is-muted");
+                            if (sBtn) sBtn.classList.remove("active");
+                            if (mBtn) {
+                                mBtn.classList.add("active");
+                                mBtn.textContent = "MUTED";
+                            }
+                        }
+                    });
+                    if (stemStatus) stemStatus.textContent = `✓ Stem "${stemType}" soloed (others muted)`;
+                    toast(`Soloed stem: ${stemType}`);
+                } else {
+                    // Toggle Mute
+                    if (track) {
+                        const isNowMuted = !track.classList.contains("is-muted");
+                        track.classList.toggle("is-muted", isNowMuted);
+                        btn.classList.toggle("active", isNowMuted);
+                        btn.textContent = isNowMuted ? "MUTED" : "MUTE";
+                        if (stemStatus) {
+                            stemStatus.textContent = isNowMuted ? `✓ ${stemType} muted` : `✓ ${stemType} active`;
+                        }
+                        toast(isNowMuted ? `Muted: ${stemType}` : `Unmuted: ${stemType}`);
+                    }
+                }
+            });
+        });
+
+        if (btnExportStems) {
+            btnExportStems.addEventListener("click", () => {
+                toast("Separated stems placed on timeline audio tracks A1-A3!");
+            });
+        }
+
+        // 6. Voice Leveler micro-interactions
+        const btnToggleVoice = el("btn-toggle-vocal-rider");
+        const voiceLeveledBox = el("sim-voice-leveled-box");
+        let voiceLeveledActive = true;
+        if (btnToggleVoice && voiceLeveledBox) {
+            btnToggleVoice.addEventListener("click", () => {
+                voiceLeveledActive = !voiceLeveledActive;
+                voiceLeveledBox.classList.toggle("active", voiceLeveledActive);
+                btnToggleVoice.textContent = voiceLeveledActive ? "⚡ Auto Vocal Rider Active (-14 LUFS)" : "Enable Auto Vocal Rider";
+                toast(voiceLeveledActive ? "Vocal Rider ON: Leveled to -14.0 LUFS broadcast target" : "Vocal Rider OFF: Raw uneven audio");
+            });
+        }
+
+        // 7. Smooth Ease Curve preset pills in simulator
         const curvePills = document.querySelectorAll(".sim-curve-pill");
         const curveLabel = el("sim-ease-curve-label");
         const curvePresets = {
@@ -112,10 +304,24 @@
                 if (curveLabel && curvePresets[name]) {
                     curveLabel.textContent = curvePresets[name];
                 }
+                toast("Ease Preset Selected: " + name);
             });
         });
 
-        // Interactive Word highlight in Captions simulator
+        // Quick Move Cards preview
+        const moveCards = document.querySelectorAll(".sim-move-card");
+        moveCards.forEach((card) => {
+            card.addEventListener("click", () => {
+                const name = card.querySelector(".sim-move-name") ? card.querySelector(".sim-move-name").textContent : "Move";
+                card.style.transform = "scale(0.95)";
+                setTimeout(() => {
+                    card.style.transform = "";
+                }, 160);
+                toast(`Applied Quick Move: ${name} to clip`);
+            });
+        });
+
+        // 8. Interactive Word highlight in Captions simulator
         const capWords = document.querySelectorAll(".sim-caption-live-text .cap-word");
         capWords.forEach((word) => {
             word.addEventListener("click", () => {
@@ -124,6 +330,498 @@
                 toast("Highlighted word: " + word.textContent.trim());
             });
         });
+
+        const capStylePills = document.querySelectorAll(".sim-style-pill");
+        capStylePills.forEach((pill) => {
+            pill.addEventListener("click", () => {
+                capStylePills.forEach((p) => p.classList.remove("active"));
+                pill.classList.add("active");
+                const styleName = pill.textContent.trim();
+                const styleTag = document.querySelector(".sim-caption-style-tag");
+                if (styleTag) styleTag.textContent = "Style: " + styleName;
+                toast("Selected Caption Style: " + styleName);
+            });
+        });
+
+        // 9. AI Auto Edit MCP micro-interactions
+        const btnRunMcp = el("btn-run-mcp-demo");
+        const mcpLines = document.querySelectorAll(".mcp-log-line");
+        if (btnRunMcp) {
+            btnRunMcp.addEventListener("click", () => {
+                btnRunMcp.disabled = true;
+                btnRunMcp.textContent = "Agent Executing...";
+                mcpLines.forEach((line) => {
+                    line.style.opacity = "0.3";
+                });
+                let idx = 0;
+                function stepLine() {
+                    if (idx < mcpLines.length) {
+                        mcpLines[idx].style.opacity = "1";
+                        idx++;
+                        setTimeout(stepLine, 350);
+                    } else {
+                        btnRunMcp.disabled = false;
+                        btnRunMcp.textContent = "Run MCP Agent";
+                        toast("AI Auto Edit complete: 18 cuts, 4 zooms & audio ducked!");
+                    }
+                }
+                stepLine();
+            });
+        }
+
+        // 11. 3D Highlighter Color Swatches
+        const hlSwatches = document.querySelectorAll(".hl-swatch[data-hl-color]");
+        const hlText = el("sim-highlight-text");
+        hlSwatches.forEach((swatch) => {
+            swatch.addEventListener("click", () => {
+                hlSwatches.forEach((s) => s.classList.remove("active"));
+                swatch.classList.add("active");
+                const color = swatch.dataset.hlColor;
+                if (hlText) {
+                    hlText.style.background = color;
+                    hlText.style.boxShadow = `0 0 12px ${color}`;
+                    hlText.style.color = color === "#facc15" ? "#0f172a" : (color === "#38bdf8" ? "#041b2c" : "#ffffff");
+                }
+                toast(`Highlight Color: ${swatch.title || color}`);
+            });
+        });
+
+        // 12. Video Downloader micro-interactions
+        const btnDlGrab = el("btn-sim-dl-grab");
+        const dlText = el("sim-dl-text");
+        if (btnDlGrab) {
+            btnDlGrab.addEventListener("click", () => {
+                btnDlGrab.disabled = true;
+                btnDlGrab.textContent = "Downloading 1080p (45%)...";
+                setTimeout(() => {
+                    btnDlGrab.textContent = "Converting ProRes...";
+                    setTimeout(() => {
+                        btnDlGrab.disabled = false;
+                        btnDlGrab.textContent = "📥 Grab 1080p Clip";
+                        if (dlText) dlText.textContent = "✓ In/Out Range (00:25) downloaded to '03_Footage' bin!";
+                        toast("Downloaded 00:25 ProRes clip straight to Premiere Pro bin!");
+                    }, 500);
+                }, 500);
+            });
+        }
+    }
+
+    // ==================== REAL 3D MAP ANIMATOR SIMULATOR ====================
+    function initHeroMapAnimator() {
+        const container = el("hero-maplibre");
+        const hudCanvas = el("heroMapHud");
+        const replayBtn = el("hero-map-replay");
+        const themeBtns = document.querySelectorAll(".sim-theme-badge[data-map-theme]");
+        const telemZoom = el("hero-telem-zoom");
+        const telemPitch = el("hero-telem-pitch");
+        const telemBearing = el("hero-telem-bearing");
+        const telemBlur = el("hero-telem-blur");
+
+        if (!container || !hudCanvas) return;
+
+        const DHAKA_COORDS = [90.4125, 23.8103];
+        let currentTheme = "satellite";
+        let mapInstance = null;
+        let isTabActive = false;
+        let animFrameId = null;
+        let startTime = performance.now();
+        let fallbackGridPhase = 0;
+
+        const THEMES = {
+            satellite: {
+                id: "satellite",
+                filter: "contrast(1.15) brightness(0.92)",
+                accentColor: "#00e676",
+                cardBg: "rgba(10, 12, 18, 0.92)",
+                textColor: "#ffffff",
+                subColor: "#00e676",
+                highlighter: false
+            },
+            vox_navy: {
+                id: "vox_navy",
+                filter: "sepia(0.6) hue-rotate(165deg) saturate(3.2) contrast(1.25) brightness(0.92)",
+                accentColor: "#38bdf8",
+                cardBg: "rgba(6, 16, 28, 0.92)",
+                textColor: "#ffffff",
+                subColor: "#38bdf8",
+                highlighter: false
+            },
+            newspaper_print: {
+                id: "newspaper_print",
+                filter: "contrast(1.25) grayscale(0.8) brightness(0.97)",
+                accentColor: "#facc15",
+                cardBg: "transparent",
+                textColor: "#0f172a",
+                subColor: "#475569",
+                highlighter: true
+            },
+            apple_emerald: {
+                id: "apple_emerald",
+                filter: "contrast(1.2) brightness(0.95)",
+                accentColor: "#00e676",
+                cardBg: "rgba(12, 15, 20, 0.92)",
+                textColor: "#ffffff",
+                subColor: "#00e676",
+                highlighter: false
+            }
+        };
+
+        function buildMapStyle(themeId) {
+            if (themeId === "newspaper_print") {
+                return "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
+            }
+            if (themeId === "vox_navy" || themeId === "apple_emerald") {
+                return "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
+            }
+            // Satellite Hybrid (Esri World Imagery + Reference)
+            return {
+                version: 8,
+                sources: {
+                    "esri-sat": {
+                        type: "raster",
+                        tiles: [
+                            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                        ],
+                        tileSize: 256,
+                        maxzoom: 18
+                    },
+                    "esri-ref": {
+                        type: "raster",
+                        tiles: [
+                            "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+                        ],
+                        tileSize: 256,
+                        maxzoom: 16
+                    }
+                },
+                layers: [
+                    { id: "bg", type: "background", paint: { "background-color": "#07090e" } },
+                    { id: "sat-layer", type: "raster", source: "esri-sat" },
+                    { id: "ref-layer", type: "raster", source: "esri-ref" }
+                ]
+            };
+        }
+
+        function easeOutExpo(t) {
+            return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+        }
+
+        function whipSpeedRamp(t) {
+            if (t < 0.22) return 0.08 * Math.pow(t / 0.22, 3);
+            const p = (t - 0.22) / 0.78;
+            return 0.08 + 0.92 * (1 - Math.pow(1 - p, 4.5));
+        }
+
+        function lerp(a, b, t) {
+            return a + (b - a) * t;
+        }
+
+        function applyTheme(themeId) {
+            currentTheme = themeId;
+            const cfg = THEMES[themeId] || THEMES.satellite;
+            container.style.filter = cfg.filter;
+
+            themeBtns.forEach((btn) => {
+                btn.classList.toggle("active", btn.dataset.mapTheme === themeId);
+            });
+
+            if (mapInstance) {
+                try {
+                    mapInstance.setStyle(buildMapStyle(themeId));
+                } catch (e) {}
+            }
+        }
+
+        function initMapInstance() {
+            if (mapInstance) return;
+            if (!window.maplibregl) {
+                setTimeout(initMapInstance, 200);
+                return;
+            }
+            try {
+                mapInstance = new window.maplibregl.Map({
+                    container: container,
+                    style: buildMapStyle(currentTheme),
+                    center: DHAKA_COORDS,
+                    zoom: 2.2,
+                    pitch: 0,
+                    bearing: 0,
+                    interactive: false,
+                    attributionControl: false
+                });
+
+                mapInstance.on("load", () => {
+                    container.style.filter = THEMES[currentTheme].filter;
+                });
+            } catch (e) {
+                mapInstance = null;
+            }
+        }
+
+        function drawHud(timeSec, isDive, diveProgress, targetPos) {
+            const rect = hudCanvas.getBoundingClientRect();
+            const width = rect.width || 600;
+            const height = rect.height || 230;
+            const dpr = window.devicePixelRatio || 1;
+
+            if (hudCanvas.width !== Math.round(width * dpr) || hudCanvas.height !== Math.round(height * dpr)) {
+                hudCanvas.width = Math.round(width * dpr);
+                hudCanvas.height = Math.round(height * dpr);
+            }
+
+            const ctx = hudCanvas.getContext("2d");
+            ctx.save();
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, width, height);
+
+            const cfg = THEMES[currentTheme] || THEMES.satellite;
+
+            // 1. Vector Fallback Grid if WebGL/MapLibre tiles are blocked
+            if (!mapInstance) {
+                fallbackGridPhase += 0.015;
+                ctx.save();
+                ctx.strokeStyle = "rgba(56, 189, 248, 0.08)";
+                ctx.lineWidth = 1;
+                const gridSize = 32;
+                const offsetX = (fallbackGridPhase * 40) % gridSize;
+                for (let x = -gridSize + offsetX; x < width + gridSize; x += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, height);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < height; y += gridSize) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(width, y);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+
+            // 2. Cinematic Vignette
+            const vigGrad = ctx.createRadialGradient(width / 2, height / 2, width * 0.15, width / 2, height / 2, width * 0.7);
+            if (cfg.highlighter) {
+                vigGrad.addColorStop(0, "rgba(255,255,255,0)");
+                vigGrad.addColorStop(1, "rgba(15, 23, 42, 0.28)");
+            } else {
+                vigGrad.addColorStop(0, "rgba(0,0,0,0)");
+                vigGrad.addColorStop(1, "rgba(3, 5, 8, 0.65)");
+            }
+            ctx.fillStyle = vigGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            // 3. Target Coordinates Center
+            let cx = width / 2;
+            let cy = height / 2;
+            if (targetPos && typeof targetPos.x === "number" && typeof targetPos.y === "number") {
+                cx = targetPos.x;
+                cy = targetPos.y;
+            }
+
+            // Pulsating Radar Ring
+            const pulseRate = 1.6;
+            const pulseT = (timeSec % pulseRate) / pulseRate;
+            const pulseRadius = 10 + pulseT * 26;
+            const pulseAlpha = Math.max(0, 1 - pulseT);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(cx, cy, pulseRadius, 0, Math.PI * 2);
+            ctx.strokeStyle = cfg.accentColor;
+            ctx.globalAlpha = pulseAlpha * 0.75;
+            ctx.lineWidth = 1.8;
+            ctx.stroke();
+            ctx.restore();
+
+            // Center Pin Dot
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+            ctx.fillStyle = cfg.accentColor;
+            ctx.shadowColor = cfg.accentColor;
+            ctx.shadowBlur = 10;
+            ctx.fill();
+            ctx.restore();
+
+            // 4. Callout Card
+            const cardX = cx + 14;
+            const cardY = cy - 22;
+
+            if (cfg.highlighter) {
+                // Editorial Newspaper Print: Animated Yellow Highlighter sweep behind bold Georgia Serif text
+                const titleText = "DHAKA, BANGLADESH";
+                const subText = "LAT 23.81° N • LON 90.41° E";
+
+                ctx.save();
+                ctx.font = "900 13px Georgia, serif";
+                const titleW = ctx.measureText(titleText).width;
+
+                // Yellow Highlighter strip
+                ctx.fillStyle = "#facc15";
+                ctx.fillRect(cardX, cardY - 4, titleW + 10, 18);
+
+                // Bold dark serif title
+                ctx.fillStyle = "#0f172a";
+                ctx.fillText(titleText, cardX + 5, cardY + 10);
+
+                // Subtitle
+                ctx.font = "600 9.5px -apple-system, BlinkMacSystemFont, sans-serif";
+                ctx.fillStyle = "#334155";
+                ctx.fillText(subText, cardX + 5, cardY + 26);
+                ctx.restore();
+            } else {
+                // Standard Modern Callout Card (Satellite, Vox Navy, Apple Emerald)
+                const titleText = "DHAKA, BANGLADESH";
+                const subText = "LAT 23.81° N • LON 90.41° E";
+
+                ctx.save();
+                ctx.font = "800 12px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+                const titleW = ctx.measureText(titleText).width;
+                const cardW = Math.max(160, titleW + 24);
+                const cardH = 38;
+
+                // Dark Card Box
+                ctx.fillStyle = cfg.cardBg;
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
+                ctx.lineWidth = 1;
+                ctx.shadowColor = "rgba(0, 0, 0, 0.65)";
+                ctx.shadowBlur = 14;
+                ctx.beginPath();
+                ctx.roundRect(cardX, cardY - 6, cardW, cardH, 6);
+                ctx.fill();
+                ctx.stroke();
+
+                // Left Accent Strip
+                ctx.fillStyle = cfg.accentColor;
+                ctx.shadowColor = cfg.accentColor;
+                ctx.shadowBlur = 8;
+                ctx.beginPath();
+                ctx.roundRect(cardX, cardY - 6, 3.5, cardH, [6, 0, 0, 6]);
+                ctx.fill();
+
+                // Text
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = cfg.textColor;
+                ctx.fillText(titleText, cardX + 12, cardY + 10);
+
+                ctx.font = "600 9px 'JetBrains Mono', monospace";
+                ctx.fillStyle = cfg.subColor;
+                ctx.fillText(subText, cardX + 12, cardY + 24);
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        function loop(now) {
+            if (!isTabActive) {
+                animFrameId = null;
+                return;
+            }
+
+            const elapsed = now - startTime;
+            const diveDur = 3400; // 3.4s fast whip-dive
+            let curZoom = 2.2;
+            let curPitch = 0;
+            let curBearing = 0;
+            let blurPx = 0;
+            let isDive = true;
+            let diveP = 0;
+
+            if (elapsed < diveDur) {
+                // 1. WHIP-DIVE PHASE
+                diveP = Math.min(1, elapsed / diveDur);
+                const ramp = whipSpeedRamp(diveP);
+                curZoom = lerp(2.2, 11.4, ramp);
+                curPitch = lerp(0, 58, easeOutExpo(diveP));
+                curBearing = lerp(0, 32, ramp);
+                if (diveP < 0.8) {
+                    blurPx = Math.sin(diveP * Math.PI) * 4.2;
+                } else {
+                    blurPx = lerp(1.2, 0.3, (diveP - 0.8) / 0.2);
+                }
+            } else {
+                // 2. CONTINUOUS 360° DRONE ORBIT PHASE
+                isDive = false;
+                diveP = 1;
+                const orbitElapsed = elapsed - diveDur;
+                curBearing = (32 + (orbitElapsed / 42000) * 360) % 360;
+                curZoom = 11.4 + Math.sin(orbitElapsed / 3200) * 0.12;
+                curPitch = 58 + Math.cos(orbitElapsed / 3800) * 2.2;
+                blurPx = 0.4 + Math.abs(Math.sin(orbitElapsed / 2200)) * 0.3;
+            }
+
+            // Update MapLibre camera pose
+            let targetScreenPos = null;
+            if (mapInstance) {
+                try {
+                    mapInstance.jumpTo({
+                        center: DHAKA_COORDS,
+                        zoom: curZoom,
+                        pitch: curPitch,
+                        bearing: curBearing
+                    });
+                    const p = mapInstance.project(DHAKA_COORDS);
+                    if (p) targetScreenPos = { x: p.x, y: p.y };
+                } catch (e) {}
+            }
+
+            // Update Telemetry indicators
+            if (telemZoom) telemZoom.textContent = curZoom.toFixed(1);
+            if (telemPitch) telemPitch.textContent = Math.round(curPitch) + "°";
+            if (telemBearing) telemBearing.textContent = Math.round(curBearing) + "°";
+            if (telemBlur) telemBlur.textContent = blurPx.toFixed(1) + "px";
+
+            // Draw HUD Overlay
+            drawHud(elapsed / 1000, isDive, diveP, targetScreenPos);
+
+            animFrameId = requestAnimationFrame(loop);
+        }
+
+        function restartAnimation() {
+            startTime = performance.now();
+            if (isTabActive && !animFrameId) {
+                animFrameId = requestAnimationFrame(loop);
+            }
+        }
+
+        // Wire Replay Button
+        if (replayBtn) {
+            replayBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                restartAnimation();
+            });
+        }
+
+        // Wire Theme Buttons
+        themeBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const t = btn.dataset.mapTheme;
+                if (t) applyTheme(t);
+            });
+        });
+
+        // External Hook for Hero Simulator Tab Switching
+        onHeroMapTabChange = function (active) {
+            isTabActive = !!active;
+            if (isTabActive) {
+                if (!mapInstance) {
+                    initMapInstance();
+                } else {
+                    try { mapInstance.resize(); } catch (e) {}
+                }
+                restartAnimation();
+            } else {
+                if (animFrameId) {
+                    cancelAnimationFrame(animFrameId);
+                    animFrameId = null;
+                }
+            }
+        };
+
+        // Initialize default theme
+        applyTheme("satellite");
     }
 
     // ==================== BENTO CATEGORY FILTER ====================
@@ -192,10 +890,10 @@
 
     // ==================== SYNC DOWNLOAD LINKS FROM APP CONFIG ====================
     async function syncDownloadLinksFromConfig() {
-        const macBtn = el("btn-download-mac");
-        const winBtn = el("btn-download-win");
-        if (macBtn) macBtn.href = DEFAULT_MAC_DOWNLOAD;
-        if (winBtn) winBtn.href = DEFAULT_WIN_DOWNLOAD;
+        const macBtns = [el("btn-download-mac"), el("btn-install-mac")].filter(Boolean);
+        const winBtns = [el("btn-download-win"), el("btn-install-win")].filter(Boolean);
+        macBtns.forEach(b => { b.href = DEFAULT_MAC_DOWNLOAD; });
+        winBtns.forEach(b => { b.href = DEFAULT_WIN_DOWNLOAD; });
 
         try {
             const rows = await sbFetch("GET", "/rest/v1/app_config?id=eq.1&limit=1");
@@ -214,17 +912,205 @@
                 } catch (e) {}
             }
 
-            if (macBtn && macUrl) macBtn.href = macUrl;
-            if (winBtn && winUrl) winBtn.href = winUrl;
-            if (macBtn && !macUrl && cfg.download_url && /mac/i.test(cfg.download_url)) {
-                macBtn.href = cfg.download_url;
+            if (macUrl) macBtns.forEach(b => { b.href = macUrl; });
+            if (winUrl) winBtns.forEach(b => { b.href = winUrl; });
+            if (!macUrl && cfg.download_url && /mac/i.test(cfg.download_url)) {
+                macBtns.forEach(b => { b.href = cfg.download_url; });
             }
-            if (winBtn && !winUrl && cfg.download_url && /win/i.test(cfg.download_url)) {
-                winBtn.href = cfg.download_url;
+            if (!winUrl && cfg.download_url && /win/i.test(cfg.download_url)) {
+                winBtns.forEach(b => { b.href = cfg.download_url; });
             }
         } catch (e) {
             // Keep safe default GitHub Release links on error
         }
+    }
+
+    // ==================== REAL PREMIERE PRO DEMO VIDEO MODAL ====================
+    function initDemoVideoModal() {
+        const modal = el("demo-video-modal");
+        const iframe = el("demo-video-iframe");
+        const closeBtn = el("btn-close-demo-modal");
+        const tryFreeBtn = el("btn-demo-try-free");
+        const triggerBtns = document.querySelectorAll('[data-open-demo="true"], #btn-watch-demo, #footer-btn-demo');
+
+        if (!modal || !iframe) return;
+
+        function openModal() {
+            iframe.src = DEMO_VIDEO_URL;
+            modal.classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            modal.classList.remove("open");
+            iframe.src = ""; // Stop video playback and audio immediately
+            document.body.style.overflow = "";
+        }
+
+        triggerBtns.forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", closeModal);
+        }
+
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        if (tryFreeBtn) {
+            tryFreeBtn.addEventListener("click", () => {
+                closeModal();
+            });
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modal.classList.contains("open")) {
+                closeModal();
+            }
+        });
+    }
+
+    // ==================== WHAT'S NEW CHANGELOG MODAL ====================
+    function initChangelogModal() {
+        const modal = el("changelog-modal");
+        const openBtns = [el("btn-whats-new"), el("footer-btn-whats-new")].filter(Boolean);
+        const closeBtn = el("btn-close-changelog-modal");
+
+        if (!modal) return;
+
+        function openModal() {
+            modal.classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            modal.classList.remove("open");
+            document.body.style.overflow = "";
+        }
+
+        openBtns.forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                openModal();
+            });
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", closeModal);
+        }
+
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modal.classList.contains("open")) {
+                closeModal();
+            }
+        });
+    }
+
+    // ==================== MOBILE NAVIGATION DRAWER ====================
+    function initMobileMenu() {
+        const toggleBtn = el("btn-mobile-menu-toggle");
+        const drawer = el("mobile-nav-drawer");
+        const closeBtn = el("btn-close-mobile-menu");
+        const backdrop = el("mobile-nav-backdrop");
+        const mobileLinks = document.querySelectorAll(".mobile-nav-link, .mobile-download-btn, #mobile-brand-link");
+
+        if (!toggleBtn || !drawer) return;
+
+        function openDrawer() {
+            drawer.classList.add("open");
+            toggleBtn.classList.add("is-active");
+            toggleBtn.setAttribute("aria-expanded", "true");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove("open");
+            toggleBtn.classList.remove("is-active");
+            toggleBtn.setAttribute("aria-expanded", "false");
+            document.body.style.overflow = "";
+        }
+
+        toggleBtn.addEventListener("click", () => {
+            if (drawer.classList.contains("open")) {
+                closeDrawer();
+            } else {
+                openDrawer();
+            }
+        });
+
+        if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
+        if (backdrop) backdrop.addEventListener("click", closeDrawer);
+
+        mobileLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+                closeDrawer();
+            });
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && drawer.classList.contains("open")) {
+                closeDrawer();
+            }
+        });
+    }
+
+    // ==================== SCROLLSPY (ACTIVE MENU ITEM) ====================
+    function initScrollspy() {
+        const sectionIds = [
+            "features",
+            "simulator",
+            "why-siyam",
+            "reviews",
+            "install",
+            "pricing",
+            "faq",
+            "lookup"
+        ];
+
+        const sections = sectionIds.map(id => el(id)).filter(Boolean);
+        const navLinks = document.querySelectorAll(".nav-links .nav-link");
+        const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+
+        if (!sections.length) return;
+
+        function onScroll() {
+            const scrollPos = window.scrollY + 130;
+            let currentId = "";
+
+            sections.forEach(sec => {
+                const top = sec.offsetTop;
+                const height = sec.offsetHeight;
+                if (scrollPos >= top && scrollPos < top + height) {
+                    currentId = sec.id;
+                }
+            });
+
+            if (!currentId && window.scrollY < 200) {
+                currentId = "";
+            }
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute("href") || "";
+                link.classList.toggle("active", href === "#" + currentId);
+            });
+
+            mobileLinks.forEach(link => {
+                const href = link.getAttribute("href") || "";
+                link.classList.toggle("active", href === "#" + currentId);
+            });
+        }
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
     }
 
     // ==================== LIVE LICENSE KEY LOOKUP ====================
@@ -236,6 +1122,38 @@
         if (countdownTimer) {
             clearInterval(countdownTimer);
             countdownTimer = null;
+        }
+    }
+
+    function renderLookupLicense(lic, queryValue) {
+        const box = el("lookup-result-box");
+        const titleEl = el("lookup-status-title");
+        const badgeEl = el("lookup-status-badge");
+        const descEl = el("lookup-status-desc");
+        const keyWrap = el("lookup-key-wrap");
+        const keyCodeEl = el("lookup-issued-key");
+        const pollNoteEl = el("lookup-poll-note");
+
+        if (!box) return;
+        stopLookupPolling();
+        box.className = "lookup-status show approved";
+
+        const isTrial = !!lic.is_trial || (lic.plan === "trial");
+        const userName = lic.customer_name || "Creator";
+        const emailInfo = lic.customer_email ? ` (${lic.customer_email})` : "";
+
+        titleEl.textContent = isTrial ? "Free Trial License Active" : "Pro Lifetime License Active";
+        badgeEl.textContent = isTrial ? "TRIAL" : "ACTIVE";
+        badgeEl.className = "mockup-tier-pill " + (isTrial ? "tier-free" : "tier-pro");
+        descEl.textContent = `Hi ${userName}, your Siyam Studio ${isTrial ? "Trial" : "Pro Lifetime"} license is verified and active${emailInfo}. Copy your key below and paste it into Premiere Pro > Window > Extensions > Siyam Studio.`;
+        keyCodeEl.textContent = lic.license_key || "-";
+        keyWrap.style.display = "flex";
+
+        if (lic.hwid) {
+            const hwidShort = String(lic.hwid).slice(0, 8) + "...";
+            pollNoteEl.textContent = `Bound Workstation: ${lic.os_type || "Mac/Win PC"} (HWID: ${hwidShort}) • Status: ${String(lic.status || "active").toUpperCase()}`;
+        } else {
+            pollNoteEl.textContent = `Ready to bind on your Mac or Windows Premiere Pro workstation.`;
         }
     }
 
@@ -254,24 +1172,26 @@
         if (!order) {
             stopLookupPolling();
             box.classList.add("notfound");
-            titleEl.textContent = "No Matching Order Found";
+            titleEl.textContent = "No Matching License or Order Found";
             badgeEl.textContent = "Not Found";
-            descEl.textContent = `We could not find an order matching "${queryValue}". Double-check your Email Address or Transaction ID (TrxID).`;
+            badgeEl.className = "mockup-tier-pill tier-free";
+            descEl.textContent = `We could not find an active license or pending order matching "${queryValue}". Double-check your Email Address or Transaction ID (TrxID), or message support on WhatsApp (+8801580653736).`;
             keyWrap.style.display = "none";
             pollNoteEl.textContent = "";
             return;
         }
 
         const st = String(order.status || "pending").toLowerCase();
-        if (st === "approved" && order.issued_license_key) {
+        if ((st === "approved" || st === "active") && order.issued_license_key) {
             stopLookupPolling();
             box.classList.add("approved");
             titleEl.textContent = "License Ready — Payment Approved";
             badgeEl.textContent = "APPROVED";
+            badgeEl.className = "mockup-tier-pill tier-pro";
             descEl.textContent = `Hi ${order.customer_name || "Creator"}, your Pro Lifetime License key is active and ready to bind to 1 Mac or Windows PC.`;
             keyCodeEl.textContent = order.issued_license_key;
             keyWrap.style.display = "flex";
-            pollNoteEl.textContent = `Order TrxID: ${order.trx_id || "-"} (${order.payment_method || "Pro"})`;
+            pollNoteEl.textContent = `Order TrxID: ${order.trx_id || "-"} (${order.payment_method || "Pro Lifetime"})`;
             return;
         }
 
@@ -280,6 +1200,7 @@
             box.classList.add("rejected");
             titleEl.textContent = "Order Verification Declined";
             badgeEl.textContent = "REJECTED";
+            badgeEl.className = "mockup-tier-pill tier-free";
             descEl.textContent = `Order TrxID "${order.trx_id || "-"}" could not be verified. Please check your transaction details or contact support.`;
             keyWrap.style.display = "none";
             pollNoteEl.textContent = "";
@@ -290,6 +1211,7 @@
         box.classList.add("pending");
         titleEl.textContent = "Payment Verification in Progress (10-30 mins)...";
         badgeEl.textContent = "PENDING";
+        badgeEl.className = "mockup-tier-pill tier-pro";
         descEl.textContent = `Hi ${order.customer_name || "Creator"}, we received your ${order.payment_method || "payment"} submission (TrxID: ${order.trx_id || "-"}). Leave this page open — your key will appear automatically once approved.`;
         keyWrap.style.display = "none";
 
@@ -322,9 +1244,27 @@
 
         try {
             const safeVal = encodeURIComponent(q.replace(/[(),]/g, ""));
-            const endpoint = `/rest/v1/orders?or=(customer_email.ilike.${safeVal},trx_id.ilike.${safeVal})&order=created_at.desc&limit=1`;
-            const rows = await sbFetch("GET", endpoint);
-            const order = Array.isArray(rows) && rows[0] ? rows[0] : null;
+
+            // 1. Search licenses table first (Active Pro/Trial licenses live here)
+            const licEndpoint = `/rest/v1/licenses?or=(customer_email.ilike.${safeVal},license_key.ilike.${safeVal})&order=created_at.desc&limit=5`;
+            const licRows = await sbFetch("GET", licEndpoint);
+
+            if (Array.isArray(licRows) && licRows.length > 0) {
+                // Prioritize Pro active license if multiple found
+                const bestLic = licRows.find(l => (l.plan === "pro" || !l.is_trial) && l.status === "active") ||
+                                licRows.find(l => l.status === "active") ||
+                                licRows[0];
+                if (bestLic && bestLic.license_key) {
+                    renderLookupLicense(bestLic, q);
+                    return;
+                }
+            }
+
+            // 2. Search orders table (Pending/Approved order submissions live here)
+            const orderEndpoint = `/rest/v1/orders?or=(customer_email.ilike.${safeVal},trx_id.ilike.${safeVal})&order=created_at.desc&limit=1`;
+            const orderRows = await sbFetch("GET", orderEndpoint);
+            const order = Array.isArray(orderRows) && orderRows[0] ? orderRows[0] : null;
+
             renderLookupOrder(order, q);
         } catch (err) {
             if (!isSilent) toast("Lookup failed: " + err.message);
@@ -424,7 +1364,7 @@
                         payment_method: method,
                         sender_number: phone,
                         trx_id: trxId,
-                        amount: "৳1,990 BDT",
+                        amount: "৳999 BDT/month",
                         status: "pending"
                     });
                     bdForm.reset();
@@ -434,7 +1374,7 @@
                     bdErr.classList.add("show");
                 } finally {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Submit Payment & Request Key (৳1,990 BDT)";
+                    submitBtn.textContent = "Submit Payment & Request Key (৳999 BDT/month)";
                 }
             });
         }
@@ -466,7 +1406,7 @@
                         payment_method: method,
                         sender_number: "International",
                         trx_id: ref,
-                        amount: "$39 USD",
+                        amount: "$10 USD/month",
                         status: "pending"
                     });
                     intlForm.reset();
@@ -476,7 +1416,7 @@
                     intlErr.classList.add("show");
                 } finally {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Submit International Order ($39 USD)";
+                    submitBtn.textContent = "Submit International Order ($10 USD/month)";
                 }
             });
         }
@@ -500,10 +1440,15 @@
     }
 
     // Initialize all modules
+    initHeroMapAnimator();
     initHeroSimulator();
     initBentoFilters();
     initFaqAccordion();
     initInstallTabs();
     syncDownloadLinksFromConfig();
+    initDemoVideoModal();
+    initChangelogModal();
+    initMobileMenu();
+    initScrollspy();
     initCheckoutAndLookup();
 })();
