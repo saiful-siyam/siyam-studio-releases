@@ -6,8 +6,8 @@
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxseHBuanJ1amNwb3R2ZXZwbXp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0NjMwNTMsImV4cCI6MjExMDAzOTA1M30.RHJAt-XBbY3uMQsTFM3stT4Ko3dHVOC1Yeiet9qBsxQ";
 
     // Default downloadable installer packages (GitHub Releases)
-    const DEFAULT_MAC_DOWNLOAD = "https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_macOS_Installer.zip";
-    const DEFAULT_WIN_DOWNLOAD = "https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_Windows_64bit_Installer.zip";
+    const DEFAULT_MAC_DOWNLOAD = "https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_macOS_Installer.dmg";
+    const DEFAULT_WIN_DOWNLOAD = "https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_Windows_64bit_Setup.exe";
 
     // Payment Merchant & Support Details
     const MERCHANT_PAY_NUMBER = "+8801580653736";
@@ -951,6 +951,7 @@
     // ==================== INSTALL GUIDE TABS ====================
     function initInstallTabs() {
         const tabBtns = document.querySelectorAll(".os-tab-btn");
+        if (!tabBtns.length) return;
         const macPanel = el("install-panel-mac");
         const winPanel = el("install-panel-win");
 
@@ -972,8 +973,8 @@
 
     // ==================== SYNC DOWNLOAD LINKS FROM APP CONFIG ====================
     async function syncDownloadLinksFromConfig() {
-        const macBtns = [el("btn-download-mac"), el("btn-install-mac")].filter(Boolean);
-        const winBtns = [el("btn-download-win"), el("btn-install-win")].filter(Boolean);
+        const macBtns = [el("btn-download-mac"), el("footer-btn-mac")].filter(Boolean);
+        const winBtns = [el("btn-download-win"), el("footer-btn-win")].filter(Boolean);
         macBtns.forEach(b => { b.href = DEFAULT_MAC_DOWNLOAD; });
         winBtns.forEach(b => { b.href = DEFAULT_WIN_DOWNLOAD; });
 
@@ -1152,7 +1153,6 @@
             "simulator",
             "why-siyam",
             "reviews",
-            "install",
             "pricing",
             "faq",
             "lookup"
