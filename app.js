@@ -1221,13 +1221,56 @@
         box.className = "lookup-status show approved";
 
         const isTrial = !!lic.is_trial || (lic.plan === "trial");
+        const cycle = String(lic.billing_cycle || "").toLowerCase();
         const userName = lic.customer_name || "Creator";
         const emailInfo = lic.customer_email ? ` (${lic.customer_email})` : "";
+        const isLifetime = cycle === "lifetime" || (!lic.expires_at && !isTrial);
 
-        titleEl.textContent = isTrial ? "Free Trial License Active" : "Pro Lifetime License Active";
-        badgeEl.textContent = isTrial ? "TRIAL" : "ACTIVE";
-        badgeEl.className = "mockup-tier-pill " + (isTrial ? "tier-free" : "tier-pro");
-        descEl.textContent = `Hi ${userName}, your Siyam Studio ${isTrial ? "Trial" : "Pro Lifetime"} license is verified and active${emailInfo}. Copy your key below and paste it into Premiere Pro > Window > Extensions > Siyam Studio.`;
+        let planTitle = "Pro Lifetime";
+        let badgeText = "LIFETIME PRO";
+        let statusClass = "tier-pro";
+        let validityNote = "";
+
+        if (isTrial) {
+            planTitle = "7-Day Free Trial";
+            badgeText = "TRIAL";
+            statusClass = "tier-free";
+        } else if (cycle === "yearly") {
+            planTitle = "Pro Yearly";
+            badgeText = "PRO YEARLY";
+        } else if (cycle === "monthly" || lic.expires_at) {
+            planTitle = "Pro Monthly";
+            badgeText = "PRO MONTHLY";
+        }
+
+        if (lic.expires_at) {
+            const expMs = Date.parse(lic.expires_at);
+            if (!isNaN(expMs)) {
+                const remMs = expMs - Date.now();
+                const expDate = new Date(expMs);
+                const expStr = expDate.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+                if (remMs <= 0) {
+                    box.className = "lookup-status show rejected";
+                    titleEl.textContent = `${planTitle} Expired`;
+                    badgeEl.textContent = "EXPIRED";
+                    badgeEl.className = "mockup-tier-pill tier-free";
+                    descEl.textContent = `Hi ${userName}, your ${planTitle} license expired on ${expStr}. Please renew your subscription to restore immediate Pro access.`;
+                    keyCodeEl.textContent = lic.license_key || "-";
+                    keyWrap.style.display = "flex";
+                    pollNoteEl.textContent = `Expired on: ${expStr} • Renew your key anytime at siyamstudio.com/#pricing`;
+                    return;
+                } else {
+                    const daysLeft = Math.max(1, Math.ceil(remMs / 86400000));
+                    badgeText = `${badgeText} • ${daysLeft}D LEFT`;
+                    validityNote = ` Valid until ${expStr} (${daysLeft} days remaining).`;
+                }
+            }
+        }
+
+        titleEl.textContent = `${planTitle} License Active`;
+        badgeEl.textContent = badgeText;
+        badgeEl.className = "mockup-tier-pill " + statusClass;
+        descEl.textContent = `Hi ${userName}, your Siyam Studio ${planTitle} license is verified and active${emailInfo}.${validityNote} Copy your key below and paste it into Premiere Pro > Window > Extensions > Siyam Studio.`;
         keyCodeEl.textContent = lic.license_key || "-";
         keyWrap.style.display = "flex";
 
@@ -1267,13 +1310,18 @@
         if ((st === "approved" || st === "active") && order.issued_license_key) {
             stopLookupPolling();
             box.classList.add("approved");
+            const ordAmt = String(order.amount || "");
+            const ordCycle = String(order.billing_cycle || "").toLowerCase();
+            const planName = (ordCycle === "yearly" || ordAmt.includes("Yearly") || ordAmt.includes("9590") || ordAmt.includes("96"))
+                ? "Pro Yearly"
+                : "Pro Monthly";
             titleEl.textContent = "License Ready — Payment Approved";
             badgeEl.textContent = "APPROVED";
             badgeEl.className = "mockup-tier-pill tier-pro";
-            descEl.textContent = `Hi ${order.customer_name || "Creator"}, your Pro Lifetime License key is active and ready to bind to 1 Mac or Windows PC.`;
+            descEl.textContent = `Hi ${order.customer_name || "Creator"}, your ${planName} License key is active and ready to bind to 1 Mac or Windows PC.`;
             keyCodeEl.textContent = order.issued_license_key;
             keyWrap.style.display = "flex";
-            pollNoteEl.textContent = `Order TrxID: ${order.trx_id || "-"} (${order.payment_method || "Pro Lifetime"})`;
+            pollNoteEl.textContent = `Order TrxID: ${order.trx_id || "-"} (${order.payment_method || planName})`;
             return;
         }
 
@@ -1359,6 +1407,113 @@
     }
 
     // ==================== CHECKOUT MODAL & ORDERS SUBMISSION ====================
+    let currentBillingCycle = "monthly"; // "monthly" | "yearly"
+    const GUMROAD_MONTHLY_URL = ""; // Optional: e.g. "https://siyamstudio.gumroad.com/l/pro-monthly"
+    const GUMROAD_YEARLY_URL = "";  // Optional: e.g. "https://siyamstudio.gumroad.com/l/pro-yearly"
+
+    function setBillingCycle(cycle) {
+        currentBillingCycle = cycle === "yearly" ? "yearly" : "monthly";
+        const isYearly = currentBillingCycle === "yearly";
+
+        // 1. Update Pricing section toggle buttons
+        const monthlyBtn = el("billing-btn-monthly");
+        const yearlyBtn = el("billing-btn-yearly");
+        if (monthlyBtn) {
+            monthlyBtn.classList.toggle("active", !isYearly);
+            monthlyBtn.setAttribute("aria-selected", !isYearly ? "true" : "false");
+        }
+        if (yearlyBtn) {
+            yearlyBtn.classList.toggle("active", isYearly);
+            yearlyBtn.setAttribute("aria-selected", isYearly ? "true" : "false");
+        }
+
+        // 2. Update Pro Card
+        const proTitle = el("pro-plan-title");
+        const proBadge = el("pro-plan-badge");
+        const proOldWrap = el("pro-old-price-wrap");
+        const proPriceBig = el("pro-price-big");
+        const proPriceAlt = el("pro-price-alt");
+        const proCheckoutBtn = el("btn-pro-checkout");
+
+        if (isYearly) {
+            if (proTitle) proTitle.textContent = "Pro Yearly Plan";
+            if (proBadge) {
+                proBadge.textContent = "20% OFF — BEST VALUE";
+                proBadge.className = "mockup-tier-pill tier-pro";
+                proBadge.style.background = "linear-gradient(135deg, rgba(0, 230, 118, 0.25), rgba(0, 200, 83, 0.35))";
+                proBadge.style.color = "#00ff66";
+                proBadge.style.borderColor = "rgba(0, 230, 118, 0.6)";
+            }
+            if (proOldWrap) proOldWrap.style.display = "flex";
+            if (proPriceBig) proPriceBig.innerHTML = '&#2547;9,590 BDT <span class="price-period" style="font-size: 14px; font-weight: 600; color: var(--text-muted);">/ year</span>';
+            if (proPriceAlt) proPriceAlt.innerHTML = '<strong>$96 USD / year</strong> &bull; Only $8/mo &mdash; Save 20%!';
+            if (proCheckoutBtn) proCheckoutBtn.textContent = "Get Pro Yearly (Save 20%)";
+        } else {
+            if (proTitle) proTitle.textContent = "Pro Monthly Plan";
+            if (proBadge) {
+                proBadge.textContent = "MOST POPULAR • ALL 12 TOOLS";
+                proBadge.className = "mockup-tier-pill tier-pro";
+                proBadge.style.background = "";
+                proBadge.style.color = "";
+                proBadge.style.borderColor = "";
+            }
+            if (proOldWrap) proOldWrap.style.display = "none";
+            if (proPriceBig) proPriceBig.innerHTML = '&#2547;999 BDT <span class="price-period" style="font-size: 14px; font-weight: 600; color: var(--text-muted);">/ month</span>';
+            if (proPriceAlt) proPriceAlt.textContent = "or $10 USD / month";
+            if (proCheckoutBtn) proCheckoutBtn.textContent = "Get Pro Monthly";
+        }
+
+        // 3. Update Modal Billing Selector
+        const modalMonthlyBtn = el("modal-billing-monthly");
+        const modalYearlyBtn = el("modal-billing-yearly");
+        if (modalMonthlyBtn) modalMonthlyBtn.classList.toggle("active", !isYearly);
+        if (modalYearlyBtn) modalYearlyBtn.classList.toggle("active", isYearly);
+
+        // 4. Update Modal Tabs & Content
+        const modalTabBdBtn = el("modal-tab-bd-btn");
+        const modalTabIntlBtn = el("modal-tab-intl-btn");
+        if (modalTabBdBtn) {
+            modalTabBdBtn.textContent = isYearly ? "Bangladesh (৳9,590 BDT / yr)" : "Bangladesh (৳999 BDT / mo)";
+        }
+        if (modalTabIntlBtn) {
+            modalTabIntlBtn.textContent = isYearly ? "International ($96 USD / yr)" : "International ($10 USD / mo)";
+        }
+
+        // BD tab elements
+        const bdPayAmount = el("bd-pay-amount");
+        const bdSavingsBox = el("bd-yearly-savings");
+        const bdSubmitBtn = el("btn-bd-submit");
+        if (bdPayAmount) {
+            bdPayAmount.textContent = isYearly ? "৳9,590 BDT / year" : "৳999 BDT / month";
+        }
+        if (bdSavingsBox) {
+            bdSavingsBox.style.display = isYearly ? "flex" : "none";
+        }
+        if (bdSubmitBtn) {
+            bdSubmitBtn.textContent = isYearly
+                ? "Submit Payment & Request Key (৳9,590 BDT / year — Save 20%)"
+                : "Submit Payment & Request Key (৳999 BDT / month)";
+        }
+
+        // Intl tab elements
+        const intlPayTitle = el("intl-pay-title");
+        const intlSavingsBox = el("intl-yearly-savings");
+        const intlSubmitBtn = el("btn-intl-submit");
+        if (intlPayTitle) {
+            intlPayTitle.innerHTML = isYearly
+                ? "<strong>Global Pro Yearly Access &mdash; $96 USD / Year (Save $24!)</strong>"
+                : "<strong>Global Pro Monthly Access &mdash; $10 USD / Month</strong>";
+        }
+        if (intlSavingsBox) {
+            intlSavingsBox.style.display = isYearly ? "flex" : "none";
+        }
+        if (intlSubmitBtn) {
+            intlSubmitBtn.textContent = isYearly
+                ? "Pay $96 USD / year (Save $24!)"
+                : "Submit International Order ($10 USD / month)";
+        }
+    }
+
     function initCheckoutAndLookup() {
         const modal = el("checkout-modal");
         const closeBtn = el("btn-close-modal");
@@ -1377,8 +1532,29 @@
             copyMerchantBtn.addEventListener("click", () => copyText(MERCHANT_PAY_NUMBER, "Payment number copied"));
         }
 
+        // Initialize Pricing Billing Toggle Listeners
+        const billingMonthlyBtn = el("billing-btn-monthly");
+        const billingYearlyBtn = el("billing-btn-yearly");
+        if (billingMonthlyBtn) {
+            billingMonthlyBtn.addEventListener("click", () => setBillingCycle("monthly"));
+        }
+        if (billingYearlyBtn) {
+            billingYearlyBtn.addEventListener("click", () => setBillingCycle("yearly"));
+        }
+
+        // Initialize Modal Billing Selector Listeners
+        const modalBillingMonthlyBtn = el("modal-billing-monthly");
+        const modalBillingYearlyBtn = el("modal-billing-yearly");
+        if (modalBillingMonthlyBtn) {
+            modalBillingMonthlyBtn.addEventListener("click", () => setBillingCycle("monthly"));
+        }
+        if (modalBillingYearlyBtn) {
+            modalBillingYearlyBtn.addEventListener("click", () => setBillingCycle("yearly"));
+        }
+
         function openModal(tabName) {
             if (!modal) return;
+            setBillingCycle(currentBillingCycle); // sync modal state with current cycle
             modal.classList.add("open");
             if (tabName) switchPayTab(tabName);
         }
@@ -1418,6 +1594,31 @@
             toast("Order submitted! Tracking live license verification below.");
         }
 
+        // Renewal Checkbox Toggles
+        const bdIsRenewal = el("bd-is-renewal");
+        const bdRenewalWrap = el("bd-renewal-input-wrap");
+        if (bdIsRenewal && bdRenewalWrap) {
+            bdIsRenewal.addEventListener("change", () => {
+                bdRenewalWrap.style.display = bdIsRenewal.checked ? "block" : "none";
+                if (bdIsRenewal.checked) {
+                    const inp = el("bd-existing-key");
+                    if (inp) inp.focus();
+                }
+            });
+        }
+
+        const intlIsRenewal = el("intl-is-renewal");
+        const intlRenewalWrap = el("intl-renewal-input-wrap");
+        if (intlIsRenewal && intlRenewalWrap) {
+            intlIsRenewal.addEventListener("change", () => {
+                intlRenewalWrap.style.display = intlIsRenewal.checked ? "block" : "none";
+                if (intlIsRenewal.checked) {
+                    const inp = el("intl-existing-key");
+                    if (inp) inp.focus();
+                }
+            });
+        }
+
         if (bdForm) {
             bdForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -1428,6 +1629,8 @@
                 const method = el("bd-method").value;
                 const phone = el("bd-phone").value.trim();
                 const trxId = el("bd-trx").value.trim();
+                const isRenewal = !!(bdIsRenewal && bdIsRenewal.checked);
+                const existingKey = isRenewal ? (el("bd-existing-key") ? el("bd-existing-key").value.trim() : "") : null;
 
                 if (!name || !email || !phone || !trxId) {
                     bdErr.textContent = "Please fill in your Name, Email, Sender Phone Number, and Transaction ID (TrxID).";
@@ -1435,7 +1638,16 @@
                     return;
                 }
 
+                if (isRenewal && !existingKey) {
+                    bdErr.textContent = "Please enter your existing license key to extend/renew.";
+                    bdErr.classList.add("show");
+                    return;
+                }
+
                 const submitBtn = el("btn-bd-submit");
+                const isYearly = currentBillingCycle === "yearly";
+                const orderAmount = isYearly ? "9590 BDT (Yearly - 20% OFF)" : "999 BDT (Monthly)";
+
                 submitBtn.disabled = true;
                 submitBtn.textContent = "Submitting Order...";
 
@@ -1446,17 +1658,23 @@
                         payment_method: method,
                         sender_number: phone,
                         trx_id: trxId,
-                        amount: "৳999 BDT/month",
+                        amount: orderAmount,
+                        billing_cycle: currentBillingCycle,
+                        order_type: isRenewal ? "renewal" : "new",
+                        existing_license_key: existingKey || null,
                         status: "pending"
                     });
                     bdForm.reset();
+                    if (bdRenewalWrap) bdRenewalWrap.style.display = "none";
                     handleSuccessOrder(trxId, email);
                 } catch (err) {
                     bdErr.textContent = "Could not submit order: " + err.message;
                     bdErr.classList.add("show");
                 } finally {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Submit Payment & Request Key (৳999 BDT/month)";
+                    submitBtn.textContent = isYearly
+                        ? "Submit Payment & Request Key (৳9,590 BDT / year — Save 20%)"
+                        : "Submit Payment & Request Key (৳999 BDT / month)";
                 }
             });
         }
@@ -1470,6 +1688,8 @@
                 const email = el("intl-email").value.trim();
                 const method = el("intl-method").value;
                 const ref = el("intl-ref").value.trim() || ("INTL-" + Date.now().toString(36).toUpperCase());
+                const isRenewal = !!(intlIsRenewal && intlIsRenewal.checked);
+                const existingKey = isRenewal ? (el("intl-existing-key") ? el("intl-existing-key").value.trim() : "") : null;
 
                 if (!name || !email) {
                     intlErr.textContent = "Please enter your Name and Email Address.";
@@ -1477,7 +1697,22 @@
                     return;
                 }
 
+                if (isRenewal && !existingKey) {
+                    intlErr.textContent = "Please enter your existing license key to extend/renew.";
+                    intlErr.classList.add("show");
+                    return;
+                }
+
                 const submitBtn = el("btn-intl-submit");
+                const isYearly = currentBillingCycle === "yearly";
+                const orderAmount = isYearly ? "$96 USD (Yearly - 20% OFF)" : "$10 USD (Monthly)";
+
+                if (isYearly && GUMROAD_YEARLY_URL) {
+                    window.open(GUMROAD_YEARLY_URL, "_blank");
+                } else if (!isYearly && GUMROAD_MONTHLY_URL) {
+                    window.open(GUMROAD_MONTHLY_URL, "_blank");
+                }
+
                 submitBtn.disabled = true;
                 submitBtn.textContent = "Submitting Order...";
 
@@ -1488,17 +1723,23 @@
                         payment_method: method,
                         sender_number: "International",
                         trx_id: ref,
-                        amount: "$10 USD/month",
+                        amount: orderAmount,
+                        billing_cycle: currentBillingCycle,
+                        order_type: isRenewal ? "renewal" : "new",
+                        existing_license_key: existingKey || null,
                         status: "pending"
                     });
                     intlForm.reset();
+                    if (intlRenewalWrap) intlRenewalWrap.style.display = "none";
                     handleSuccessOrder(ref, email);
                 } catch (err) {
                     intlErr.textContent = "Could not submit order: " + err.message;
                     intlErr.classList.add("show");
                 } finally {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Submit International Order ($10 USD/month)";
+                    submitBtn.textContent = isYearly
+                        ? "Pay $96 USD / year (Save $24!)"
+                        : "Submit International Order ($10 USD / month)";
                 }
             });
         }
