@@ -138,12 +138,19 @@ button {
     width: 38px;
     height: 38px;
     border-radius: 10px;
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.4), rgba(0, 230, 118, 0.25));
-    border: 1px solid rgba(124, 58, 237, 0.6);
+    background: transparent;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
+}
+
+.brand-mark .brand-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(0, 230, 118, 0.45));
 }
 
 .brand-text {
