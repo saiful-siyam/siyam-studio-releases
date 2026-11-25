@@ -1098,6 +1098,80 @@
         });
     }
 
+    // ==================== LEGAL MODAL (TERMS, PRIVACY, REFUND) ====================
+    function initLegalModal() {
+        const modal = el("legal-modal");
+        const closeBtn = el("btn-close-legal-modal");
+        const acceptCloseBtn = el("btn-legal-accept-close");
+        const titleEl = el("legal-modal-title");
+        const tabBtns = document.querySelectorAll("[data-legal-tab]");
+        const openBtns = document.querySelectorAll("[data-open-legal]");
+        const panels = {
+            terms: el("legal-panel-terms"),
+            privacy: el("legal-panel-privacy"),
+            refund: el("legal-panel-refund")
+        };
+        const titles = {
+            terms: "Terms & Conditions",
+            privacy: "Privacy Policy",
+            refund: "Refund & Cancellation Policy"
+        };
+
+        if (!modal) return;
+
+        function switchLegalTab(tabKey) {
+            const key = panels[tabKey] ? tabKey : "terms";
+            if (titleEl) titleEl.textContent = titles[key];
+            tabBtns.forEach((btn) => {
+                const isActive = btn.dataset.legalTab === key;
+                btn.classList.toggle("active", isActive);
+                btn.setAttribute("aria-selected", isActive ? "true" : "false");
+            });
+            Object.keys(panels).forEach((k) => {
+                if (panels[k]) panels[k].classList.toggle("active", k === key);
+            });
+            const body = modal.querySelector(".legal-modal-body");
+            if (body) body.scrollTop = 0;
+        }
+
+        function openModal(tabKey) {
+            switchLegalTab(tabKey || "terms");
+            modal.classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            modal.classList.remove("open");
+            if (!el("checkout-modal")?.classList.contains("open")) {
+                document.body.style.overflow = "";
+            }
+        }
+
+        openBtns.forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                openModal(btn.dataset.openLegal || "terms");
+            });
+        });
+
+        tabBtns.forEach((btn) => {
+            btn.addEventListener("click", () => switchLegalTab(btn.dataset.legalTab));
+        });
+
+        if (closeBtn) closeBtn.addEventListener("click", closeModal);
+        if (acceptCloseBtn) acceptCloseBtn.addEventListener("click", closeModal);
+
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modal.classList.contains("open")) {
+                closeModal();
+            }
+        });
+    }
+
     // ==================== MOBILE NAVIGATION DRAWER ====================
     function initMobileMenu() {
         const toggleBtn = el("btn-mobile-menu-toggle");
@@ -1407,7 +1481,7 @@
     }
 
     // ==================== CHECKOUT MODAL & ORDERS SUBMISSION ====================
-    let currentBillingCycle = "monthly"; // "monthly" | "yearly"
+    let currentBillingCycle = "yearly"; // Default to Yearly (Phantom-style, 20% OFF)
     const GUMROAD_MONTHLY_URL = ""; // Optional: e.g. "https://siyamstudio.gumroad.com/l/pro-monthly"
     const GUMROAD_YEARLY_URL = "";  // Optional: e.g. "https://siyamstudio.gumroad.com/l/pro-yearly"
 
@@ -1415,41 +1489,58 @@
         currentBillingCycle = cycle === "yearly" ? "yearly" : "monthly";
         const isYearly = currentBillingCycle === "yearly";
 
-        // 1. Update Pricing section toggle buttons
+        // 1. Update Pricing section switch & labels (Phantom-style)
         const monthlyBtn = el("billing-btn-monthly");
         const yearlyBtn = el("billing-btn-yearly");
+        const switchToggle = el("billing-switch-toggle");
+        const savePill = el("billing-save-pill");
         if (monthlyBtn) {
             monthlyBtn.classList.toggle("active", !isYearly);
-            monthlyBtn.setAttribute("aria-selected", !isYearly ? "true" : "false");
         }
         if (yearlyBtn) {
             yearlyBtn.classList.toggle("active", isYearly);
-            yearlyBtn.setAttribute("aria-selected", isYearly ? "true" : "false");
+        }
+        if (switchToggle) {
+            switchToggle.classList.toggle("is-yearly", isYearly);
+            switchToggle.setAttribute("aria-checked", isYearly ? "true" : "false");
+        }
+        if (savePill) {
+            savePill.classList.toggle("is-hidden", !isYearly);
+            savePill.innerHTML = isYearly
+                ? "<span>Save 20% with Yearly Billing</span>"
+                : "<span>Switch to Yearly &amp; Save 20%</span>";
         }
 
-        // 2. Update Pro Card
+        // 2. Update Pro Card (Smart Per-Month + Per-Day Framing)
         const proTitle = el("pro-plan-title");
         const proBadge = el("pro-plan-badge");
         const proOldWrap = el("pro-old-price-wrap");
         const proPriceBig = el("pro-price-big");
         const proPriceAlt = el("pro-price-alt");
+        const proPriceDaily = el("pro-price-daily");
+        const proPriceYearlyNote = el("pro-price-yearly-note");
         const proCheckoutBtn = el("btn-pro-checkout");
 
         if (isYearly) {
-            if (proTitle) proTitle.textContent = "Pro Yearly Plan";
+            if (proTitle) proTitle.textContent = "Siyam Studio Pro";
             if (proBadge) {
-                proBadge.textContent = "20% OFF — BEST VALUE";
+                proBadge.textContent = "20% OFF • ALL 12 TOOLS";
                 proBadge.className = "mockup-tier-pill tier-pro";
                 proBadge.style.background = "linear-gradient(135deg, rgba(0, 230, 118, 0.25), rgba(0, 200, 83, 0.35))";
                 proBadge.style.color = "#00ff66";
                 proBadge.style.borderColor = "rgba(0, 230, 118, 0.6)";
             }
             if (proOldWrap) proOldWrap.style.display = "flex";
-            if (proPriceBig) proPriceBig.innerHTML = '&#2547;9,590 BDT <span class="price-period" style="font-size: 14px; font-weight: 600; color: var(--text-muted);">/ year</span>';
-            if (proPriceAlt) proPriceAlt.innerHTML = '<strong>$96 USD / year</strong> &bull; Only $8/mo &mdash; Save 20%!';
+            if (proPriceBig) proPriceBig.innerHTML = '&#2547;799 <span class="price-period" id="pro-price-period">/ month</span>';
+            if (proPriceAlt) proPriceAlt.innerHTML = 'or <strong>$8.00 USD</strong> / month';
+            if (proPriceDaily) proPriceDaily.textContent = "(~৳26 / $0.26 per day)";
+            if (proPriceYearlyNote) {
+                proPriceYearlyNote.textContent = "(৳9,590 BDT / $96 USD billed yearly)";
+                proPriceYearlyNote.style.color = "#34d399";
+            }
             if (proCheckoutBtn) proCheckoutBtn.textContent = "Get Pro Yearly (Save 20%)";
         } else {
-            if (proTitle) proTitle.textContent = "Pro Monthly Plan";
+            if (proTitle) proTitle.textContent = "Siyam Studio Pro";
             if (proBadge) {
                 proBadge.textContent = "MOST POPULAR • ALL 12 TOOLS";
                 proBadge.className = "mockup-tier-pill tier-pro";
@@ -1458,8 +1549,13 @@
                 proBadge.style.borderColor = "";
             }
             if (proOldWrap) proOldWrap.style.display = "none";
-            if (proPriceBig) proPriceBig.innerHTML = '&#2547;999 BDT <span class="price-period" style="font-size: 14px; font-weight: 600; color: var(--text-muted);">/ month</span>';
-            if (proPriceAlt) proPriceAlt.textContent = "or $10 USD / month";
+            if (proPriceBig) proPriceBig.innerHTML = '&#2547;999 <span class="price-period" id="pro-price-period">/ month</span>';
+            if (proPriceAlt) proPriceAlt.innerHTML = 'or <strong>$10.00 USD</strong> / month';
+            if (proPriceDaily) proPriceDaily.textContent = "(~৳33 / $0.33 per day)";
+            if (proPriceYearlyNote) {
+                proPriceYearlyNote.textContent = "(Billed monthly • Cancel anytime)";
+                proPriceYearlyNote.style.color = "var(--text-muted)";
+            }
             if (proCheckoutBtn) proCheckoutBtn.textContent = "Get Pro Monthly";
         }
 
@@ -1532,15 +1628,28 @@
             copyMerchantBtn.addEventListener("click", () => copyText(MERCHANT_PAY_NUMBER, "Payment number copied"));
         }
 
-        // Initialize Pricing Billing Toggle Listeners
+        // Initialize Pricing Billing Switch & Pill Listeners
         const billingMonthlyBtn = el("billing-btn-monthly");
         const billingYearlyBtn = el("billing-btn-yearly");
+        const billingSwitchToggle = el("billing-switch-toggle");
+        const billingSavePill = el("billing-save-pill");
         if (billingMonthlyBtn) {
             billingMonthlyBtn.addEventListener("click", () => setBillingCycle("monthly"));
         }
         if (billingYearlyBtn) {
             billingYearlyBtn.addEventListener("click", () => setBillingCycle("yearly"));
         }
+        if (billingSwitchToggle) {
+            billingSwitchToggle.addEventListener("click", () => {
+                setBillingCycle(currentBillingCycle === "yearly" ? "monthly" : "yearly");
+            });
+        }
+        if (billingSavePill) {
+            billingSavePill.addEventListener("click", () => {
+                if (currentBillingCycle !== "yearly") setBillingCycle("yearly");
+            });
+        }
+        setBillingCycle(currentBillingCycle);
 
         // Initialize Modal Billing Selector Listeners
         const modalBillingMonthlyBtn = el("modal-billing-monthly");
@@ -1771,6 +1880,7 @@
     syncDownloadLinksFromConfig();
     initDemoVideoModal();
     initChangelogModal();
+    initLegalModal();
     initMobileMenu();
     initScrollspy();
     initCheckoutAndLookup();
