@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/logo-32.png">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <title>Siyam Studio — Admin License & Remote Config</title>
+    <style>
+        :root {
+            --bg-main: #090a0e;
+            --bg-card: #11131a;
+            --bg-elev: #171a23;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.16);
+            --text: #f3f4f6;
+            --muted: #9ca3af;
+            --green: #00e676;
+            --purple: #7c3aed;
+            --blue: #38bdf8;
+            --red: #ef4444;
+            --amber: #f59e0b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+            background: radial-gradient(circle at 18% 0%, rgba(124, 58, 237, 0.16), transparent 42%),
+                        radial-gradient(circle at 85% 15%, rgba(0, 230, 118, 0.1), transparent 40%),
+                        var(--bg-main);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 24px;
+        }
+        .container { max-width: 1220px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .topbar {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px;
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-logo {
+            width: 38px; height: 38px; border-radius: 10px;
+            background: linear-gradient(135deg, rgba(124,58,237,0.28), rgba(0,230,118,0.2));
+            border: 1px solid rgba(0, 230, 118, 0.35);
+            display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--green);
+        }
+        .brand h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+        .brand p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+        .top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .conn-pill {
+            display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600;
+            padding: 6px 12px; border-radius: 999px; background: var(--bg-elev); border: 1px solid var(--border);
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); }
+        .dot.ok { background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .dot.err { background: var(--red); }
+
+        .btn {
+            border: 1px solid var(--border-strong); background: var(--bg-elev); color: var(--text);
+            padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;
+            transition: all 0.15s ease; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-1px); }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--purple), #5b21b6);
+            border-color: rgba(124, 58, 237, 0.8); color: #fff;
+        }
+        .btn-green {
+            background: linear-gradient(135deg, #00e676, #00b25a);
+            border-color: transparent; color: #04130a; font-weight: 700;
+        }
+        .btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
+        .btn-danger { color: #fca5a5; border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.1); }
+        .btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+        .kpi-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
+        .kpi-val { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+        .kpi-sub { font-size: 11.5px; color: var(--muted); }
+
+        .grid-2 { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 18px; }
+        @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 18px;
+            display: flex; flex-direction: column; gap: 14px;
+        }
+        .card-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .card-title { font-size: 14px; font-weight: 700; }
+        .card-sub { font-size: 11.5px; color: var(--muted); }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+        .field { display: flex; flex-direction: column; gap: 5px; }
+        .field.full { grid-column: 1 / -1; }
+        label { font-size: 11px; font-weight: 600; color: var(--muted); }
+        input[type="text"], input[type="email"], select, textarea {
+            background: #0a0b10; border: 1px solid var(--border); color: var(--text);
+            border-radius: 8px; padding: 9px 11px; font-size: 12.5px; outline: none; width: 100%;
+            font-family: inherit;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--purple); }
+        .inline-row { display: flex; gap: 8px; align-items: center; }
+
+        .switch-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 12px; background: #0a0b10; border: 1px solid var(--border); border-radius: 8px;
+        }
+        .switch-row span { font-size: 12.5px; font-weight: 600; }
+        input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--red); cursor: pointer; }
+
+        .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+        .search-wrap { flex: 1; min-width: 220px; }
+        .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+        th { background: #0d0f15; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+        tr:hover td { background: rgba(255, 255, 255, 0.02); }
+        .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+        .key-chip {
+            cursor: pointer; padding: 4px 8px; border-radius: 6px; background: rgba(124, 58, 237, 0.14);
+            border: 1px solid rgba(124, 58, 237, 0.35); color: #ddd6fe; font-weight: 700; display: inline-block;
+        }
+        .key-chip:hover { background: rgba(124, 58, 237, 0.25); }
+        .pill {
+            display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px;
+            font-size: 11px; font-weight: 700;
+        }
+        .pill-active { background: rgba(0, 230, 118, 0.14); color: var(--green); }
+        .pill-revoked { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+        .pill-pending { background: rgba(245, 158, 11, 0.16); color: #fcd34d; }
+        .pill-mac { background: rgba(56, 189, 248, 0.14); color: var(--blue); }
+        .pill-win { background: rgba(168, 85, 247, 0.18); color: #d8b4fe; }
+        .pill-unbound { background: rgba(156, 163, 175, 0.12); color: var(--muted); }
+        .actions-cell { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; min-width: 260px; }
+
+        /* Compact 2-Line 4-Column Licenses Table */
+        .licenses-table { width: 100%; table-layout: auto; border-collapse: collapse; }
+        .licenses-table th, .licenses-table td { padding: 9px 12px; vertical-align: middle; }
+        .licenses-table th:last-child, .licenses-table td:last-child { text-align: right; }
+        .lic-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            gap: 4px 5px;
+            justify-content: end;
+            align-content: center;
+        }
+        .btn-compact {
+            padding: 4px 8px !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+            min-height: 24px !important;
+            line-height: 1.2 !important;
+            border-radius: 6px !important;
+        }
+        .pill-compact {
+            padding: 2px 7px !important;
+            font-size: 10px !important;
+            line-height: 1.2 !important;
+            font-weight: 700 !important;
+        }
+        .hwid-chip:hover { color: #f1f5f9 !important; text-decoration: underline; }
+
+        .admin-tabs {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+        .admin-tab-btn {
+            border: 1px solid var(--border); background: var(--bg-card); color: var(--muted);
+            padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s ease;
+        }
+        .admin-tab-btn:hover { color: var(--text); border-color: var(--border-strong); }
+        .admin-tab-btn.active {
+            background: rgba(124, 58, 237, 0.22); border-color: rgba(124, 58, 237, 0.65); color: #fff;
+        }
+        .tab-badge {
+            padding: 2px 7px; border-radius: 999px; font-size: 11px; font-weight: 800;
+            background: rgba(245, 158, 11, 0.2); color: #fcd34d;
+        }
+        .tab-badge.zero { background: rgba(156, 163, 175, 0.14); color: var(--muted); }
+        .tab-pane { display: none; flex-direction: column; gap: 20px; }
+        .tab-pane.active { display: flex; }
+
+        .creds-panel {
+            background: #0a0b10; border: 1px solid var(--border); border-radius: 10px; padding: 14px;
+            display: none; flex-direction: column; gap: 10px;
+        }
+        .creds-panel.open { display: flex; }
+
+        .toast {
+            position: fixed; bottom: 22px; right: 22px; z-index: 999;
+            background: #141722; border: 1px solid var(--border-strong); color: var(--text);
+            padding: 11px 16px; border-radius: 10px; font-size: 12.5px; font-weight: 600;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.45); opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        .toast.show { opacity: 1; }
+
+        /* Admin Auth Gate */
+        .auth-gate {
+            position: fixed; inset: 0; z-index: 9999;
+            background: radial-gradient(circle at 25% 15%, rgba(124, 58, 237, 0.22), transparent 45%),
+                        radial-gradient(circle at 80% 85%, rgba(0, 230, 118, 0.12), transparent 45%),
+                        rgba(9, 10, 14, 0.98);
+            backdrop-filter: blur(14px);
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .auth-gate.hidden { display: none; }
+        .auth-card {
+            width: 100%; max-width: 410px;
+            background: var(--bg-card); border: 1px solid var(--border-strong);
+            border-radius: 16px; padding: 28px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+            display: flex; flex-direction: column; gap: 16px;
+        }
+        .auth-head { display: flex; align-items: center; gap: 12px; }
+        .auth-title { font-size: 17px; font-weight: 800; color: #fff; }
+        .auth-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+        .auth-form { display: flex; flex-direction: column; gap: 12px; }
+        .auth-err {
+            display: none; padding: 9px 11px; border-radius: 8px;
+            background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5; font-size: 12px; line-height: 1.4;
+        }
+        .auth-err.show { display: block; }
+        .auth-note { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.45; }
+        .auth-user-pill {
+            font-size: 11.5px; font-weight: 600; color: #c4b5fd;
+            padding: 6px 10px; border-radius: 999px;
+            background: rgba(124, 58, 237, 0.14); border: 1px solid rgba(124, 58, 237, 0.35);
+            max-width: 210px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Login Gate (Supabase Auth) -->
+    <div id="auth-gate" class="auth-gate">
+        <div class="auth-card">
+            <div class="auth-head">
+                <div class="brand-logo">S</div>
+                <div>
+                    <div class="auth-title">Siyam Studio Admin Login</div>
+                    <div class="auth-sub">Protected by Supabase Auth &amp; Row Level Security</div>
+                </div>
+            </div>
+            <form id="auth-form" class="auth-form">
+                <div class="field">
+                    <label for="auth-email">Admin Email</label>
+                    <input id="auth-email" type="email" autocomplete="username" placeholder="admin@siyamstudio.com" required>
+                </div>
+                <div class="field">
+                    <label for="auth-password">Password</label>
+                    <input id="auth-password" type="password" autocomplete="current-password" placeholder="Enter Supabase password" required style="background:#0a0b10;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 11px;font-size:12.5px;outline:none;width:100%;">
+                </div>
+                <div id="auth-error" class="auth-err"></div>
+                <button id="btn-auth-login" class="btn btn-green" type="submit" style="justify-content:center;padding:10px 14px;">Sign In to Admin Dashboard</button>
+            </form>
+            <div class="auth-note">
+                Only your authorized Supabase Admin UID can approve orders, generate Pro keys, or update OTA config.
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-app-container" class="container" style="display: none;">
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-logo">S</div>
+                <div>
+                    <h1>Siyam Studio — License &amp; Remote Config Admin</h1>
+                    <p>Live Supabase control center for license keys, Mac/Windows HWID locks &amp; OTA announcements</p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <span id="auth-user-badge" class="auth-user-pill" title="Signed-in Admin">-</span>
+                <div class="conn-pill">
+                    <span id="conn-dot" class="dot"></span>
+                    <span id="conn-label">Connecting to Supabase...</span>
+                </div>
+                <button id="btn-toggle-creds" class="btn" type="button">Supabase Settings</button>
+                <button id="btn-refresh-all" class="btn btn-primary" type="button">Refresh Live Data</button>
+                <button id="btn-auth-logout" class="btn btn-danger" type="button">Sign Out</button>
+            </div>
+        </header>
+
+        <section id="creds-panel" class="creds-panel">
+            <div class="form-grid">
+                <div class="field">
+                    <label for="cfg-url">SUPABASE_URL</label>
+                    <input id="cfg-url" type="text" value="https://llxpnjrujcpotvevpmzt.supabase.co">
+                </div>
+                <div class="field">
+                    <label for="cfg-key">SUPABASE_ANON_KEY</label>
+                    <input id="cfg-key" type="text" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxseHBuanJ1amNwb3R2ZXZwbXp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0NjMwNTMsImV4cCI6MjExMDAzOTA1M30.RHJAt-XBbY3uMQsTFM3stT4Ko3dHVOC1Yeiet9qBsxQ">
+                </div>
+            </div>
+            <div class="inline-row">
+                <button id="btn-save-creds" class="btn btn-green btn-sm" type="button">Save &amp; Reconnect</button>
+                <button id="btn-reset-creds" class="btn btn-sm" type="button">Restore Live Defaults</button>
+            </div>
+        </section>
+
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Pending Orders</div>
+                <div id="kpi-pending-orders" class="kpi-val">-</div>
+                <div id="kpi-orders-sub" class="kpi-sub">Total orders: -</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Total License Keys</div>
+                <div id="kpi-total" class="kpi-val">-</div>
+                <div id="kpi-active-sub" class="kpi-sub">Loading...</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Active Bound Devices</div>
+                <div id="kpi-bound" class="kpi-val">-</div>
+                <div id="kpi-os-sub" class="kpi-sub">macOS: - | Windows: -</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Unbound / Ready Keys</div>
+                <div id="kpi-unbound" class="kpi-val">-</div>
+                <div class="kpi-sub">Ready for 1st machine activation</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Remote App Version</div>
+                <div id="kpi-version" class="kpi-val">-</div>
+                <div id="kpi-maint-sub" class="kpi-sub">Maintenance: -</div>
+            </div>
+        </section>
+
+        <nav class="admin-tabs">
+            <button id="tab-btn-orders" class="admin-tab-btn active" type="button">
+                Incoming Orders <span id="orders-pending-badge" class="tab-badge zero">0</span>
+            </button>
+            <button id="tab-btn-licenses" class="admin-tab-btn" type="button">
+                Licenses &amp; Remote Config
+            </button>
+        </nav>
+
+        <!-- TAB 1: INCOMING ORDERS -->
+        <div id="pane-orders" class="tab-pane active">
+            <section class="card">
+                <div class="toolbar">
+                    <div>
+                        <div class="card-title">Incoming Customer Orders (bKash / Nagad / Card)</div>
+                        <div class="card-sub">Click "Approve &amp; Issue Key" to generate a key, save it to licenses, and unlock it live on the website</div>
+                    </div>
+                    <div class="inline-row" style="flex: 1; justify-content: flex-end; flex-wrap: wrap;">
+                        <input id="order-search" class="search-wrap" type="text" placeholder="Search name, email, phone, TrxID..." style="max-width: 260px;">
+                        <select id="order-status-filter" style="width: 145px;">
+                            <option value="all">All Orders</option>
+                            <option value="pending">Pending Only</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Method</th>
+                                <th>Sender Phone</th>
+                                <th>Transaction ID (TrxID)</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Issued License Key</th>
+                                <th>Submitted</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tbody">
+                            <tr><td colspan="9" style="text-align:center; color: var(--muted);">Loading orders...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 2: LICENSES & REMOTE CONFIG -->
+        <div id="pane-licenses" class="tab-pane">
+        <section class="grid-2">
+            <!-- Generate New License Key -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">1-Click License Key Generator</div>
+                        <div class="card-sub">Creates an active unbound key ready for macOS or Windows</div>
+                    </div>
+                    <button id="btn-randomize-key" class="btn btn-sm" type="button">Generate Code</button>
+                </div>
+                <div class="form-grid">
+                    <div class="field full">
+                        <label for="gen-key">License Key</label>
+                        <div class="inline-row">
+                            <input id="gen-key" class="mono" type="text" placeholder="SIYAM-PRO-XXXX-XXXX">
+                            <button id="btn-copy-gen" class="btn btn-sm" type="button">Copy</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="gen-name">Customer Name</label>
+                        <input id="gen-name" type="text" placeholder="e.g. Rahim Studio">
+                    </div>
+                    <div class="field">
+                        <label for="gen-email">Customer Email</label>
+                        <input id="gen-email" type="email" placeholder="customer@example.com">
+                    </div>
+                    <div class="field">
+                        <label for="gen-plan">Plan Tier</label>
+                        <select id="gen-plan">
+                            <option value="pro">Pro</option>
+                            <option value="lifetime">Lifetime</option>
+                            <option value="agency">Agency</option>
+                            <option value="trial">Trial</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="gen-billing">Billing Plan</label>
+                        <select id="gen-billing">
+                            <option value="monthly">Monthly (30 Days)</option>
+                            <option value="yearly">Yearly (365 Days)</option>
+                            <option value="lifetime">Lifetime</option>
+                            <option value="trial">Trial (7 Days)</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="gen-status">Initial Status</label>
+                        <select id="gen-status">
+                            <option value="active">Active</option>
+                            <option value="suspended">Suspended</option>
+                        </select>
+                    </div>
+                </div>
+                <button id="btn-create-license" class="btn btn-green" type="button">Create &amp; Save License Key</button>
+            </div>
+
+            <!-- Push Remote Update (OTA) -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Push Remote Update (OTA)</div>
+                        <div class="card-sub">Broadcasts 1-Click In-Panel updates &amp; announcements to all Mac &amp; Windows users</div>
+                    </div>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="app-version">Latest Version</label>
+                        <input id="app-version" type="text" value="1.3.0" placeholder="1.3.0">
+                    </div>
+                    <div class="field">
+                        <label for="app-download">OTA Patch URL</label>
+                        <input id="app-download" type="text" value="https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_OTA_Patch.zip" placeholder="https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_OTA_Patch.zip">
+                    </div>
+                    <div class="field">
+                        <label for="app-mac-download">Website macOS Installer URL (Optional)</label>
+                        <input id="app-mac-download" type="text" placeholder="https://.../SiyamStudio_macOS_Installer.dmg">
+                    </div>
+                    <div class="field">
+                        <label for="app-win-download">Website Windows 64-bit URL (Optional)</label>
+                        <input id="app-win-download" type="text" placeholder="https://.../SiyamStudio_Windows_64bit_Setup.exe">
+                    </div>
+                    <div class="field full">
+                        <label for="app-announcement">Update Announcement / Changelog</label>
+                        <textarea id="app-announcement" rows="2" placeholder="Welcome to Siyam Studio Pro!"></textarea>
+                    </div>
+                    <div class="field full">
+                        <div class="switch-row">
+                            <span>Maintenance Mode (Temporarily lock startup access)</span>
+                            <input id="app-maint" type="checkbox">
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-push-config" class="btn btn-green" type="button">🚀 Publish Update to All Users</button>
+            </div>
+        </section>
+
+        <!-- License Table -->
+        <section class="card">
+            <div class="toolbar">
+                <div>
+                    <div class="card-title">Active &amp; Issued Licenses</div>
+                    <div class="card-sub">Click any license key chip to copy it; reset HWID to let a user move to a new PC/Mac</div>
+                </div>
+                <div class="inline-row" style="flex: 1; justify-content: flex-end; flex-wrap: wrap;">
+                    <input id="filter-search" class="search-wrap" type="text" placeholder="Search key, name, email, HWID..." style="max-width: 260px;">
+                    <select id="filter-os" style="width: 135px;">
+                        <option value="all">All OS</option>
+                        <option value="macOS">macOS</option>
+                        <option value="Windows">Windows</option>
+                        <option value="unbound">Unbound</option>
+                    </select>
+                    <select id="filter-status" style="width: 130px;">
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="revoked">Revoked</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table class="licenses-table" id="licenses-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 22%;">Customer</th>
+                            <th style="width: 28%;">License &amp; Status</th>
+                            <th style="width: 26%;">Device &amp; Info</th>
+                            <th style="width: 24%; text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="licenses-tbody">
+                        <tr><td colspan="4" style="text-align:center; color: var(--muted); padding: 24px;">Loading licenses...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        (function () {
+            const DEFAULT_URL = "https://llxpnjrujcpotvevpmzt.supabase.co";
+            const DEFAULT_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxseHBuanJ1amNwb3R2ZXZwbXp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ0NjMwNTMsImV4cCI6MjExMDAzOTA1M30.RHJAt-XBbY3uMQsTFM3stT4Ko3dHVOC1Yeiet9qBsxQ";
+
+            const el = (id) => document.getElementById(id);
+            let allLicenses = [];
+            let allOrders = [];
+
+            function escHtml(str) {
+                return String(str || "")
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function getCreds() {
+                const url = (localStorage.getItem("siyam_admin_sb_url") || el("cfg-url").value || DEFAULT_URL).trim().replace(/\/+$/, "");
+                const key = (localStorage.getItem("siyam_admin_sb_key") || el("cfg-key").value || DEFAULT_KEY).trim();
+                return { url, key };
+            }
+
+            function syncCredInputs() {
+                const savedUrl = localStorage.getItem("siyam_admin_sb_url") || DEFAULT_URL;
+                const savedKey = localStorage.getItem("siyam_admin_sb_key") || DEFAULT_KEY;
+                el("cfg-url").value = savedUrl;
+                el("cfg-key").value = savedKey;
+            }
+
+            function toast(msg, isErr) {
+                const t = el("toast");
+                t.textContent = msg;
+                t.style.borderColor = isErr ? "rgba(239,68,68,0.6)" : "rgba(0,230,118,0.45)";
+                t.classList.add("show");
+                clearTimeout(window.__toastTimer);
+                window.__toastTimer = setTimeout(() => t.classList.remove("show"), 3000);
+            }
+
+            function setConnStatus(ok, label) {
+                el("conn-dot").className = "dot " + (ok ? "ok" : "err");
+                el("conn-label").textContent = label;
+            }
+
+            const AUTH_STORAGE_KEY = "siyam_admin_auth_session";
+
+            function getAuthSession() {
+                try {
+                    const raw = localStorage.getItem(AUTH_STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : null;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            function saveAuthSession(sess) {
+                if (!sess || !sess.access_token) return;
+                const expiresIn = Number(sess.expires_in) || 3600;
+                const record = {
+                    access_token: sess.access_token,
+                    refresh_token: sess.refresh_token || "",
+                    expires_at: sess.expires_at ? Number(sess.expires_at) : (Math.floor(Date.now() / 1000) + expiresIn),
+                    email: (sess.user && sess.user.email) || sess.email || "Admin"
+                };
+                localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(record));
+                return record;
+            }
+
+            function clearAuthSession(msg) {
+                localStorage.removeItem(AUTH_STORAGE_KEY);
+                allLicenses = [];
+                allOrders = [];
+                el("admin-app-container").style.display = "none";
+                el("auth-gate").classList.remove("hidden");
+                el("auth-user-badge").textContent = "-";
+                setConnStatus(false, "Sign In Required");
+                const errEl = el("auth-error");
+                if (msg) {
+                    errEl.textContent = msg;
+                    errEl.classList.add("show");
+                } else {
+                    errEl.classList.remove("show");
+                }
+            }
+
+            function showAuthenticatedUI(session) {
+                el("auth-error").classList.remove("show");
+                el("auth-gate").classList.add("hidden");
+                el("admin-app-container").style.display = "flex";
+                el("auth-user-badge").textContent = session.email || "Admin";
+            }
+
+            async function refreshAuthSession(session) {
+                if (!session || !session.refresh_token) return null;
+                const { url, key } = getCreds();
+                const resp = await fetch(url + "/auth/v1/token?grant_type=refresh_token", {
+                    method: "POST",
+                    headers: { "apikey": key, "Content-Type": "application/json" },
+                    body: JSON.stringify({ refresh_token: session.refresh_token })
+                });
+                const txt = await resp.text();
+                let data = null;
+                try { data = txt ? JSON.parse(txt) : null; } catch (e) {}
+                if (!resp.ok || !data || !data.access_token) return null;
+                return saveAuthSession(data);
+            }
+
+            async function ensureValidToken() {
+                let session = getAuthSession();
+                if (!session || !session.access_token) {
+                    clearAuthSession();
+                    throw new Error("Admin login required.");
+                }
+                const nowSec = Math.floor(Date.now() / 1000);
+                if (session.expires_at && nowSec >= (session.expires_at - 60)) {
+                    const refreshed = await refreshAuthSession(session);
+                    if (!refreshed) {
+                        clearAuthSession("Session expired. Please sign in again.");
+                        throw new Error("Session expired.");
+                    }
+                    session = refreshed;
+                }
+                return session;
+            }
+
+            async function sbFetch(method, endpoint, bodyObj, _retried) {
+                const { url, key } = getCreds();
+                const session = await ensureValidToken();
+                const opts = {
+                    method,
+                    headers: {
+                        "apikey": key,
+                        "Authorization": "Bearer " + session.access_token,
+                        "Content-Type": "application/json",
+                        "Prefer": "return=representation"
+                    }
+                };
+                if (bodyObj !== undefined) opts.body = JSON.stringify(bodyObj);
+                const resp = await fetch(url + endpoint, opts);
+                if (resp.status === 401 && !_retried) {
+                    const refreshed = await refreshAuthSession(session);
+                    if (refreshed) return sbFetch(method, endpoint, bodyObj, true);
+                    clearAuthSession("Session expired. Please sign in again.");
+                    throw new Error("HTTP 401: Unauthorized");
+                }
+                const txt = await resp.text();
+                let data = null;
+                try { data = txt ? JSON.parse(txt) : null; } catch (e) {}
+                if (!resp.ok) {
+                    throw new Error((data && (data.message || data.error_description || data.error || data.hint)) || ("HTTP " + resp.status));
+                }
+                return data;
+            }
+
+            function randomKeyCode() {
+                const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+                const seg = (n) => Array.from({ length: n }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+                return `SIYAM-PRO-${seg(4)}-${seg(4)}`;
+            }
+
+            function copyText(txt) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(txt).then(() => toast("Copied: " + txt));
+                } else {
+                    const tmp = document.createElement("textarea");
+                    tmp.value = txt;
+                    document.body.appendChild(tmp);
+                    tmp.select();
+                    document.execCommand("copy");
+                    tmp.remove();
+                    toast("Copied: " + txt);
+                }
+            }
+
+            function fmtDate(iso) {
+                if (!iso) return "-";
+                try { return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+                catch (e) { return iso; }
+            }
+
+            function updateKPIs(cfg) {
+                const pendingOrders = allOrders.filter((o) => String(o.status || "").toLowerCase() === "pending").length;
+                el("kpi-pending-orders").textContent = String(pendingOrders);
+                el("kpi-orders-sub").textContent = `Total orders: ${allOrders.length}`;
+                const badge = el("orders-pending-badge");
+                if (badge) {
+                    badge.textContent = String(pendingOrders);
+                    badge.classList.toggle("zero", pendingOrders === 0);
+                }
+
+                const total = allLicenses.length;
+                const active = allLicenses.filter((r) => String(r.status).toLowerCase() === "active").length;
+                const boundRows = allLicenses.filter((r) => !!r.hwid);
+                const macCount = boundRows.filter((r) => /mac/i.test(r.os_type || "")).length;
+                const winCount = boundRows.filter((r) => /win/i.test(r.os_type || "")).length;
+                const unbound = allLicenses.filter((r) => !r.hwid && String(r.status).toLowerCase() === "active").length;
+
+                el("kpi-total").textContent = String(total);
+                el("kpi-active-sub").textContent = `${active} active / ${total - active} revoked`;
+                el("kpi-bound").textContent = String(boundRows.length);
+                el("kpi-os-sub").textContent = `macOS: ${macCount} | Windows: ${winCount}`;
+                el("kpi-unbound").textContent = String(unbound);
+                if (cfg) {
+                    el("kpi-version").textContent = "v" + (cfg.latest_version || "1.0.0");
+                    el("kpi-maint-sub").textContent = "Maintenance: " + (cfg.maintenance_mode ? "ON (Locked)" : "OFF (Live)");
+                }
+            }
+
+            function renderTable() {
+                const q = (el("filter-search").value || "").trim().toLowerCase();
+                const osFilter = el("filter-os").value;
+                const statusFilter = el("filter-status").value;
+
+                const filtered = allLicenses.filter((r) => {
+                    if (osFilter === "unbound" && r.hwid) return false;
+                    if (osFilter === "macOS" && !/mac/i.test(r.os_type || "")) return false;
+                    if (osFilter === "Windows" && !/win/i.test(r.os_type || "")) return false;
+                    if (statusFilter !== "all" && String(r.status).toLowerCase() !== statusFilter) return false;
+                    if (q) {
+                        const hay = [r.license_key, r.customer_name, r.customer_email, r.hwid, r.plan, r.os_type].join(" ").toLowerCase();
+                        if (!hay.includes(q)) return false;
+                    }
+                    return true;
+                });
+
+                const tbody = el("licenses-tbody");
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: var(--muted); padding: 24px;">No matching licenses found.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                filtered.forEach((row) => {
+                    const tr = document.createElement("tr");
+                    const isActive = String(row.status || "").toLowerCase() === "active";
+                    const isTrial = !!(row.is_trial || String(row.plan || "").toLowerCase() === "trial");
+                    const cycle = String(row.billing_cycle || "").toLowerCase();
+                    const isLifetime = cycle === "lifetime" || (!row.expires_at && !isTrial);
+                    let expiryBadge = "";
+                    if (isLifetime) {
+                        expiryBadge = '<span class="pill pill-compact" style="background:rgba(59,130,246,0.18); color:#60a5fa; border:1px solid rgba(59,130,246,0.35);">∞ Lifetime</span>';
+                    } else if (row.expires_at) {
+                        const expMs = Date.parse(row.expires_at);
+                        if (!isNaN(expMs)) {
+                            const remMs = expMs - Date.now();
+                            if (remMs <= 0) {
+                                expiryBadge = isTrial
+                                    ? '<span class="pill pill-compact pill-revoked">❌ Trial Expired</span>'
+                                    : '<span class="pill pill-compact pill-revoked">❌ Expired</span>';
+                            } else {
+                                const dLeft = Math.max(1, Math.ceil(remMs / 86400000));
+                                if (isTrial) {
+                                    expiryBadge = `<span class="pill pill-compact pill-pending">⏳ Trial ${dLeft}d</span>`;
+                                } else if (cycle === "yearly" || dLeft > 60) {
+                                    expiryBadge = `<span class="pill pill-compact" style="background:rgba(0,230,118,0.16); color:#00ff66; border:1px solid rgba(0,230,118,0.35);">Yearly ${dLeft}d</span>`;
+                                } else {
+                                    expiryBadge = `<span class="pill pill-compact" style="background:rgba(124,58,237,0.18); color:#c4b5fd; border:1px solid rgba(124,58,237,0.35);">Monthly ${dLeft}d</span>`;
+                                }
+                            }
+                        } else {
+                            expiryBadge = '<span class="pill pill-compact pill-pending">⏳ Subscription</span>';
+                        }
+                    } else if (isTrial) {
+                        expiryBadge = '<span class="pill pill-compact pill-pending">⏳ Trial</span>';
+                    }
+
+                    const statusDot = isActive
+                        ? '<span style="color:#00e676; font-size:10.5px; font-weight:700; display:inline-flex; align-items:center; gap:3px;">● active</span>'
+                        : '<span style="color:#ef4444; font-size:10.5px; font-weight:700; display:inline-flex; align-items:center; gap:3px;">● revoked</span>';
+
+                    const osBadge = !row.hwid
+                        ? '<span class="pill pill-compact pill-unbound">Unbound</span>'
+                        : (/win/i.test(row.os_type || "")
+                            ? '<span class="pill pill-compact pill-win">Windows</span>'
+                            : '<span class="pill pill-compact pill-mac">macOS</span>');
+
+                    const versionStr = row.app_version ? ('v' + String(row.app_version).replace(/^v/, '')) : 'v1.0.0';
+                    const hwidHtml = row.hwid
+                        ? `<span class="mono hwid-chip" title="Click to copy full HWID" style="cursor:pointer; color:#94a3b8; font-size:11px;">HWID: ${escHtml(row.hwid.slice(0, 10))}...</span>`
+                        : '<span style="color:var(--muted); font-size:11px;">HWID: Unbound</span>';
+
+                    tr.innerHTML = `
+                        <td class="col-customer">
+                            <div><strong>${escHtml(row.customer_name || "-")}</strong></div>
+                            <div style="color:var(--muted); font-size:11px; margin-top:2px;">${escHtml(row.customer_email || "—")}</div>
+                        </td>
+                        <td class="col-license">
+                            <div><span class="mono key-chip lic-key-chip" title="Click to copy key">${escHtml(row.license_key)}</span></div>
+                            <div style="display:flex; align-items:center; gap:6px; margin-top:3px; flex-wrap:wrap;">
+                                ${expiryBadge}
+                                ${statusDot}
+                            </div>
+                        </td>
+                        <td class="col-device">
+                            <div style="display:flex; align-items:center; gap:6px; font-size:11.5px; flex-wrap:wrap;">
+                                ${osBadge}
+                                <span style="font-weight:600; color:#cbd5e1;">${escHtml(versionStr)}</span>
+                                <span style="color:var(--muted); font-size:10px;">•</span>
+                                <span style="color:var(--muted); font-size:11px;">${fmtDate(row.activated_at || row.created_at)}</span>
+                            </div>
+                            <div style="margin-top:3px;">
+                                ${hwidHtml}
+                            </div>
+                        </td>
+                        <td class="col-actions">
+                            <div class="lic-actions-grid"></div>
+                        </td>
+                    `;
+
+                    tr.querySelector(".lic-key-chip").addEventListener("click", () => copyText(row.license_key));
+                    const hwidEl = tr.querySelector(".hwid-chip");
+                    if (hwidEl && row.hwid) {
+                        hwidEl.addEventListener("click", () => copyText(row.hwid));
+                    }
+
+                    const actCell = tr.querySelector(".lic-actions-grid");
+
+                    // Row 1 buttons: [+30d] | [+365d] | [∞ Life]
+                    const btnRenew30 = document.createElement("button");
+                    btnRenew30.className = "btn btn-compact";
+                    btnRenew30.textContent = "+30d";
+                    btnRenew30.title = "Extend subscription +30 days (Monthly)";
+                    btnRenew30.addEventListener("click", async () => {
+                        try {
+                            const curExp = row.expires_at ? Date.parse(row.expires_at) : 0;
+                            const baseMs = Math.max(Date.now(), isNaN(curExp) ? 0 : curExp);
+                            const nextExp = new Date(baseMs + 30 * 86400000).toISOString();
+                            await sbFetch("PATCH", "/rest/v1/licenses?id=eq." + encodeURIComponent(row.id), {
+                                expires_at: nextExp,
+                                billing_cycle: "monthly",
+                                is_trial: false,
+                                status: "active",
+                                renewed_at: new Date().toISOString()
+                            });
+                            toast("Renewed +30d for " + row.license_key);
+                            loadAll();
+                        } catch (e) { toast("Renew failed: " + e.message, true); }
+                    });
+
+                    const btnRenew365 = document.createElement("button");
+                    btnRenew365.className = "btn btn-compact";
+                    btnRenew365.textContent = "+365d";
+                    btnRenew365.title = "Extend subscription +365 days (Yearly)";
+                    btnRenew365.addEventListener("click", async () => {
+                        try {
+                            const curExp = row.expires_at ? Date.parse(row.expires_at) : 0;
+                            const baseMs = Math.max(Date.now(), isNaN(curExp) ? 0 : curExp);
+                            const nextExp = new Date(baseMs + 365 * 86400000).toISOString();
+                            await sbFetch("PATCH", "/rest/v1/licenses?id=eq." + encodeURIComponent(row.id), {
+                                expires_at: nextExp,
+                                billing_cycle: "yearly",
+                                is_trial: false,
+                                status: "active",
+                                renewed_at: new Date().toISOString()
+                            });
+                            toast("Extended +365d for " + row.license_key);
+                            loadAll();
+                        } catch (e) { toast("Extend failed: " + e.message, true); }
+                    });
+
+                    const btnLifetime = document.createElement("button");
+                    btnLifetime.className = "btn btn-compact btn-green";
+                    btnLifetime.textContent = "∞ Life";
+                    btnLifetime.title = "Convert to permanent Lifetime Pro";
+                    btnLifetime.addEventListener("click", async () => {
+                        try {
+                            await sbFetch("PATCH", "/rest/v1/licenses?id=eq." + encodeURIComponent(row.id), {
+                                plan: "pro",
+                                billing_cycle: "lifetime",
+                                is_trial: false,
+                                expires_at: null,
+                                status: "active"
+                            });
+                            toast("Upgraded " + row.license_key + " to Lifetime Pro!");
+                            loadAll();
+                        } catch (e) { toast("Upgrade failed: " + e.message, true); }
+                    });
+
+                    // Row 2 buttons: [Reset ID] | [Revoke/Activate] | [Delete]
+                    const btnReset = document.createElement("button");
+                    btnReset.className = "btn btn-compact";
+                    btnReset.textContent = "Reset ID";
+                    btnReset.title = "Reset bound HWID";
+                    btnReset.disabled = !row.hwid;
+                    btnReset.addEventListener("click", async () => {
+                        try {
+                            await sbFetch("PATCH", "/rest/v1/licenses?id=eq." + encodeURIComponent(row.id), {
+                                hwid: null, os_type: null, activated_at: null
+                            });
+                            toast("HWID reset for " + row.license_key);
+                            loadAll();
+                        } catch (e) { toast("Reset failed: " + e.message, true); }
+                    });
+
+                    const btnToggle = document.createElement("button");
+                    btnToggle.className = "btn btn-compact " + (isActive ? "btn-danger" : "btn-green");
+                    btnToggle.textContent = isActive ? "Revoke" : "Activate";
+                    btnToggle.title = isActive ? "Revoke license" : "Activate license";
+                    btnToggle.addEventListener("click", async () => {
+                        try {
+                            await sbFetch("PATCH", "/rest/v1/licenses?id=eq." + encodeURIComponent(row.id), {
+                                status: isActive ? "revoked" : "active"
+                            });
+                            toast(`${isActive ? "Revoked" : "Activated"} ${row.license_key}`);
+                            loadAll();
+                        } catch (e) { toast("Update failed: " + e.message, true); }
+                    });
+
+                    const btnDel = document.createElement("button");
+                    btnDel.className = "btn btn-compact btn-danger";
+                    btnDel.textContent = "Delete";
+                    btnDel.title = "Permanently delete license";
+                    btnDel.addEventListener("click", async () => {
+                        if (!confirm("Permanently delete license " + row.license_key + "?")) return;
+                        try {
+                            await sbFetch("DELETE", "/rest/v1/licenses?id=eq." + encodeURIComponent(row.id));
+                            toast("Deleted " + row.license_key);
+                            loadAll();
+                        } catch (e) { toast("Delete failed: " + e.message, true); }
+                    });
+
+                    actCell.appendChild(btnRenew30);
+                    actCell.appendChild(btnRenew365);
+                    actCell.appendChild(btnLifetime);
+                    actCell.appendChild(btnReset);
+                    actCell.appendChild(btnToggle);
+                    actCell.appendChild(btnDel);
+                    tbody.appendChild(tr);
+                });
+            }
+
+            function renderOrdersTable() {
+                const q = (el("order-search").value || "").trim().toLowerCase();
+                const statusFilter = el("order-status-filter").value;
+
+                const filtered = allOrders.filter((o) => {
+                    const st = String(o.status || "pending").toLowerCase();
+                    if (statusFilter !== "all" && st !== statusFilter) return false;
+                    if (q) {
+                        const hay = [o.customer_name, o.customer_email, o.payment_method, o.sender_number, o.trx_id, o.issued_license_key].join(" ").toLowerCase();
+                        if (!hay.includes(q)) return false;
+                    }
+                    return true;
+                });
+
+                const tbody = el("orders-tbody");
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; color: var(--muted);">No orders found.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                filtered.forEach((order) => {
+                    const tr = document.createElement("tr");
+                    const st = String(order.status || "pending").toLowerCase();
+                    const pillClass = st === "approved" ? "pill-active" : (st === "rejected" ? "pill-revoked" : "pill-pending");
+                    const amtStr = String(order.amount || "").toLowerCase();
+                    const orderCycle = String(order.billing_cycle || "").toLowerCase();
+                    const isYearly = orderCycle === "yearly" || amtStr.includes("yearly") || amtStr.includes("9590") || amtStr.includes("96") || amtStr.includes("365");
+                    const isRenewal = !!(order.existing_license_key && order.existing_license_key.trim());
+                    const renewalKey = isRenewal ? order.existing_license_key.trim() : "";
+                    const cycleBadge = isYearly
+                        ? ' <span class="pill" style="background:rgba(0,230,118,0.16); color:#00ff66; border:1px solid rgba(0,230,118,0.4); font-size:10px; font-weight:800; text-transform:uppercase; margin-left:6px;">Yearly (365d)</span>'
+                        : ' <span class="pill" style="background:rgba(124,58,237,0.18); color:#c4b5fd; border:1px solid rgba(124,58,237,0.4); font-size:10px; font-weight:800; text-transform:uppercase; margin-left:6px;">Monthly (30d)</span>';
+
+                    tr.innerHTML = `
+                        <td>
+                            <div><strong>${escHtml(order.customer_name || "-")}</strong></div>
+                            <div style="color:var(--muted); font-size:11px;">${escHtml(order.customer_email || "")}</div>
+                            ${isRenewal ? `<div style="color:#00ff66; font-size:10px; font-weight:700; margin-top:3px;">🔄 Renewal: <span class="mono">${escHtml(renewalKey)}</span></div>` : ''}
+                        </td>
+                        <td><span style="font-weight:700;">${escHtml(order.payment_method || "-")}</span></td>
+                        <td class="mono">${escHtml(order.sender_number || "-")}</td>
+                        <td><span class="mono key-chip order-trx-chip" title="Click to copy TrxID">${escHtml(order.trx_id || "-")}</span></td>
+                        <td><span style="font-weight:700;">${escHtml(order.amount || "-")}</span>${cycleBadge}</td>
+                        <td><span class="pill ${pillClass}">${escHtml(st.toUpperCase())}</span></td>
+                        <td>${order.issued_license_key ? `<span class="mono key-chip order-key-chip" title="Click to copy license key">${escHtml(order.issued_license_key)}</span>` : '<span style="color:var(--muted);">-</span>'}</td>
+                        <td>${fmtDate(order.created_at)}</td>
+                        <td class="actions-cell"></td>
+                    `;
+
+                    const trxChip = tr.querySelector(".order-trx-chip");
+                    if (trxChip && order.trx_id) {
+                        trxChip.addEventListener("click", () => copyText(order.trx_id));
+                    }
+                    const keyChip = tr.querySelector(".order-key-chip");
+                    if (keyChip && order.issued_license_key) {
+                        keyChip.addEventListener("click", () => copyText(order.issued_license_key));
+                    }
+
+                    const actCell = tr.querySelector(".actions-cell");
+                    if (st === "pending") {
+                        const btnApprove = document.createElement("button");
+                        btnApprove.className = "btn btn-green btn-sm";
+                        btnApprove.textContent = isRenewal ? "Approve & Renew Key" : "Approve & Issue Key";
+                        btnApprove.addEventListener("click", async () => {
+                            btnApprove.disabled = true;
+                            btnApprove.textContent = "Processing...";
+                            try {
+                                const durationDays = isYearly ? 365 : 30;
+                                if (isRenewal) {
+                                    let baseMs = Date.now();
+                                    try {
+                                        const matching = await sbFetch("GET", "/rest/v1/licenses?license_key=eq." + encodeURIComponent(renewalKey) + "&limit=1");
+                                        const matchLic = (matching && matching[0]) ? matching[0] : null;
+                                        if (matchLic && matchLic.expires_at) {
+                                            const curExp = Date.parse(matchLic.expires_at);
+                                            if (!isNaN(curExp) && curExp > Date.now()) {
+                                                baseMs = curExp;
+                                            }
+                                        }
+                                    } catch (eFind) {}
+                                    const nextExp = new Date(baseMs + durationDays * 86400000).toISOString();
+                                    await sbFetch("PATCH", "/rest/v1/licenses?license_key=eq." + encodeURIComponent(renewalKey), {
+                                        status: "active",
+                                        billing_cycle: isYearly ? "yearly" : "monthly",
+                                        is_trial: false,
+                                        expires_at: nextExp,
+                                        renewed_at: new Date().toISOString()
+                                    });
+                                    await sbFetch("PATCH", "/rest/v1/orders?id=eq." + encodeURIComponent(order.id), {
+                                        status: "approved",
+                                        issued_license_key: renewalKey
+                                    });
+                                    copyText(renewalKey);
+                                    toast("Renewed & extended (" + (isYearly ? "+365d" : "+30d") + ") key: " + renewalKey);
+                                } else {
+                                    const newKey = randomKeyCode();
+                                    const expiresAt = new Date(Date.now() + durationDays * 86400000).toISOString();
+                                    await sbFetch("POST", "/rest/v1/licenses", {
+                                        license_key: newKey,
+                                        customer_name: order.customer_name || "Siyam Customer",
+                                        customer_email: order.customer_email || "",
+                                        plan: "pro",
+                                        billing_cycle: isYearly ? "yearly" : "monthly",
+                                        is_trial: false,
+                                        status: "active",
+                                        expires_at: expiresAt,
+                                        app_version: el("app-version").value.trim() || "1.0.0"
+                                    });
+                                    await sbFetch("PATCH", "/rest/v1/orders?id=eq." + encodeURIComponent(order.id), {
+                                        status: "approved",
+                                        issued_license_key: newKey
+                                    });
+                                    copyText(newKey);
+                                    toast("Approved & issued " + (isYearly ? "1-Year (365d)" : "1-Month (30d)") + " key: " + newKey);
+                                }
+                                loadAll();
+                            } catch (e) {
+                                btnApprove.disabled = false;
+                                btnApprove.textContent = isRenewal ? "Approve & Renew Key" : "Approve & Issue Key";
+                                toast("Approval failed: " + e.message, true);
+                            }
+                        });
+
+                        const btnReject = document.createElement("button");
+                        btnReject.className = "btn btn-sm btn-danger";
+                        btnReject.textContent = "Reject";
+                        btnReject.addEventListener("click", async () => {
+                            try {
+                                await sbFetch("PATCH", "/rest/v1/orders?id=eq." + encodeURIComponent(order.id), {
+                                    status: "rejected"
+                                });
+                                toast("Order marked rejected.");
+                                loadAll();
+                            } catch (e) {
+                                toast("Reject failed: " + e.message, true);
+                            }
+                        });
+
+                        actCell.appendChild(btnApprove);
+                        actCell.appendChild(btnReject);
+                    }
+
+                    const btnDelOrder = document.createElement("button");
+                    btnDelOrder.className = "btn btn-sm btn-danger";
+                    btnDelOrder.textContent = "Delete";
+                    btnDelOrder.addEventListener("click", async () => {
+                        if (!confirm("Delete order for " + (order.customer_name || order.trx_id || "this customer") + "?")) return;
+                        try {
+                            await sbFetch("DELETE", "/rest/v1/orders?id=eq." + encodeURIComponent(order.id));
+                            toast("Order deleted.");
+                            loadAll();
+                        } catch (e) {
+                            toast("Delete failed: " + e.message, true);
+                        }
+                    });
+                    actCell.appendChild(btnDelOrder);
+                    tbody.appendChild(tr);
+                });
+            }
+
+            async function loadAll(isSilent) {
+                try {
+                    const [licenses, cfgRows, orders] = await Promise.all([
+                        sbFetch("GET", "/rest/v1/licenses?order=created_at.desc"),
+                        sbFetch("GET", "/rest/v1/app_config?id=eq.1&limit=1"),
+                        sbFetch("GET", "/rest/v1/orders?order=created_at.desc")
+                    ]);
+                    allLicenses = Array.isArray(licenses) ? licenses : [];
+                    allOrders = Array.isArray(orders) ? orders : [];
+                    const cfg = Array.isArray(cfgRows) && cfgRows[0] ? cfgRows[0] : null;
+                    if (cfg) {
+                        el("app-version").value = cfg.latest_version || "1.0.0";
+                        let rawDl = cfg.download_url || "";
+                        let macDl = cfg.mac_download_url || "";
+                        let winDl = cfg.win_download_url || "";
+                        if (rawDl && rawDl.trim().startsWith("{")) {
+                            try {
+                                const parsed = JSON.parse(rawDl);
+                                if (!macDl && parsed.mac) macDl = parsed.mac;
+                                if (!winDl && parsed.win) winDl = parsed.win;
+                                rawDl = parsed.default || "";
+                            } catch (e) {}
+                        }
+                        el("app-download").value = rawDl || "https://github.com/saiful-siyam/siyam-studio-releases/releases/latest/download/SiyamStudio_OTA_Patch.zip";
+                        el("app-mac-download").value = macDl;
+                        el("app-win-download").value = winDl;
+                        el("app-announcement").value = cfg.announcement || "";
+                        el("app-maint").checked = !!cfg.maintenance_mode;
+                    }
+                    updateKPIs(cfg);
+                    renderOrdersTable();
+                    renderTable();
+                    setConnStatus(true, "Supabase Live Connected");
+                } catch (err) {
+                    setConnStatus(false, "Connection Error");
+                    if (!isSilent) toast("Supabase error: " + err.message, true);
+                }
+            }
+
+            syncCredInputs();
+            el("gen-key").value = randomKeyCode();
+            el("btn-randomize-key").addEventListener("click", () => { el("gen-key").value = randomKeyCode(); });
+            el("btn-copy-gen").addEventListener("click", () => copyText(el("gen-key").value.trim()));
+            el("btn-refresh-all").addEventListener("click", loadAll);
+            el("btn-toggle-creds").addEventListener("click", () => el("creds-panel").classList.toggle("open"));
+
+            el("btn-save-creds").addEventListener("click", () => {
+                localStorage.setItem("siyam_admin_sb_url", el("cfg-url").value.trim());
+                localStorage.setItem("siyam_admin_sb_key", el("cfg-key").value.trim());
+                toast("Saved credentials & reconnecting...");
+                loadAll();
+            });
+            el("btn-reset-creds").addEventListener("click", () => {
+                localStorage.removeItem("siyam_admin_sb_url");
+                localStorage.removeItem("siyam_admin_sb_key");
+                syncCredInputs();
+                toast("Restored live default credentials");
+                loadAll();
+            });
+
+            el("btn-create-license").addEventListener("click", async () => {
+                const licenseKey = (el("gen-key").value || "").trim() || randomKeyCode();
+                el("gen-key").value = licenseKey;
+                const billingChoice = el("gen-billing") ? el("gen-billing").value : "monthly";
+                let expiresAt = null;
+                let isTrial = false;
+                let plan = el("gen-plan").value;
+                let billingCycle = billingChoice;
+
+                if (billingChoice === "monthly") {
+                    expiresAt = new Date(Date.now() + 30 * 86400000).toISOString();
+                    isTrial = false;
+                    billingCycle = "monthly";
+                    if (plan === "trial") plan = "pro";
+                } else if (billingChoice === "yearly") {
+                    expiresAt = new Date(Date.now() + 365 * 86400000).toISOString();
+                    isTrial = false;
+                    billingCycle = "yearly";
+                    if (plan === "trial") plan = "pro";
+                } else if (billingChoice === "trial") {
+                    expiresAt = new Date(Date.now() + 7 * 86400000).toISOString();
+                    isTrial = true;
+                    plan = "trial";
+                    billingCycle = "trial";
+                } else {
+                    // lifetime
+                    expiresAt = null;
+                    isTrial = false;
+                    billingCycle = "lifetime";
+                }
+
+                try {
+                    await sbFetch("POST", "/rest/v1/licenses", {
+                        license_key: licenseKey,
+                        customer_name: el("gen-name").value.trim() || "Siyam User",
+                        customer_email: el("gen-email").value.trim() || "",
+                        plan: plan,
+                        billing_cycle: billingCycle,
+                        is_trial: isTrial,
+                        expires_at: expiresAt,
+                        status: el("gen-status").value,
+                        app_version: el("app-version").value.trim() || "1.0.0"
+                    });
+                    copyText(licenseKey);
+                    toast("Created & copied: " + licenseKey + " (" + billingCycle + ")");
+                    el("gen-key").value = randomKeyCode();
+                    loadAll();
+                } catch (e) {
+                    toast("Create failed: " + e.message, true);
+                }
+            });
+
+            el("btn-push-config").addEventListener("click", async () => {
+                const versionVal = el("app-version").value.trim() || "1.0.0";
+                const dlVal = el("app-download").value.trim();
+                const macVal = el("app-mac-download").value.trim();
+                const winVal = el("app-win-download").value.trim();
+                const annVal = el("app-announcement").value.trim();
+                const maintVal = !!el("app-maint").checked;
+                const nowIso = new Date().toISOString();
+
+                try {
+                    await sbFetch("PATCH", "/rest/v1/app_config?id=eq.1", {
+                        latest_version: versionVal,
+                        download_url: dlVal,
+                        mac_download_url: macVal,
+                        win_download_url: winVal,
+                        announcement: annVal,
+                        maintenance_mode: maintVal,
+                        updated_at: nowIso
+                    });
+                    toast("Pushed live announcement, download URLs & app config!");
+                    loadAll();
+                } catch (e) {
+                    if (/mac_download_url|win_download_url|column/i.test(e.message || "")) {
+                        try {
+                            const fallbackDl = (macVal || winVal)
+                                ? JSON.stringify({ default: dlVal, mac: macVal, win: winVal })
+                                : dlVal;
+                            await sbFetch("PATCH", "/rest/v1/app_config?id=eq.1", {
+                                latest_version: versionVal,
+                                download_url: fallbackDl,
+                                announcement: annVal,
+                                maintenance_mode: maintVal,
+                                updated_at: nowIso
+                            });
+                            toast("Pushed live config (download URLs synced)!");
+                            loadAll();
+                            return;
+                        } catch (e2) {
+                            toast("Push failed: " + e2.message, true);
+                            return;
+                        }
+                    }
+                    toast("Push failed: " + e.message, true);
+                }
+            });
+
+            ["filter-search", "filter-os", "filter-status"].forEach((id) => {
+                el(id).addEventListener("input", renderTable);
+                el(id).addEventListener("change", renderTable);
+            });
+
+            ["order-search", "order-status-filter"].forEach((id) => {
+                el(id).addEventListener("input", renderOrdersTable);
+                el(id).addEventListener("change", renderOrdersTable);
+            });
+
+            function switchAdminTab(tab) {
+                const isOrders = tab === "orders";
+                el("tab-btn-orders").classList.toggle("active", isOrders);
+                el("tab-btn-licenses").classList.toggle("active", !isOrders);
+                el("pane-orders").classList.toggle("active", isOrders);
+                el("pane-licenses").classList.toggle("active", !isOrders);
+            }
+            el("tab-btn-orders").addEventListener("click", () => switchAdminTab("orders"));
+            el("tab-btn-licenses").addEventListener("click", () => switchAdminTab("licenses"));
+
+            el("auth-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const email = el("auth-email").value.trim();
+                const password = el("auth-password").value;
+                const btn = el("btn-auth-login");
+                const errEl = el("auth-error");
+                errEl.classList.remove("show");
+                if (!email || !password) return;
+
+                btn.disabled = true;
+                btn.textContent = "Signing in...";
+                try {
+                    const { url, key } = getCreds();
+                    const resp = await fetch(url + "/auth/v1/token?grant_type=password", {
+                        method: "POST",
+                        headers: { "apikey": key, "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const txt = await resp.text();
+                    let data = null;
+                    try { data = txt ? JSON.parse(txt) : null; } catch (_) {}
+                    if (!resp.ok || !data || !data.access_token) {
+                        throw new Error((data && (data.error_description || data.msg || data.message || data.error)) || ("Login failed (HTTP " + resp.status + ")"));
+                    }
+                    const session = saveAuthSession(data);
+                    el("auth-password").value = "";
+                    showAuthenticatedUI(session);
+                    toast("Signed in as " + session.email);
+                    await loadAll(false);
+                } catch (err) {
+                    errEl.textContent = err.message || "Authentication failed.";
+                    errEl.classList.add("show");
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = "Sign In to Admin Dashboard";
+                }
+            });
+
+            el("btn-auth-logout").addEventListener("click", async () => {
+                const session = getAuthSession();
+                if (session && session.access_token) {
+                    try {
+                        const { url, key } = getCreds();
+                        await fetch(url + "/auth/v1/logout", {
+                            method: "POST",
+                            headers: { "apikey": key, "Authorization": "Bearer " + session.access_token }
+                        });
+                    } catch (_) {}
+                }
+                clearAuthSession();
+                toast("Signed out.");
+            });
+
+            const existingSession = getAuthSession();
+            if (existingSession && existingSession.access_token) {
+                showAuthenticatedUI(existingSession);
+                loadAll(false);
+            } else {
+                clearAuthSession();
+            }
+
+            setInterval(() => {
+                if (getAuthSession()) loadAll(true);
+            }, 15000);
+        })();
+    </script>
+</body>
+</html>
